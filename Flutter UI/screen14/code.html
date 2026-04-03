@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NIRMAN - Job Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-secondary-fixed": "#121c2a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#faf9fc",
+                        "secondary-fixed-dim": "#bdc7da",
+                        "on-tertiary-fixed": "#341100",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#adc8f5",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary-fixed-variant": "#783200",
+                        "primary-fixed": "#d5e3ff",
+                        "outline": "#74777f",
+                        "tertiary-container": "#632800",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "background": "#faf9fc",
+                        "on-tertiary-container": "#ff8031",
+                        "on-secondary-fixed-variant": "#3e4757",
+                        "secondary-container": "#d6e0f4",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e3e2e6",
+                        "on-surface-variant": "#43474e",
+                        "surface-container": "#eeedf1",
+                        "on-background": "#1a1c1e",
+                        "inverse-on-surface": "#f1f0f4",
+                        "secondary-fixed": "#d9e3f7",
+                        "on-surface": "#1a1c1e",
+                        "surface-container-low": "#f4f3f7",
+                        "on-primary-container": "#8aa4cf",
+                        "primary": "#022448",
+                        "on-primary-fixed": "#001c3b",
+                        "tertiary-fixed-dim": "#ffb690",
+                        "on-secondary-container": "#5a6374",
+                        "surface-tint": "#455f87",
+                        "surface-bright": "#faf9fc",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e3e2e6",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#1e3a5f",
+                        "surface-container-high": "#e9e7eb",
+                        "tertiary-fixed": "#ffdbca",
+                        "error": "#ba1a1a",
+                        "tertiary": "#411800",
+                        "secondary": "#555f70",
+                        "inverse-surface": "#2f3033",
+                        "surface-dim": "#dad9dd",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/70 backdrop-blur-xl shadow-sm h-16 flex items-center justify-between px-4">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#1E3A5F] hover:bg-slate-200/50 p-2 rounded-full active:scale-95 transition-transform duration-150">
+                arrow_back
+            </button>
+<h1 class="text-[#1E3A5F] font-['Plus_Jakarta_SANS'] font-bold text-lg tracking-tight">Job Detail</h1>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-[1px] bg-slate-200/50"></div>
+</header>
+<main class="pt-20 px-4 space-y-6 max-w-2xl mx-auto">
+<!-- Job Info Card (Bento Style) -->
+<section class="bg-surface-container-lowest p-6 rounded-lg shadow-[0px_12px_32px_rgba(26,28,30,0.06)]">
+<div class="flex flex-col gap-1">
+<span class="text-xs font-bold text-on-surface-variant tracking-widest uppercase">Job Order</span>
+<h2 class="font-mono text-2xl font-bold text-primary tracking-tight">JO-Z4-P12-2025-0089</h2>
+<div class="mt-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">engineering</span>
+</div>
+<div>
+<p class="text-body-lg font-semibold text-on-surface">JE Prashant Mane</p>
+<p class="text-sm text-on-surface-variant">Assigned on Oct 24, 2024 • 10:45 AM</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Before Photo -->
+<section class="relative overflow-hidden rounded-lg group">
+<img alt="Before Photo" class="w-full aspect-video object-cover" data-alt="Close-up of a jagged deep pothole in weathered grey asphalt road with loose gravel and industrial textures in harsh daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF3VEgDezwebclQyo-M_Vgv6NNcC6y7SXvYbNHQdoUD1_hzCymmnwB37g2faFVHEnEpQJy40YngGe2Q7fOVJSw98pjJssdYY2Wkpvc6zBwigDAcSvNOl5t6xM-IEgyTtadB_Mj1RDkIsk6ZLwldR2rpaWi7UjoO-P8X5BeV4sKSNa9amA-rMqwn8YtZxkq0UZ6SB-E9Jv8OUyRDcegjwhDmfSZ3kS0wAM-VmzWOpiE4GmtfnRL7Z56JCeKXt44KqbLbkccVuXWlXk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+<span class="text-white text-sm font-medium">Before — Reported Damage</span>
+</div>
+</section>
+<!-- JE Work Instructions Card (Editorial Style) -->
+<section class="bg-tertiary-fixed p-6 rounded-lg border-l-8 border-on-tertiary-fixed-variant">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">assignment_turned_in</span>
+<h3 class="font-bold text-on-tertiary-fixed text-lg">JE Work Instructions</h3>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<p class="text-xs uppercase font-bold text-on-tertiary-fixed-variant tracking-wide">Work Type</p>
+<p class="font-semibold text-on-surface">Hot Mix Patching</p>
+</div>
+<div class="space-y-1">
+<p class="text-xs uppercase font-bold text-on-tertiary-fixed-variant tracking-wide">Area</p>
+<p class="font-semibold text-on-surface">3.75 sqm (2.5m × 1.5m)</p>
+</div>
+</div>
+<div class="mt-6 p-4 bg-white/50 rounded-md">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-error text-white text-[10px] font-black rounded-full uppercase">High Priority</span>
+<span class="text-xs font-bold text-error">Complete Today</span>
+</div>
+<p class="text-on-surface italic leading-relaxed">"Ensure the base is compacted properly before applying hot mix."</p>
+</div>
+</section>
+<!-- Site Location Card -->
+<section class="bg-surface-container-lowest p-6 rounded-lg shadow-[0px_12px_32px_rgba(26,28,30,0.06)] overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div class="flex-1">
+<h3 class="text-xs font-bold text-on-surface-variant tracking-widest uppercase mb-1">Site Location</h3>
+<p class="text-on-surface font-semibold leading-snug">Hotgi Road near Afzalpur Naka, Solapur</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-full text-sm font-bold active:scale-95 transition-all">
+                    Open in Maps
+                </button>
+</div>
+<div class="h-32 w-full rounded-lg bg-surface-container-high relative overflow-hidden">
+<img alt="Map view" class="w-full h-full object-cover opacity-80" data-alt="Stylized map satellite view of a city intersection with clean lines and soft blue and grey tones" data-location="Solapur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOlkC3q5XpNvbY4XrVY0AeDFDPekvaf_Fboq5y6YcJTdoukgKzaAck6m0l8QykY3FFw0fqr100iM8nHq6H5-IR9IryH2V0GsCEIq8HPE2yXsr5TlbqLZv6DIz6vd_Xzvh8iS62znqBeZLyleP7UhucxLL4-jFBELwVYyzvUAaEV3imkvbtkBtjasbAFZa-ss2adF3GiClxqKh99zVTLdRv1yfZ3Hl_9drXi8l4NYxUkEPfYmjNS7pG3GafS6DawiL96yP4qR90lgI"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-error text-4xl" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+</section>
+<!-- Status Timeline -->
+<section class="bg-surface-container-low p-6 rounded-lg">
+<h3 class="text-xs font-bold text-on-surface-variant tracking-widest uppercase mb-6 text-center">Project Status</h3>
+<div class="relative flex justify-between items-center px-4">
+<!-- Progress Track -->
+<div class="absolute top-4 left-10 right-10 h-1.5 bg-surface-container-highest rounded-full z-0">
+<div class="h-full w-0 bg-primary rounded-full"></div>
+</div>
+<!-- Steps -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[10px] font-bold text-primary uppercase">Repair Assigned</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">construction</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Fixing</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">verified</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Quality Check</span>
+</div>
+</div>
+</section>
+<!-- Departmental Note -->
+<footer class="text-center py-4">
+<p class="text-xs text-on-surface-variant/70 italic px-8">
+                Executed by SMC work gang under Mukadam supervision. This is an internal city maintenance log.
+            </p>
+</footer>
+</main>
+<!-- Action Buttons (Sticky Bottom) -->
+<div class="fixed bottom-0 left-0 w-full p-4 bg-surface/80 backdrop-blur-xl border-t border-outline-variant/15 flex flex-col gap-3 z-50">
+<button class="w-full h-14 rounded-full border-2 border-primary text-primary font-bold text-lg active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">play_arrow</span>
+            Start Work — Mark In Progress
+        </button>
+<button class="w-full h-14 rounded-full bg-gradient-to-br from-[#F97316] to-[#C2410C] text-white font-bold text-lg shadow-lg active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_a_photo</span>
+            Upload Completion Proof
+        </button>
+</div>
+</body></html>
