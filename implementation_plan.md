@@ -1,119 +1,101 @@
-# Master Implementation Plan: SSR Flutter App
+# Solapur Smart Roads (SSR) — Flutter App Implementation Plan
 
-This is the comprehensive implementation spec for the **Solapur Smart Roads (SSR)** mobile application. This document provides the full backend context, architectural rules, and exact UI fixes needed to translate a set of design mockups into a production-ready Flutter app.
+We are building the mobile frontend using the updated 13-role backend hierarchy. The mobile app strictly limits active interfaces to field operators, safely redirecting oversight and administrative roles back to the web dashboard.
 
----
+## 1. Role-Based Access Model & Role Router Logic
 
-## 0. Project Context & Stack
-SSR is a Smart City pothole reporting and repair-verification pipeline. 
-- **Backend:** Supabase (PostGIS, Auth, Storage, Edge Functions)
-- **AI Microservice:** FastAPI (YOLOv12 for detection, SSIM for repair verification)
-- **Frontend (This App):** Flutter
+### Mobile Users (Native App Flows)
+The system's login flow evaluates `profiles.role` and dispatches paths explicitly:
+- `citizen` -> `CitizenHome`
+- `je` -> `JeHome`
+- `mukadam` -> `MukadamHome`
+- `contractor` -> `ContractorHome`
 
-**The 3-Role System:**
-The app routes users based on their role stored in Supabase `profiles.role`:
-1. **Citizen:** Can only capture GPS-tagged photos to report damage.
-2. **JE (Junior Engineer):** Verifies reports in the field, locked by a 20m geofence.
-3. **Contractor:** Receives work orders and uploads "after" photos using a Ghost Camera.
+### Web/Dashboard Users (Web Handoff Screen)
+- `ae`, `de`, `ee`, `assistant_commissioner`, `city_engineer`, `commissioner`, `standing_committee`, `accounts`, `super_admin` -> `WebHandoffScreen`
 
----
+**Web Handoff UX Requirements:**
+If any of these non-mobile roles log into the mobile app, they will be locked out and routed to the Web Handoff screen.
+- Show the detected role and zone (if available).
+- Primary CTA: Open the SSR Web Dashboard.
+- Secondary CTA: Sign out and switch account.
+- Keep the screen completely free of policy/footer clutter.
 
-## 1. Supabase Backend Schema & State Machine
+## 2. Updated Ticket Schema Alignment
+The app integrates directly with the live Supabase schema, capturing the full mobile data contract:
+- `id` and `ticket_ref`
+- `location_description`, `latitude`, `longitude`
+- `zone_id` and `prabhag_id` (Mobile consumes this zonal context, optionally pulling display names from joins)
+- `damage_type`, `severity_tier`, `status`
+- `photo_before` (Stored as an array in the backend; mobile uses the first image as the primary reported photo)
+- `assigned_je`
+- `assigned_contractor`
+- `assigned_mukadam`
+- `photo_je_inspection` (single string URL, not array)
+- `photo_after` (single string URL, not array)
+- `work_type`
+- `estimated_cost`
+- `rate_card_id`
+- `rate_per_unit`
+- `job_order_ref`
+- `ssim_score`
+- `ssim_pass`
+- `verification_hash`
 
-The app must strictly bind to this Supabase schema. Do not invent new fields.
+**`dimensions` Note:** The UI will capture and push `length_m` and `width_m`. Currently `depth_m` is omitted from v1 UI (especially on Mukadam screens), but the backend `dimensions` jsonb column accepts it freely.
 
-### `tickets` Table Core Fields
-- `id` (UUID)
-- `ticket_ref` (String, e.g., "SSR-Z4-P12-2025-0089")
-- `location_description` (String)
-- `latitude` (Double), `longitude` (Double)
-- `damage_type` (String: 'pothole', 'crack', 'surface_failure')
-- `epdo_score` (Double, 0-10)
-- `severity_tier` (String: 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL')
-- `status` (Enum - see mapping below)
-- `dimensions` (JSON: `{length_m, width_m, area_sqm}`)
-- `estimated_cost` (Double)
-- `photo_before` (Array of Strings - URLs)
-- `photo_after` (Array of Strings - URLs)
+## 3. Required Mobile Screens
 
-### Strict Status Mapping (Backend -> UI)
-The backend enforces a strict state machine. The UI must match these labels:
-- `open` -> **"Received"**
-- `verified` -> **"Verified"**
-- `assigned` -> **"Repair Assigned"**
-- `in_progress` -> **"Fixing"**
-- `audit_pending` -> **"Quality Check"**
-- `resolved` -> **"Resolved"**
+The minimal viable build must include:
+1. **OTP Verification**
+2. **Web Handoff / Unsupported Mobile Role**
+3. **JE Ticket Detail:** Explicitly do *not* show transient AI confidence/detection counts in v1 mobile. Do *not* include a "Change Department" action unless backed by real cross-assignment backend plumbing.
+4. **JE Executor Assignment:** A strict dynamic picker enforcing XOR executor selection (see below).
+5. **Contractor Job Detail:** Must explicitly separate execution status from billing status. The ticket workflow stepper must only show execution phases (`Repair Assigned`, `Fixing`, `Quality Check`). Billing status should be shown on a secondary isolated info pill card.
+6. **Mukadam Work Orders**
+7. **Mukadam Job Detail:** Must *not* show billing/payable amounts. Must *not* expose depth. It should explicitly present JE Work Instructions, the before photo, measured area, location, and status actions.
+8. **Shared Execution Proof Screen:** Same camera/overlay component reused by `mukadam` and `contractor`. The title and copy should vary slightly by role context. Action captures the URL as `photo_after` and successfully submitting transitions the status strictly to `audit_pending`.
 
----
-
-## 2. Google Stitch UI Integration Guide
-
-You have been provided with HTML/UI code generated by Google Stitch (Screens 1-10). **These are visual references only**. Do not use them blindly. You must apply the following structural fixes when writing the Flutter code:
-
-### Missing Screens to Build:
-1. **OTP Verification Screen:** The UI has a "Send OTP" screen but forgot the "Enter OTP" screen.
-2. **Role Router (Hidden):** After OTP verify, query `profiles.role` and route to `CitizenHome`, `JeHome`, or `ContractorHome`.
-3. **JE Ticket Detail:** The UI jumps from Task List to Geofence Check-in. Build an intermediate screen showing `photo_before`, `ticket_ref`, and `severity`.
-4. **Contractor Job Detail:** Add a screen showing the work order details before launching the Ghost Camera.
-
-### Mismatches to Ignore/Fix from the UI Files:
-- **Remove AI Metadata:** Remove "Confidence: 87%" and "Pothole Count" from the report screen (they are transient backend data, not persisted in the DB).
-- **Remove "Depth" & "Primary Cause":** The JE form should only collect `Length` and `Width` to calculate area. Do not prompt for Depth or Department (unless it routes strictly to `damage_type`).
-- **Ticket IDs:** Use the `ticket_ref` format everywhere, ignore placeholder IDs like `#R-4421`.
-- **Map:** Replace dummy map SVGs with actual `flutter_map` implementations using free OSM tiles.
-
----
-
-## 3. Flutter Tech Stack & Libraries
-- **State Management:** `flutter_riverpod`
-- **Backend:** `supabase_flutter`
-- **Location:** `geolocator` (For Citizen reporting and JE Geofence)
-- **Maps:** `flutter_map` + `latlong2`
-- **Camera:** `camera` (crucial for Contractor Ghost Camera overlay)
-
----
+*Note on Navigation:* Bottom Nav bars should only be present on root/home screens, avoiding focused detail/task/action view screens.
 
 ## 4. Implementation Phases
 
-Follow these phases sequentially to build the app.
-
 ### Phase 1: Foundation & Auth
-- Initialize `flutter_riverpod` and `supabase_flutter`.
-- Setup Material 3 dark-mode theme matching the Google Stitch aesthetic.
-- Build the Auth flow: Phone Number Input -> Supabase OTP Request -> OTP Verify -> `RoleRouter`.
+- Setting up Supabase connection state.
+- Phone number login & OTP Verification.
+- Role Router & Web Handoff screen implementation.
 
 ### Phase 2: Citizen Flow
-- **Citizen Home:** List of user's own tickets (`status != resolved`).
-- **Report Damage Flow:**
-  - Launch active `camera`.
-  - Capture photo -> Grab exact Lat/Lng via `geolocator`.
-  - Upload photo to Supabase Storage.
-  - Insert row into `tickets`.
-- **Complaint Tracker:** Visual progress bar implementing the Strict Status Mapping.
+- Home Dashboard (Map UI).
+- Report Damage (Camera, location GPS coordinates, form).
+- Complaint Tracker list.
 
-### Phase 3: JE Flow (Field Verification)
-- **Task List:** Load `tickets` assigned to the JE's zone where `status = open`. Show on `flutter_map`.
-- **Ticket Detail:** Show pothole info.
-- **Geofence Guard:**
-  - Calculate `Geolocator.distanceBetween` (Current GPS vs Ticket GPS).
-  - If `> 20m` -> "Verify" button is locked/grey.
-  - If `<= 20m` -> Button turns green.
-- **Economics Screen:** JE enters Length & Width -> System multiplies by `rate_cards.rate_per_unit` -> Locks the `estimated_cost` and updates ticket to `verified`.
+### Phase 3: JE Verification & Executor Assignment Flow
+- Zonal Complaint Inbox view.
+- Ticket Detail (`status = open`) & Geofence Check-in logic.
+- Measure & Estimate Form UI (`length`, `width`, `estimated_cost`).
+- **Executor Assignment Screen**: Must use dynamic pickers. If `Department Work Gang` is selected, show the **Mukadam Picker**. If `Private Contractor` is selected, show the **Contractor Picker**. Never show both selectors at once, and rigorously enforce exactly one executor before enabling the final assignment CTA.
 
-### Phase 4: Contractor Flow (Ghost Camera)
-- **Work Orders:** List of tickets where `assigned_contractor = my_id` and `status = assigned`.
-- **Ghost Camera Overlay:**
-  - Use a `Stack`.
-  - Bottom Layer: Live `CameraPreview`.
-  - Top Layer: `photo_before` loaded from network wrapped in `Opacity(0.45)`.
-  - Contractor aligns the physical road with the ghost image.
-  - Snaps `photo_after`, uploads to storage, and changes status to `audit_pending`.
+### Phase 4: Mukadam Execution Flow
+- Mukadam Work Orders list.
+- Mukadam Job Detail matching constraints defined in Section 3.
+- Utilizing the Shared Execution Proof camera.
+- Transition state logic: `assigned` -> `in_progress` -> `audit_pending`.
+
+### Phase 5: Contractor Execution Flow
+- Contractor Work Orders list displaying commercial job orders and expected rates.
+- Contractor Job Detail maintaining separate steppers for execution vs billing.
+- Utilizing the identical Shared Execution Proof camera.
+- Pushing to `audit_pending` and unlocking subsequent billing logic steps on the dashboard.
 
 ---
 
-## Instructions for the LLM
-When building code from this plan:
-1. Treat this prompt as the ultimate source of truth, overriding any mismatched text in the Google Stitch HTML exports.
-2. Build components modularly.
-3. Keep all Supabase calls in a dedicated `services/` directory, cleanly separated from UI widgets.
+## Appendix: Screen Inventory Mapping
+*Mapping UI designs in your repository `/Flutter UI` to their implementation tasks:*
+- `screen11` -> Web Handoff
+- `screen12` -> JE Ticket Detail
+- `screen13` -> JE Executor Assignment
+- `screen14` -> Mukadam Work Orders
+- `screen15` -> Mukadam Job Detail
+- `screen16` -> Mukadam Execution Proof
+- `screen17` -> Contractor Job Detail
