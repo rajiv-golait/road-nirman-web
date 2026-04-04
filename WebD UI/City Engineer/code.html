@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="hi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SMC Commissioner Command Center — रोड NIRMAN</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#632800",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#1a2133",
+                        "secondary-container": "#0566d9",
+                        "inverse-surface": "#dae2fd",
+                        "on-primary-container": "#8aa4cf",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "inverse-on-surface": "#283044",
+                        "on-secondary": "#002e6a",
+                        "secondary": "#adc6ff",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-tertiary": "#552100",
+                        "surface-bright": "#31394d",
+                        "surface": "#060a14",
+                        "on-primary": "#133155",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-variant": "#2d3449",
+                        "outline-variant": "#43474e",
+                        "on-surface": "#dae2fd",
+                        "surface-tint": "#adc8f5",
+                        "primary-container": "#1e3a5f",
+                        "inverse-primary": "#455f87",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c4c6cf",
+                        "primary": "#adc8f5",
+                        "on-tertiary-container": "#ff8031",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-container-lowest": "#030712",
+                        "tertiary-fixed-dim": "#ffb690",
+                        "on-primary-fixed": "#001c3b",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#060a14",
+                        "on-tertiary-fixed-variant": "#783200",
+                        "primary-fixed": "#d5e3ff",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "on-background": "#dae2fd",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary-fixed": "#341100",
+                        "on-secondary-container": "#e6ecff",
+                        "background": "#060a14",
+                        "surface-container-low": "#0b1221",
+                        "outline": "#8e9199",
+                        "surface-container": "#111827",
+                        "tertiary": "#ffb690",
+                        "on-secondary-fixed": "#001a42",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#ffdbca"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .pulse-red {
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            animation: pulse-red-key 2s infinite;
+        }
+        @keyframes pulse-red-key {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .ticker-scroll {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 40s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        .map-overlay-layer {
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, rgba(6, 10, 20, 0) 70%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary/30 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-950 flex flex-col z-50 border-r border-white/5">
+<div class="p-8">
+<div class="flex items-center gap-3">
+<img alt="SMC Logo" class="w-10 h-10 object-contain invert brightness-200" onerror="this.src='https://placehold.co/40x40?text=SMC'" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCw6XPr7oksoEWzzPPaUlVmUKR_euczopHrACP5e1frFd4m6B1507swkk5j-sODyS3j1xScozSXgpm4-SR-hbBbobU1UAkMpFrB2rZmMF_oCt1pRMLYv0lZ-zgB1OYHwfvNPqqVC7uXpOWOkK8NPD67fE_QZiealgBC-erLd3Dbw3z-7z0E-q6GY0_ki0M72GP_phqb25Ebjp_0g9x6i9VAD2Sj-jkB97GVnX1ttMFrcGXcMMi009MtPxaZnz2lRm6XWUYouSO9t1Q"/>
+<div>
+<div class="text-sm font-black tracking-tighter text-blue-50 leading-none">सोलापूर</div>
+<div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">Municipal Corp</div>
+</div>
+</div>
+<div class="mt-8 pt-4 border-t border-white/5">
+<div class="text-[10px] font-black uppercase text-orange-500 tracking-[0.2em]">रोड NIRMAN 2.0</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="bg-blue-600/10 text-blue-400 py-3 px-4 flex items-center gap-3 rounded-lg group transition-all" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">analytics</span>
+<span class="text-sm font-bold tracking-wide">Strategic Overview</span>
+</a>
+<a class="text-slate-500 hover:text-white hover:bg-white/5 py-3 px-4 flex items-center gap-3 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="map">public</span>
+<span class="text-sm font-bold tracking-wide">Live Zone Map</span>
+</a>
+<a class="text-slate-500 hover:text-white hover:bg-white/5 py-3 px-4 flex items-center gap-3 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="report_problem">warning</span>
+<span class="text-sm font-bold tracking-wide">Incident Feed</span>
+</a>
+<a class="text-slate-500 hover:text-white hover:bg-white/5 py-3 px-4 flex items-center gap-3 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="engineering">construction</span>
+<span class="text-sm font-bold tracking-wide">Vendor Audit</span>
+</a>
+<a class="text-slate-500 hover:text-white hover:bg-white/5 py-3 px-4 flex items-center gap-3 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="payments">account_balance_wallet</span>
+<span class="text-sm font-bold tracking-wide">Financial Nexus</span>
+</a>
+</nav>
+<div class="p-6 bg-slate-900/40 border-t border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+<span class="material-symbols-outlined text-blue-400">shield_person</span>
+</div>
+<div>
+<div class="text-xs font-black text-blue-50">Commissioner</div>
+<div class="text-[10px] text-slate-500 uppercase font-bold tracking-tighter">Command Unit SMC</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="ml-64 w-[calc(100%-16rem)] h-screen flex flex-col relative overflow-hidden">
+<!-- Top Header -->
+<header class="h-16 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 flex justify-between items-center px-8 shrink-0 z-40">
+<div class="flex items-center gap-4">
+<div class="text-sm font-black text-blue-50 uppercase tracking-[0.3em]">
+                Strategic Command Center
+            </div>
+<div class="h-4 w-px bg-white/10"></div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Network Status:</span>
+<span class="text-[10px] font-black text-green-400 uppercase tracking-widest flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                    Operational
+                </span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+<span class="material-symbols-outlined text-sm text-slate-400">schedule</span>
+<span class="text-[11px] font-black text-slate-300">SOLAPUR TIME: 14:42 IST</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white bg-white/5 rounded-full relative">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<img alt="User Profile" class="w-10 h-10 rounded-lg border border-white/10 object-cover grayscale hover:grayscale-0 transition-all cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6vR4NYDU62294vdvF96Rw91-i1J-Oz4Zl-B0C7Yb0ydqWMcBN9uphW4LcXJs_b_qTJIYntzZ3x9KPddOR0l3DJ7jx7ATk3mjC483O4-Vff-r9FIG2RbaBYwni2DsTwQp3vc_kHSxWBhiWGSkX3lKxZto4M4V1_hpCFk0d8FXyR6qI9Tl-CN4ey8KAR0XfIxyaBKP_Zuw1I9H6xbPqbNnxa1ksVqaP_uCrHgAJBc1--ZHHbA601gsEscUEfmogmSsiluMufoW2M2A"/>
+</div>
+</div>
+</header>
+<!-- Ticker Section -->
+<div class="h-10 bg-slate-900 border-b border-white/5 flex items-center overflow-hidden shrink-0">
+<div class="ticker-scroll">
+<!-- Repeated for continuous loop -->
+<div class="flex items-center gap-12 px-6">
+<span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-red-500">
+<span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span> NEW CRITICAL: Zone 3 Main Intersection - Road Subsidence Detected
+                </span>
+<span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-blue-400">
+<span class="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> INFO: Contractor Shakti Builders - Quality Audit Pass Zone 2
+                </span>
+<span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-green-500">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> RESOLVED: High Ticket #8842 - Hotgi Road Pothole Remediated
+                </span>
+<span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-orange-500">
+<span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span> ALERT: Zone 4 Budget Ceiling Reached 85%
+                </span>
+</div>
+<!-- Duplicate for loop -->
+<div class="flex items-center gap-12 px-6">
+<span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-red-500">
+<span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span> NEW CRITICAL: Zone 3 Main Intersection - Road Subsidence Detected
+                </span>
+<span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-blue-400">
+<span class="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> INFO: Contractor Shakti Builders - Quality Audit Pass Zone 2
+                </span>
+<span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-green-500">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> RESOLVED: High Ticket #8842 - Hotgi Road Pothole Remediated
+                </span>
+<span class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-orange-500">
+<span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span> ALERT: Zone 4 Budget Ceiling Reached 85%
+                </span>
+</div>
+</div>
+</div>
+<!-- KPI Section -->
+<section class="grid grid-cols-4 gap-4 p-6 bg-surface-container-low shrink-0">
+<div class="glass-card p-5 rounded-xl flex flex-col justify-between">
+<div class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Total Open</div>
+<div class="flex items-end justify-between mt-2">
+<span class="text-4xl font-black text-white">127</span>
+<span class="text-[10px] font-bold text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded">+12% vs LW</span>
+</div>
+</div>
+<div class="glass-card p-5 rounded-xl flex flex-col justify-between border-red-500/30 pulse-red bg-red-500/5">
+<div class="flex justify-between items-center">
+<div class="text-[10px] font-black text-red-400 uppercase tracking-[0.2em]">Critical</div>
+<span class="material-symbols-outlined text-red-500 text-lg">priority_high</span>
+</div>
+<div class="flex items-end justify-between mt-2">
+<span class="text-4xl font-black text-red-500">08</span>
+<span class="text-[9px] font-black text-red-200/60 uppercase">Action Req.</span>
+</div>
+</div>
+<div class="glass-card p-5 rounded-xl flex flex-col justify-between">
+<div class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Resolved Today</div>
+<div class="flex items-end justify-between mt-2">
+<span class="text-4xl font-black text-green-400">23</span>
+<span class="text-[10px] font-bold text-slate-400">Avg 4.2h</span>
+</div>
+</div>
+<div class="glass-card p-5 rounded-xl flex flex-col justify-between border-orange-500/30">
+<div class="text-[10px] font-black text-orange-400 uppercase tracking-[0.2em]">SLA Breached</div>
+<div class="flex items-end justify-between mt-2">
+<span class="text-4xl font-black text-orange-500">04</span>
+<span class="text-[9px] font-black text-orange-200/60 uppercase">Escalated</span>
+</div>
+</div>
+</section>
+<!-- Content Split Layout -->
+<section class="flex flex-1 min-h-0 px-6 gap-6 mb-24">
+<!-- Strategic Map -->
+<div class="w-3/5 relative rounded-2xl overflow-hidden border border-white/10 group shadow-2xl">
+<div class="absolute inset-0 grayscale brightness-50 bg-slate-900" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARoGp-Bq8ochVeE_dLAq5bzWM-RRrIyyjoQwmzcSwnjeAzm8XL44eiG-_-6b6NVOp9cFXkNycGs-Nozr8WK6Qgpdy5AzC2m9YinbBWMoSDjH250YKisINrxzS8JLRdlSwrdFqWy0NhrRCIKc-x17t-5eBZiyBUKIpfdVYY3jD6uddGLanL696T4U-87rXRwQx_xwJsGD9hJkCMHnGPpTp-A9HbOeUR9tNA4PLMm-7KhziF3x3EzloQw8O2lco-pUel1gI44qFwGjg'); background-size: cover; background-position: center;"></div>
+<!-- Map Data Overlays -->
+<div class="absolute inset-0 pointer-events-none map-overlay-layer"></div>
+<!-- Zone Overlays & Heatmap Markers -->
+<div class="absolute top-1/4 left-1/3 flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-red-600/20 border-2 border-red-500/40 animate-pulse flex items-center justify-center">
+<span class="material-symbols-outlined text-red-500 text-sm">location_on</span>
+</div>
+<div class="bg-black/80 px-2 py-0.5 rounded text-[8px] font-black uppercase text-white mt-1">Zone 3 Cluster</div>
+</div>
+<div class="absolute bottom-1/3 right-1/4 flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-orange-600/20 border-2 border-orange-500/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-500 text-xs">location_on</span>
+</div>
+</div>
+<!-- Map HUD -->
+<div class="absolute top-6 left-6 bg-black/90 backdrop-blur-md p-5 rounded-xl border border-white/10 w-48">
+<div class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">City Health Indices</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-[10px] text-slate-300 font-bold uppercase">Zone Density</span>
+<span class="text-[10px] text-red-400 font-black uppercase">High</span>
+</div>
+<div class="w-full bg-slate-800 h-1 rounded-full"><div class="bg-red-500 h-full w-[85%]"></div></div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] text-slate-300 font-bold uppercase">Patrol Coverage</span>
+<span class="text-[10px] text-green-400 font-black uppercase">92%</span>
+</div>
+<div class="w-full bg-slate-800 h-1 rounded-full"><div class="bg-green-500 h-full w-[92%]"></div></div>
+</div>
+</div>
+<!-- Floating Legend -->
+<div class="absolute bottom-6 left-6 flex gap-2">
+<div class="bg-black/80 backdrop-blur-md px-3 py-2 rounded-lg border border-white/10 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span class="text-[9px] font-black text-slate-300 uppercase">Critical</span>
+</div>
+<div class="bg-black/80 backdrop-blur-md px-3 py-2 rounded-lg border border-white/10 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-orange-500"></span>
+<span class="text-[9px] font-black text-slate-300 uppercase">Repairing</span>
+</div>
+<div class="bg-black/80 backdrop-blur-md px-3 py-2 rounded-lg border border-white/10 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[9px] font-black text-slate-300 uppercase">Optimal</span>
+</div>
+</div>
+<div class="absolute bottom-6 right-6 flex flex-col gap-2">
+<button class="w-10 h-10 bg-black/90 hover:bg-slate-800 rounded-xl border border-white/10 flex items-center justify-center text-slate-400 transition-all"><span class="material-symbols-outlined">layers</span></button>
+<button class="w-10 h-10 bg-black/90 hover:bg-slate-800 rounded-xl border border-white/10 flex items-center justify-center text-slate-400 transition-all"><span class="material-symbols-outlined">add</span></button>
+<button class="w-10 h-10 bg-black/90 hover:bg-slate-800 rounded-xl border border-white/10 flex items-center justify-center text-slate-400 transition-all"><span class="material-symbols-outlined">remove</span></button>
+</div>
+</div>
+<!-- Panels -->
+<div class="w-2/5 flex flex-col gap-6 overflow-y-auto custom-scrollbar pr-2">
+<!-- Strategic Workstream (Kanban) -->
+<div class="glass-card p-6 rounded-2xl">
+<div class="flex justify-between items-center mb-6">
+<div class="text-xs font-black uppercase tracking-[0.2em] text-blue-100">Macro Lifecycle Workstream</div>
+<span class="text-[9px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 font-black">REALTIME SYNC</span>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
+<!-- Column -->
+<div class="flex flex-col gap-3 min-w-[120px]">
+<div class="text-[9px] font-black text-slate-500 uppercase px-1">Received (14)</div>
+<div class="h-1 bg-slate-800 rounded-full w-full"></div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5 hover:border-blue-500/30 transition-all">
+<div class="text-[10px] font-black text-blue-200">Zone 1 Ref #21</div>
+</div>
+</div>
+<!-- Column -->
+<div class="flex flex-col gap-3 min-w-[120px]">
+<div class="text-[9px] font-black text-slate-500 uppercase px-1">Verified (28)</div>
+<div class="h-1 bg-slate-800 rounded-full w-full"></div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<div class="text-[10px] font-black text-blue-200">Zone 5 Ref #44</div>
+</div>
+</div>
+<!-- Column -->
+<div class="flex flex-col gap-3 min-w-[120px]">
+<div class="text-[9px] font-black text-orange-400 uppercase px-1">Fixing (12)</div>
+<div class="h-1 bg-orange-500/30 rounded-full w-full"></div>
+<div class="bg-orange-500/5 p-3 rounded-xl border border-orange-500/20">
+<div class="text-[10px] font-black text-orange-200">Main Rd #10</div>
+</div>
+</div>
+<!-- Column -->
+<div class="flex flex-col gap-3 min-w-[120px]">
+<div class="text-[9px] font-black text-slate-500 uppercase px-1">Quality (8)</div>
+<div class="h-1 bg-slate-800 rounded-full w-full"></div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<div class="text-[10px] font-black text-blue-200">Market #02</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Vendor Scorecard (Deep Metrics) -->
+<div class="glass-card p-6 rounded-2xl flex-1">
+<div class="flex justify-between items-center mb-6">
+<div class="text-xs font-black uppercase tracking-[0.2em] text-blue-100">Contractor Quality Index</div>
+</div>
+<table class="w-full">
+<thead class="border-b border-white/5">
+<tr>
+<th class="text-left pb-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Contractor</th>
+<th class="text-center pb-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">SSIM Pass</th>
+<th class="text-center pb-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Reopen%</th>
+<th class="text-right pb-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Q-Index</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="group hover:bg-white/5 transition-colors">
+<td class="py-4">
+<div class="text-[11px] font-black text-slate-200">Infratech Corp.</div>
+<div class="text-[8px] font-bold text-slate-500 uppercase mt-0.5">L1 Priority Vendor</div>
+</td>
+<td class="py-4 text-center">
+<span class="text-[11px] font-black text-green-400">98.2%</span>
+</td>
+<td class="py-4 text-center">
+<span class="text-[11px] font-black text-slate-400">1.2%</span>
+</td>
+<td class="py-4 text-right">
+<span class="bg-green-500/10 text-green-400 text-[10px] font-black px-2 py-1 rounded border border-green-500/20">96</span>
+</td>
+</tr>
+<tr class="group hover:bg-white/5 transition-colors">
+<td class="py-4">
+<div class="text-[11px] font-black text-slate-200">Shakti Builders</div>
+<div class="text-[8px] font-bold text-slate-500 uppercase mt-0.5">Standard Pool</div>
+</td>
+<td class="py-4 text-center">
+<span class="text-[11px] font-black text-blue-400">89.5%</span>
+</td>
+<td class="py-4 text-center">
+<span class="text-[11px] font-black text-slate-400">4.8%</span>
+</td>
+<td class="py-4 text-right">
+<span class="bg-blue-500/10 text-blue-400 text-[10px] font-black px-2 py-1 rounded border border-blue-500/20">84</span>
+</td>
+</tr>
+<tr class="group hover:bg-white/5 transition-colors">
+<td class="py-4">
+<div class="text-[11px] font-black text-slate-200">Metro Roads Ltd.</div>
+<div class="text-[8px] font-bold text-red-400 uppercase mt-0.5">Under Review</div>
+</td>
+<td class="py-4 text-center">
+<span class="text-[11px] font-black text-orange-400">62.1%</span>
+</td>
+<td class="py-4 text-center">
+<span class="text-[11px] font-black text-red-400">12.5%</span>
+</td>
+<td class="py-4 text-right">
+<span class="bg-red-500/10 text-red-400 text-[10px] font-black px-2 py-1 rounded border border-red-500/20">58</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Global Financial Tracking -->
+<footer class="fixed bottom-0 right-0 w-[calc(100%-16rem)] h-24 bg-slate-950/95 backdrop-blur-3xl border-t border-white/10 z-50 px-10 flex flex-col justify-center">
+<div class="flex justify-between items-end mb-3">
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">SMC Infrastructure Fund (FY 24-25)</span>
+<span class="text-xl font-black text-white">₹42.8 Cr <span class="text-slate-500 font-medium">/ ₹60.0 Cr Utilized</span></span>
+</div>
+<div class="text-[10px] font-black text-blue-400 uppercase tracking-widest bg-blue-400/10 px-3 py-1 rounded-full">Budget Health: Optimal</div>
+</div>
+<div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden mb-4 relative shadow-inner">
+<div class="bg-gradient-to-r from-blue-600 via-blue-400 to-indigo-500 h-full w-[71%] rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+</div>
+<!-- Zone Mini Bars -->
+<div class="flex items-center gap-6 justify-between border-t border-white/5 pt-3">
+<div class="flex items-center gap-4 overflow-x-auto no-scrollbar">
+<div class="flex flex-col gap-1 min-w-[50px]">
+<div class="flex justify-between text-[8px] font-black text-slate-500 uppercase"><span>Z1</span><span>75%</span></div>
+<div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-3/4"></div></div>
+</div>
+<div class="flex flex-col gap-1 min-w-[50px]">
+<div class="flex justify-between text-[8px] font-black text-slate-500 uppercase"><span>Z2</span><span>40%</span></div>
+<div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[40%]"></div></div>
+</div>
+<div class="flex flex-col gap-1 min-w-[50px]">
+<div class="flex justify-between text-[8px] font-black text-slate-500 uppercase"><span>Z3</span><span>92%</span></div>
+<div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden"><div class="bg-red-500 h-full w-[92%]"></div></div>
+</div>
+<div class="flex flex-col gap-1 min-w-[50px]">
+<div class="flex justify-between text-[8px] font-black text-slate-500 uppercase"><span>Z4</span><span>85%</span></div>
+<div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden"><div class="bg-orange-500 h-full w-[85%]"></div></div>
+</div>
+<div class="flex flex-col gap-1 min-w-[50px]">
+<div class="flex justify-between text-[8px] font-black text-slate-500 uppercase"><span>Z5</span><span>20%</span></div>
+<div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[20%]"></div></div>
+</div>
+<div class="flex flex-col gap-1 min-w-[50px]">
+<div class="flex justify-between text-[8px] font-black text-slate-500 uppercase"><span>Z6</span><span>55%</span></div>
+<div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[55%]"></div></div>
+</div>
+<div class="flex flex-col gap-1 min-w-[50px]">
+<div class="flex justify-between text-[8px] font-black text-slate-500 uppercase"><span>Z7</span><span>68%</span></div>
+<div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[68%]"></div></div>
+</div>
+<div class="flex flex-col gap-1 min-w-[50px]">
+<div class="flex justify-between text-[8px] font-black text-slate-500 uppercase"><span>Z8</span><span>33%</span></div>
+<div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[33%]"></div></div>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="bg-white/5 hover:bg-white/10 px-4 py-1.5 rounded-lg border border-white/10 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-300 transition-all">
+<span class="material-symbols-outlined text-sm">download</span> Export Master Report
+                </button>
+</div>
+</div>
+</footer>
+<!-- Strategic FAB -->
+<button class="fixed bottom-28 right-8 w-16 h-16 bg-blue-600 text-white rounded-2xl shadow-2xl shadow-blue-500/20 flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-[60] border border-white/20 group">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform">add_alert</span>
+</button>
+</main>
+</body></html>

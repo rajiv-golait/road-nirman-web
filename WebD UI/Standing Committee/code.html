@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Standing Committee | Financial Oversight Console</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Public+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#1E3A5F",
+                        "on-surface": "#1a1c1e",
+                        "surface-variant": "#e3e2e6",
+                        "secondary-container": "#fd761a",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface": "#faf9fc",
+                        "on-background": "#1a1c1e",
+                        "on-error": "#ffffff",
+                        "outline": "#74777f",
+                        "surface-container": "#eeedf1",
+                        "background": "#faf9fc",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container-high": "#e9e7eb",
+                        "primary-container": "#1e3a5f",
+                        "secondary": "#9d4300",
+                        "on-primary-container": "#8aa4cf",
+                        "on-surface-variant": "#43474e",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f4f3f7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Public Sans"],
+                        "label": ["Public Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Public Sans', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Manrope', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex overflow-hidden">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-72 bg-slate-50 dark:bg-slate-900 font-['Manrope'] antialiased flex flex-col h-full overflow-y-auto border-r border-slate-200">
+<div class="px-8 py-10">
+<div class="flex items-center gap-3 mb-12">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<h2 class="text-lg font-extrabold text-primary dark:text-white uppercase tracking-tight leading-tight">Standing Committee</h2>
+<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest opacity-70">Oversight Console</p>
+</div>
+</div>
+<nav class="space-y-1">
+<!-- Navigation Items -->
+<div class="flex items-center gap-4 px-4 py-3 text-primary bg-white shadow-sm rounded-lg font-bold border-l-4 border-primary">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm">Expenditure</span>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:text-primary hover:bg-slate-100 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">construction</span>
+<span class="text-sm font-semibold">Contractor Performance</span>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:text-primary hover:bg-slate-100 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">pending_actions</span>
+<span class="text-sm font-semibold">Oversight Queue</span>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:text-primary hover:bg-slate-100 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">location_city</span>
+<span class="text-sm font-semibold">Zone Spending</span>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 text-slate-500 hover:text-primary hover:bg-slate-100 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-semibold">Audit Reports</span>
+</div>
+</nav>
+</div>
+<div class="mt-auto px-6 py-6 border-t border-slate-200 bg-slate-100/50">
+<div class="flex items-center gap-3">
+<img alt="Committee Member Avatar" class="w-10 h-10 rounded-lg object-cover border border-slate-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjsrcjkxO1dxA733LWppLDtg8i7khJrwrEcUI6XkJa2aSKkh61jGxvGRql_899zDv5m3b9OSQrC_xULeFU0FdQGLUnSeeqgQyCxkOQbzFFUvmrAZ7Yd_-z8qPdmX1C591vpd_wzw0nGowPtr_lAVxQOz1FCYkG2zqwX3Y9a532rRv2DN7Dw99UWfN8tMdJzzb8Z-IMYibtAI2MMS_OJeJzW6uaO33zTnCtbkIVzgIcddZQUvcrmumixYMt7k1hqp_tZ1od4A_sCw8"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold text-primary truncate">Hon. Chairperson</p>
+<span class="inline-flex items-center px-2 py-0.5 rounded bg-primary-fixed text-[9px] font-black text-primary uppercase tracking-tighter">Read Only Access</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- TopNavBar Component -->
+<header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-40 bg-white border-b border-slate-200">
+<div class="flex items-center gap-4">
+<h1 class="text-lg font-extrabold text-primary font-['Manrope'] tracking-tight">Financial Oversight — FY 2025-26</h1>
+<div class="px-2 py-1 bg-slate-100 rounded text-[10px] font-bold text-slate-500 uppercase tracking-widest border border-slate-200">System: Nirman Civic Console</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200">
+<span class="material-symbols-outlined text-xs text-primary">calendar_today</span>
+<span class="text-xs font-bold text-primary">FY 2025-26</span>
+</div>
+<div class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-lg cursor-pointer hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+                    Export Report
+                </div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar pb-24">
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Total Expenditure -->
+<div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Expenditure (FY)</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold text-primary headline tracking-tight">₹38.4L</span>
+<span class="text-[10px] text-green-600 font-bold bg-green-50 px-1 rounded">+12% YoY</span>
+</div>
+<p class="mt-2 text-[10px] text-slate-400 font-medium">Contractor-only disbursements</p>
+</div>
+<!-- Pending Bills -->
+<div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Pending Contractor Bills</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold text-secondary headline tracking-tight">₹8.2L</span>
+<span class="text-[10px] font-bold text-secondary">14 Units</span>
+</div>
+<p class="mt-2 text-[10px] text-slate-400 font-medium italic">Oversight Watch Enabled</p>
+</div>
+<!-- Contracts Active -->
+<div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-blue-400"></div>
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Active Contracts</p>
+<div class="flex items-center gap-3">
+<span class="text-3xl font-extrabold text-primary headline tracking-tight">6</span>
+<div class="flex -space-x-1.5">
+<div class="w-6 h-6 rounded border border-white bg-slate-300"></div>
+<div class="w-6 h-6 rounded border border-white bg-slate-400"></div>
+</div>
+</div>
+<p class="mt-2 text-[10px] text-slate-400 font-medium uppercase">Verified Tier-1 Only</p>
+</div>
+<!-- SLA Compliance -->
+<div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Zone SLA Compliance</p>
+<div class="flex items-center gap-3">
+<span class="text-3xl font-extrabold text-primary headline tracking-tight">78%</span>
+<span class="px-1.5 py-0.5 bg-green-100 text-green-700 text-[9px] font-black rounded uppercase">Optimal</span>
+</div>
+<p class="mt-2 text-[10px] text-slate-400 font-medium">Last Audit: 4 days ago</p>
+</div>
+</div>
+<!-- Middle Content: Tables -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left: Expenditure Table -->
+<section class="col-span-12 lg:col-span-8 bg-white border border-slate-200 rounded-lg p-6 shadow-sm">
+<div class="flex justify-between items-start mb-6 border-b border-slate-100 pb-4">
+<div>
+<h3 class="text-base font-bold text-primary headline">Expenditure Summary by Zone</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[14px] text-primary">info</span>
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-tight">
+                                    Contractor-executed work only. Mukadam/departmental work is explicitly <span class="text-error">excluded</span> from this financial view.
+                                </p>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-[9px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+<th class="pb-3 px-4">Zone / Prabhag</th>
+<th class="pb-3 px-4">Work Type</th>
+<th class="pb-3 px-4">Contractor</th>
+<th class="pb-3 px-4 text-right">Amount Paid</th>
+<th class="pb-3 px-4 text-center">Audit Status</th>
+</tr>
+</thead>
+<tbody class="text-xs">
+<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+<td class="py-4 px-4 font-bold text-primary">Zone 4 (East)</td>
+<td class="py-4 px-4 text-slate-600">Asphalt Overlay</td>
+<td class="py-4 px-4 font-semibold text-slate-700">InfraBuild Corp</td>
+<td class="py-4 px-4 text-right font-extrabold text-primary">₹12.4L</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex px-2 py-0.5 rounded bg-green-50 text-green-700 font-bold text-[9px] uppercase">Verified</span>
+</td>
+</tr>
+<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+<td class="py-4 px-4 font-bold text-primary">Zone 1 (Central)</td>
+<td class="py-4 px-4 text-slate-600">Storm Drain Repair</td>
+<td class="py-4 px-4 font-semibold text-slate-700">CivicRoads Ltd</td>
+<td class="py-4 px-4 text-right font-extrabold text-primary">₹5.2L</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex px-2 py-0.5 rounded bg-green-50 text-green-700 font-bold text-[9px] uppercase">Verified</span>
+</td>
+</tr>
+<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+<td class="py-4 px-4 font-bold text-primary">Zone 7 (North)</td>
+<td class="py-4 px-4 text-slate-600">Pothole Remediation</td>
+<td class="py-4 px-4 font-semibold text-slate-700">Solapur Projects</td>
+<td class="py-4 px-4 text-right font-extrabold text-primary">₹2.8L</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex px-2 py-0.5 rounded bg-yellow-50 text-yellow-700 font-bold text-[9px] uppercase">Review</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="py-4 px-4 font-bold text-primary">Zone 3 (South)</td>
+<td class="py-4 px-4 text-slate-600">Footpath Pavers</td>
+<td class="py-4 px-4 font-semibold text-slate-700">Quality Paving</td>
+<td class="py-4 px-4 text-right font-extrabold text-primary">₹8.5L</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex px-2 py-0.5 rounded bg-green-50 text-green-700 font-bold text-[9px] uppercase">Verified</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Right: Contractor Ranking & Pending Watch -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<!-- Contractor Ranking (Read-Only) -->
+<section class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+<h3 class="text-[11px] font-black text-primary headline mb-4 uppercase tracking-widest border-b border-slate-100 pb-2">Contractor Performance Index</h3>
+<div class="space-y-3">
+<div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between border border-slate-100">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded bg-primary text-white flex items-center justify-center font-bold text-[10px]">01</div>
+<span class="text-xs font-bold text-slate-700">InfraBuild Corp</span>
+</div>
+<div class="text-right">
+<p class="text-[9px] font-black text-green-600 uppercase">SSIM: 94%</p>
+<p class="text-[8px] text-slate-400 font-bold uppercase">Reopen: 1.2%</p>
+</div>
+</div>
+<div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between border border-slate-100">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-[10px]">02</div>
+<span class="text-xs font-bold text-slate-700">CivicRoads Ltd</span>
+</div>
+<div class="text-right">
+<p class="text-[9px] font-black text-green-600 uppercase">SSIM: 88%</p>
+<p class="text-[8px] text-slate-400 font-bold uppercase">Reopen: 3.5%</p>
+</div>
+</div>
+<div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between border border-slate-100">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-[10px]">03</div>
+<span class="text-xs font-bold text-slate-700">Quality Paving</span>
+</div>
+<div class="text-right">
+<p class="text-[9px] font-black text-secondary uppercase">SSIM: 72%</p>
+<p class="text-[8px] text-slate-400 font-bold uppercase">Reopen: 8.4%</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Oversight Queue Watch -->
+<section class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+<h3 class="text-[11px] font-black text-primary headline mb-4 uppercase tracking-widest border-b border-slate-100 pb-2">Pending Approval Watch</h3>
+<div class="grid grid-cols-1 gap-3">
+<div class="bg-orange-50/30 p-3 rounded-lg border border-orange-100">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[9px] font-black text-slate-500 uppercase tracking-tight">Zone 4 (East Prabhag)</span>
+<span class="text-[8px] font-bold text-secondary uppercase">High Volume</span>
+</div>
+<p class="text-lg font-black text-primary headline tracking-tighter">₹4.2L</p>
+<p class="text-[9px] text-slate-500 font-bold uppercase">3 Bills Awaiting Technical Sanction</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Chronic Failure & Financial Impact -->
+<section class="bg-red-50/50 border border-red-100 rounded-lg p-6">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-error">warning</span>
+<h3 class="text-sm font-black text-error uppercase tracking-widest">Chronic Location Financial Impact</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white p-4 rounded-lg border border-red-100">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Hotspot: Sector 14 Junction</p>
+<p class="text-xl font-black text-primary mt-1">₹3.2L</p>
+<p class="text-[9px] text-error font-bold uppercase mt-1">4 Remedial Payouts in 6 Months</p>
+</div>
+<div class="bg-white p-4 rounded-lg border border-red-100">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Hotspot: Old Market Road</p>
+<p class="text-xl font-black text-primary mt-1">₹1.8L</p>
+<p class="text-[9px] text-error font-bold uppercase mt-1">Repeated Patching Failure</p>
+</div>
+<div class="bg-white p-4 rounded-lg border border-red-100 flex items-center justify-center">
+<div class="text-center">
+<p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Impact Analytics</p>
+<span class="text-xs font-bold text-primary underline decoration-2 decoration-red-200">View Detailed Failure Report</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Row: Charts -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left: Zone-wise Spending vs Budget -->
+<section class="col-span-12 lg:col-span-6 bg-white border border-slate-200 rounded-lg p-6 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-[11px] font-black text-primary uppercase tracking-widest">Zone-wise Spending vs Budget (₹ Lakhs)</h3>
+<span class="text-[9px] font-bold text-slate-400 uppercase">SSR Comparison View</span>
+</div>
+<div class="h-60 flex items-end gap-3 px-2 relative">
+<!-- Budget Limit Line -->
+<div class="absolute left-0 right-0 border-t border-dashed border-error/50 top-[30%] z-0">
+<span class="absolute right-0 text-[8px] font-black text-error bg-white px-1 -top-2">BUDGET CAP: ₹6.0L</span>
+</div>
+<!-- Mock Bar Charts -->
+<div class="flex-1 flex flex-col items-center gap-2 group z-10">
+<div class="w-full bg-slate-200 rounded-t transition-all hover:bg-primary" style="height: 45%;"></div>
+<span class="text-[9px] font-black text-slate-500">Z1</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group z-10">
+<div class="w-full bg-slate-200 rounded-t transition-all hover:bg-primary" style="height: 60%;"></div>
+<span class="text-[9px] font-black text-slate-500">Z2</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group z-10">
+<div class="w-full bg-slate-200 rounded-t transition-all hover:bg-primary" style="height: 35%;"></div>
+<span class="text-[9px] font-black text-slate-500">Z3</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group z-10">
+<div class="w-full bg-secondary/80 rounded-t transition-all" style="height: 85%;"></div>
+<span class="text-[9px] font-black text-slate-500">Z4</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group z-10">
+<div class="w-full bg-slate-200 rounded-t transition-all hover:bg-primary" style="height: 55%;"></div>
+<span class="text-[9px] font-black text-slate-500">Z5</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group z-10">
+<div class="w-full bg-slate-200 rounded-t transition-all hover:bg-primary" style="height: 40%;"></div>
+<span class="text-[9px] font-black text-slate-500">Z6</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group z-10">
+<div class="w-full bg-slate-200 rounded-t transition-all hover:bg-primary" style="height: 50%;"></div>
+<span class="text-[9px] font-black text-slate-500">Z7</span>
+</div>
+</div>
+</section>
+<!-- Right: Monthly Trend -->
+<section class="col-span-12 lg:col-span-6 bg-white border border-slate-200 rounded-lg p-6 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-[11px] font-black text-primary uppercase tracking-widest">Monthly Expenditure Trend</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-primary rounded-full"></div>
+<span class="text-[8px] font-black text-slate-400 uppercase">Actual</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 border border-primary-fixed border-dashed rounded-full"></div>
+<span class="text-[8px] font-black text-slate-400 uppercase">Budget Pace</span>
+</div>
+</div>
+</div>
+<div class="h-60 w-full">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 200">
+<line stroke="#f1f5f9" stroke-width="1" x1="0" x2="400" y1="40" y2="40"></line>
+<line stroke="#f1f5f9" stroke-width="1" x1="0" x2="400" y1="80" y2="80"></line>
+<line stroke="#f1f5f9" stroke-width="1" x1="0" x2="400" y1="120" y2="120"></line>
+<line stroke="#f1f5f9" stroke-width="1" x1="0" x2="400" y1="160" y2="160"></line>
+<!-- Trend Lines -->
+<path d="M0,180 L80,150 L160,120 L240,90 L320,60 L400,30" fill="none" stroke="#d5e3ff" stroke-dasharray="4" stroke-width="2"></path>
+<path d="M0,190 L80,165 L160,155 L240,110 L320,85 L400,70" fill="none" stroke="#1E3A5F" stroke-width="3"></path>
+<circle cx="240" cy="110" fill="#1E3A5F" r="4"></circle>
+<circle cx="320" cy="85" fill="#1E3A5F" r="4"></circle>
+</svg>
+<div class="flex justify-between mt-4">
+<span class="text-[9px] font-black text-slate-400">JAN</span>
+<span class="text-[9px] font-black text-slate-400">MAR</span>
+<span class="text-[9px] font-black text-slate-400">MAY</span>
+<span class="text-[9px] font-black text-slate-400">JUL</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Static Oversight Status Ribbon -->
+<div class="fixed bottom-0 left-72 right-0 bg-white border-t border-slate-200 px-8 py-3 flex items-center justify-between z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-4">
+<div class="flex flex-col">
+<span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Active Oversight Case</span>
+<span class="text-xs font-bold text-primary">Zone 4 Main Road Renewal (Prabhag 12)</span>
+</div>
+<div class="h-6 w-px bg-slate-200"></div>
+<div class="flex items-center gap-2">
+<div class="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 82%;"></div>
+</div>
+<span class="text-[10px] font-black text-primary">82% DISBURSED</span>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<p class="text-[9px] font-black text-slate-400 uppercase">Drawdown Value</p>
+<p class="text-sm font-extrabold text-primary">₹18.42L / ₹22.0L</p>
+</div>
+<div class="px-4 py-1.5 bg-green-50 rounded border border-green-100">
+<p class="text-[10px] font-black text-green-700 uppercase tracking-tighter">Verified Audit Certified</p>
+</div>
+</div>
+</div>
+</body></html>

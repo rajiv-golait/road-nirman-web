@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contractor Bill Review - Accounts Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Public+Sans:wght@300;400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#1E3A5F",
+                      "secondary": "#F97316",
+                      "on-primary": "#ffffff",
+                      "surface": "#F8FAFC",
+                      "surface-container": "#F1F5F9",
+                      "surface-container-low": "#F8FAFC",
+                      "surface-container-high": "#E2E8F0",
+                      "surface-container-lowest": "#FFFFFF",
+                      "outline-variant": "#CBD5E1",
+                      "on-surface": "#0F172A",
+                      "on-surface-variant": "#475569",
+                      "error": "#DC2626",
+                      "success": "#16A34A"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.375rem",
+                      "xl": "0.5rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Manrope"],
+                      "body": ["Public Sans"],
+                      "label": ["Public Sans"]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary/30">
+<div class="flex min-h-screen overflow-hidden">
+<!-- Side Navigation Bar -->
+<aside class="hidden md:flex flex-col h-screen w-64 bg-slate-900 font-['Public_Sans'] font-medium text-sm tracking-wide py-6 transition-all duration-200 ease-in-out shrink-0 text-slate-300">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<span class="font-['Manrope'] font-black uppercase text-white tracking-tight text-xl">NIRMAN</span>
+</div>
+<div class="bg-slate-800/50 p-4 rounded-xl flex items-center gap-3 border border-slate-700/50">
+<div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400">person</span>
+</div>
+<div>
+<p class="text-white font-bold text-xs uppercase tracking-widest">Accounts Officer</p>
+<p class="text-slate-400 text-[10px]">Solapur MC</p>
+</div>
+</div>
+</div>
+<nav class="flex-1">
+<a class="flex items-center gap-4 px-6 py-4 text-white font-bold bg-white/5 border-r-4 border-secondary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+<span>Bill Queue</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span>Line Items</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Proof Review</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Payment Status</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Payout Summary</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Reports</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-secondary text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-orange-600 transition-all active:scale-95 duration-150">
+<span>Submit Audit Report</span>
+<span class="material-symbols-outlined text-sm">assignment_turned_in</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col overflow-y-auto bg-surface">
+<!-- Top AppBar -->
+<header class="w-full h-16 px-8 flex justify-between items-center bg-white border-b border-slate-200 sticky top-0 z-10">
+<div class="flex flex-col">
+<h1 class="font-['Manrope'] font-bold text-lg text-primary">Contractor Bill Review</h1>
+<p class="text-[10px] text-slate-500 italic">Contractor work only. Departmental (Mukadam) execution excluded.</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-lg text-xs w-64 focus:ring-1 focus:ring-primary/20" placeholder="Search bills or contractors..." type="text"/>
+</div>
+<div class="flex items-center gap-4 border-l border-slate-200 pl-6">
+<button class="material-symbols-outlined text-slate-500 hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:text-primary transition-colors">settings</button>
+<div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden border border-slate-300">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo1NVn26D_bi_F7kUZTq-B5br9x_AwQk-MeHX34yBhFJJiYwP8vkNCMk9vew7dEA3Ct-v4x3Eaq_7fWp5ePZT577JZXsZBMHLExFXhEwzPAAUF5le27Y4CiYlnGInevTzGN4Q19-6BheO0O88zFdP0qG208kZMAmcPBnWPFKNcG6jJJsHZr-17U3zpkgBHQ55UeitQVXM8OJDQnafdw8kxyKj_5Oz5zOZCveMdb63tui06y2syGJdGu0Wz_h6gEz-K1PmFCb-qEHg"/>
+</div>
+</div>
+</div>
+</header>
+<main class="p-8 space-y-8">
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<p class="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-1">Pending Review</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-black text-secondary">7</span>
+<span class="text-sm font-medium text-slate-400">bills</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-success"></div>
+<p class="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-1">Approved (MTD)</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-black text-success">12</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<p class="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-1">Total Paid (FY)</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-black text-primary">₹38.4L</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error"></div>
+<p class="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-1">Rejected</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-headline font-black text-error">2</span>
+</div>
+</div>
+</div>
+<!-- Dual Column Layout -->
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- LEFT COLUMN: Bill Queue (40%) -->
+<section class="lg:w-[40%] flex flex-col gap-6">
+<h2 class="text-lg font-headline font-extrabold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">assignment</span>
+                            Awaiting Review
+                        </h2>
+<div class="space-y-4">
+<!-- Bill Card Active -->
+<div class="bg-white p-5 rounded-xl border-2 border-primary shadow-md ring-4 ring-primary/5">
+<div class="flex justify-between items-start mb-3">
+<div>
+<p class="text-primary font-bold text-xs">BILL-Z4-2025-0012</p>
+<h3 class="text-base font-bold text-slate-900">S.S. Ekbote Construction</h3>
+</div>
+<span class="px-2 py-0.5 bg-secondary/10 text-secondary text-[9px] font-black rounded border border-secondary/20 uppercase tracking-tighter">ACCOUNTS REVIEW</span>
+</div>
+<div class="flex justify-between items-end border-t border-slate-100 pt-3">
+<div>
+<p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Zone</p>
+<p class="text-xs font-bold text-slate-700">Zone 4 (Central)</p>
+</div>
+<div class="text-right">
+<p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Amount</p>
+<p class="text-lg font-black text-primary">₹14,250</p>
+</div>
+</div>
+</div>
+<!-- Bill Card 2 -->
+<div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-slate-300 transition-all cursor-pointer group shadow-sm">
+<div class="flex justify-between items-start mb-3">
+<div>
+<p class="text-slate-400 font-bold text-xs">BILL-Z1-2025-0008</p>
+<h3 class="text-base font-bold text-slate-700">Royal Civil Works</h3>
+</div>
+<span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-[9px] font-black rounded border border-slate-200 uppercase tracking-tighter">SUBMITTED</span>
+</div>
+<div class="flex justify-between items-end border-t border-slate-100 pt-3">
+<div>
+<p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Zone</p>
+<p class="text-xs font-bold text-slate-600">Zone 1 (West)</p>
+</div>
+<div class="text-right">
+<p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Amount</p>
+<p class="text-base font-black text-slate-500 group-hover:text-primary transition-colors">₹8,900</p>
+</div>
+</div>
+</div>
+<!-- Bill Card 3 -->
+<div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-slate-300 transition-all cursor-pointer shadow-sm">
+<div class="flex justify-between items-start mb-3">
+<div>
+<p class="text-slate-400 font-bold text-xs">BILL-Z4-2025-0005</p>
+<h3 class="text-base font-bold text-slate-700">Shinde &amp; Sons</h3>
+</div>
+<span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-[9px] font-black rounded border border-slate-200 uppercase tracking-tighter">SUBMITTED</span>
+</div>
+<div class="flex justify-between items-end border-t border-slate-100 pt-3">
+<div>
+<p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Zone</p>
+<p class="text-xs font-bold text-slate-600">Zone 4 (Central)</p>
+</div>
+<div class="text-right">
+<p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Amount</p>
+<p class="text-base font-black text-slate-500">₹21,440</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Bill Detail (60%) -->
+<section class="lg:w-[60%] flex flex-col bg-white rounded-xl border border-slate-200 shadow-lg overflow-hidden">
+<div class="p-6 border-b border-slate-100 bg-slate-50/50">
+<div class="flex justify-between items-center mb-6">
+<div>
+<p class="text-[10px] font-black text-secondary uppercase tracking-[0.2em] mb-1">AUDIT SUMMARY</p>
+<h2 class="text-2xl font-headline font-black text-primary">BILL-Z4-2025-0012</h2>
+</div>
+<div class="text-right">
+<p class="text-[9px] font-mono text-slate-400 mb-1">UUID: 8f92-56e1-44ab-102c</p>
+<span class="px-3 py-1 bg-primary text-white text-[10px] font-bold rounded shadow-sm uppercase tracking-wider">Internal Review</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-8">
+<div>
+<p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Contractor</p>
+<p class="text-sm font-bold text-slate-800">S.S. Ekbote Construction</p>
+</div>
+<div>
+<p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Zone</p>
+<p class="text-sm font-bold text-slate-800">Zone 4 (Central)</p>
+</div>
+<div>
+<p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Verification Status</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<p class="text-sm font-bold text-secondary">Awaiting Approval</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Audit Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-100 border-b border-slate-200">
+<th class="px-4 py-3 text-[9px] font-black uppercase tracking-wider text-slate-500">Ticket Ref</th>
+<th class="px-4 py-3 text-[9px] font-black uppercase tracking-wider text-slate-500">Work Details</th>
+<th class="px-4 py-3 text-[9px] font-black uppercase tracking-wider text-slate-500">Area / Rate</th>
+<th class="px-4 py-3 text-[9px] font-black uppercase tracking-wider text-slate-500 text-center">SSIM</th>
+<th class="px-4 py-3 text-[9px] font-black uppercase tracking-wider text-slate-500">Verification</th>
+<th class="px-4 py-3 text-[9px] font-black uppercase tracking-wider text-slate-500 text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-4 align-top">
+<p class="text-xs font-black text-primary">TKT-8821</p>
+<div class="flex gap-1 mt-2">
+<img class="w-6 h-6 rounded bg-slate-200 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_6H2Mnp9FGQbuT6CmA4Ws40sQ0Dtzk0bQ-7v4Fm3YrHLMVvBdaOvS_yuLD4lFYiABS_LxrKwZJ9PtGEMbdXDE0pS6Yz2pXALDgFBPZ2rqudu5ioKxD_sWwWPrNIFEPWNtrZX9aOcnsccROAb5LFw0d2HP6jS6gNjfYpR5a6RXBOeqk40XogMSsuyLSAKV_7dXkJYMcooLhnf8qJJYPz1cbnrTJAp7szsyImutSsFB5x6dNpbs2BrLyD4qk-xTvKszJhSaaOF_50E"/>
+<img class="w-6 h-6 rounded bg-slate-200 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8GO9t1NCdcfJ7uXpPQqYuoKKfRM8cXEU6Wf5SWeAnQQCuyH38vJb5GXaU28xw0eZogidJZVbygLgHkKFgjFMJ9GkIegXiJWqLWcDwyPCffAe2Y3akgKnW-j2-Q8DhaMkTVBM9N3fEUnfr7BzH8IWMgEoE7LZ1KTEVpxKHfjHQ5huOH8M9RSOTw5FAtos9tHTDIagmzbVfqlnvlGcbD87EaUhjCXq5_1FpHSnJPbx0sjCUdvpVPqvYOKEJgTtvssliw0FzWietC08"/>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<p class="text-xs font-bold text-slate-800">Railway Station Rd</p>
+<p class="text-[10px] text-slate-500">Pothole Patching (Type B)</p>
+</td>
+<td class="px-4 py-4 align-top">
+<p class="text-xs font-bold text-slate-700">12 sqm</p>
+<p class="text-[9px] text-slate-400">@ ₹450 / sqm</p>
+</td>
+<td class="px-4 py-4 text-center align-top">
+<span class="text-xs font-mono font-bold text-success">0.92</span>
+</td>
+<td class="px-4 py-4 align-top">
+<p class="text-[9px] font-mono text-slate-400 truncate w-16">a1b2c3d4...</p>
+<span class="material-symbols-outlined text-success text-[14px]">verified</span>
+</td>
+<td class="px-4 py-4 text-right align-top">
+<p class="text-xs font-black text-primary">₹5,400</p>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-4 align-top">
+<p class="text-xs font-black text-primary">TKT-8825</p>
+<div class="flex gap-1 mt-2">
+<img class="w-6 h-6 rounded bg-slate-200 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNZhP5to0pgjpAU-7K-KaBrCWdERr1RYOo7jhgCGHBkonaLkc-cf_kUwCiQ5EH-1569AHxKdgG2RpL7kF6LqLmDRmWJy4Z7jRLjdcy4f59h6ADxOLZXg1-nFqoUz7-xL2MILBabdsQbOM2EmPDe-K0IYg0oqRZlc_UZAya8mKGqi50ZtoEZf4JBjioKIO3wCsl8ilaG46xRhZLfoWWV-CEezSKu26ijlMxUY62K0qhMENwpMmKQyvKMIegjLWYvMjDUifTyXpSpgg"/>
+<img class="w-6 h-6 rounded bg-slate-200 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXgsikUXBIw02Edd2ocD1vGox6kCXeUGFCyUay6Jotz28uP2Ltznvp07Bqu1m7b-nSnCPZkGfi9dZO-pNLeE0By1dhn-6pivN90Tv4xLiBTqzhwFSQVBzyQx5ecMBd9vH-pOn7v2KJE9bPO9L62lmCNjtWOAZr8NGDh0FZ0dqEn0OIUTREwqpmKzxJM_GLDJ2Dik2wlek0Ab6wpwCJuhSsvb4pdCDIBRcJEdW8xowaw2lwslyAxZrD9u35t6tIUe5WNQqjfIbunlA"/>
+</div>
+</td>
+<td class="px-4 py-4 align-top">
+<p class="text-xs font-bold text-slate-800">Siddheshwar Mandir Rd</p>
+<p class="text-[10px] text-slate-500">Surface Overlay</p>
+</td>
+<td class="px-4 py-4 align-top">
+<p class="text-xs font-bold text-slate-700">35.4 sqm</p>
+<p class="text-[9px] text-slate-400">@ ₹250 / sqm</p>
+</td>
+<td class="px-4 py-4 text-center align-top">
+<span class="text-xs font-mono font-bold text-error">0.42</span>
+</td>
+<td class="px-4 py-4 align-top">
+<p class="text-[9px] font-mono text-slate-400 truncate w-16">e5f6g7h8...</p>
+<span class="material-symbols-outlined text-error text-[14px]">warning</span>
+</td>
+<td class="px-4 py-4 text-right align-top">
+<p class="text-xs font-black text-primary">₹8,850</p>
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="bg-slate-50/80 border-t border-slate-200">
+<td class="px-4 py-4 text-right text-[10px] font-black uppercase tracking-[0.2em] text-slate-500" colspan="5">Bill Total</td>
+<td class="px-4 py-4 text-right">
+<p class="text-xl font-headline font-black text-primary">₹14,250</p>
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<!-- Actions -->
+<div class="p-6 bg-slate-50 border-t border-slate-200 mt-auto">
+<div class="mb-4">
+<label class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Rejection reason (required if rejecting)</label>
+<textarea class="w-full bg-white border border-slate-200 focus:border-primary focus:ring-0 transition-all rounded-lg p-3 text-sm placeholder:text-slate-300" placeholder="Specify line item or documentation discrepancies..." rows="2"></textarea>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 py-3 bg-success hover:bg-green-700 text-white rounded-lg font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-sm">
+<span class="material-symbols-outlined">check_circle</span>
+                                    Approve Full Bill
+                                </button>
+<button class="flex-1 py-3 bg-error hover:bg-red-700 text-white rounded-lg font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-sm">
+<span class="material-symbols-outlined">cancel</span>
+                                    Reject Bill
+                                </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Payout Summary Table -->
+<section class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-100 flex justify-between items-center">
+<div>
+<h2 class="text-lg font-headline font-black text-primary">Payout Summary</h2>
+<p class="text-[10px] text-slate-400 italic">Financial ledger for approved contractor settlements</p>
+</div>
+<button class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-[11px] font-bold rounded flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+                            Export Ledger (CSV)
+                        </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="text-left bg-slate-50/50">
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Contractor</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Zone Jurisdiction</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500 text-center">Bills Settled</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500 text-right">Gross Paid</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500 text-right">Last Payment (Ref/Date)</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500 text-center">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50/30 transition-colors">
+<td class="px-6 py-4 font-bold text-sm text-slate-800">S.S. Ekbote Construction</td>
+<td class="px-6 py-4 text-xs text-slate-600">Zone 4</td>
+<td class="px-6 py-4 text-center text-sm font-bold">24</td>
+<td class="px-6 py-4 text-right font-black text-primary text-sm">₹18,45,200</td>
+<td class="px-6 py-4 text-right">
+<p class="text-xs font-bold text-slate-700">PAY-Z4-102</p>
+<p class="text-[10px] text-slate-400">12 Oct 2024</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-2 py-0.5 bg-success/10 text-success text-[9px] font-black rounded uppercase">Paid</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/30 transition-colors">
+<td class="px-6 py-4 font-bold text-sm text-slate-800">Royal Civil Works</td>
+<td class="px-6 py-4 text-xs text-slate-600">Zone 1, Zone 3</td>
+<td class="px-6 py-4 text-center text-sm font-bold">11</td>
+<td class="px-6 py-4 text-right font-black text-primary text-sm">₹9,12,000</td>
+<td class="px-6 py-4 text-right">
+<p class="text-xs font-bold text-slate-700">PAY-Z1-088</p>
+<p class="text-[10px] text-slate-400">28 Sep 2024</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-2 py-0.5 bg-success/10 text-success text-[9px] font-black rounded uppercase">Paid</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/30 transition-colors">
+<td class="px-6 py-4 font-bold text-sm text-slate-800">Shinde &amp; Sons</td>
+<td class="px-6 py-4 text-xs text-slate-600">Zone 4</td>
+<td class="px-6 py-4 text-center text-sm font-bold">08</td>
+<td class="px-6 py-4 text-right font-black text-primary text-sm">₹10,82,800</td>
+<td class="px-6 py-4 text-right">
+<p class="text-xs font-bold text-slate-700">PAY-Z4-094</p>
+<p class="text-[10px] text-slate-400">05 Oct 2024</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-2 py-0.5 bg-blue-100 text-blue-600 text-[9px] font-black rounded uppercase">Approved</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Public_Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#783200",
+                        "on-primary-fixed": "#001c3b",
+                        "secondary": "#9d4300",
+                        "surface-variant": "#e3e2e6",
+                        "secondary-fixed": "#ffdbca",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#d5e3ff",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "inverse-primary": "#adc8f5",
+                        "surface-container-highest": "#e3e2e6",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#faf9fc",
+                        "on-error": "#ffffff",
+                        "background": "#faf9fc",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#455f87",
+                        "outline": "#74777f",
+                        "primary-fixed-dim": "#adc8f5",
+                        "inverse-on-surface": "#f1f0f4",
+                        "tertiary": "#002156",
+                        "surface-dim": "#dad9dd",
+                        "on-tertiary-container": "#78a1ff",
+                        "surface-container": "#eeedf1",
+                        "surface-container-high": "#e9e7eb",
+                        "inverse-surface": "#2f3033",
+                        "primary": "#022448",
+                        "on-tertiary-fixed": "#001945",
+                        "on-primary-container": "#8aa4cf",
+                        "on-surface": "#1a1c1e",
+                        "outline-variant": "#c4c6cf",
+                        "secondary-fixed-dim": "#ffb690",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#1e3a5f",
+                        "surface-container-low": "#f4f3f7",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf9fc",
+                        "on-tertiary-fixed-variant": "#00429c",
+                        "on-background": "#1a1c1e",
+                        "tertiary-fixed-dim": "#b0c6ff",
+                        "on-secondary-container": "#5c2400",
+                        "on-surface-variant": "#43474e",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#341100",
+                        "secondary-container": "#fd761a",
+                        "tertiary-fixed": "#d9e2ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#003581"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Public Sans"],
+                        "label": ["Public Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Public Sans', sans-serif; }
+        h1, h2, h3, .display-font { font-family: 'Manrope', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-72 left-0 top-0 fixed bg-[#eeedf1] dark:bg-slate-900 border-none flex flex-col py-8 px-6 z-50">
+<div class="mb-10">
+<div class="text-xl font-black text-[#022448] dark:text-white flex items-center gap-2 font-['Manrope'] tracking-tight">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">engineering</span>
+                रोड NIRMAN
+            </div>
+<div class="mt-4 p-4 rounded-xl bg-primary-container text-on-primary-fixed-variant flex items-center gap-3">
+<span class="material-symbols-outlined" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest opacity-70">Super Admin</p>
+<p class="text-sm font-extrabold text-white">SSR System</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#022448] dark:text-white font-extrabold border-r-4 border-[#fd761a] bg-surface-container-high/50 transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard_customize">dashboard_customize</span>
+<span class="text-sm">Dashboard Switcher</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 font-medium hover:bg-[#f4f3f7] dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-sm">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 font-medium hover:bg-[#f4f3f7] dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+<span class="text-sm">System Config</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 font-medium hover:bg-[#f4f3f7] dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+<span class="text-sm">Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 font-medium hover:bg-[#f4f3f7] dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="text-sm">Role Assignment</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant/20">
+<div class="flex items-center gap-3 px-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container">
+<img alt="Admin Avatar" data-alt="professional portrait of a high-ranking government official in a sharp suit, neutral studio background, authoritative look" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBneHAkA2HaY62xjUeBBPgDJEAl7RIDYb3TJpsluTBNs5_rDW6kR6g-DpwgqGtMoa4XuzlPLGHZUT7vCNZG0zjKW7M4vh06ay9PDhodPp6CLxjG2YGh-nZGKRpVqI9edBoFekdDWprIjkoQGq9JM3L0PvjMqlJ-_0EAdxqMVV0PRfr5ApuK2Zw8duuR2Gwn_3XEE3hM3SZ_K_qcYMDhP7HolEq8qi0U3YW3mdtjDkDkVKLL6E1J0e3CVZ6tHr9Ru9_tFvniDqJhAyA"/>
+</div>
+<div>
+<p class="text-sm font-bold text-[#022448]">Officer S. Solapur</p>
+<p class="text-[10px] text-slate-500 font-mono uppercase">ID: SMC-992-ADM</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar Anchor -->
+<header class="flex justify-between items-center w-full px-8 py-4 ml-72 w-[calc(100%-18rem)] bg-[#faf9fc]/70 dark:bg-slate-950/70 backdrop-blur-xl docked full-width top-0 sticky z-40 shadow-[0px_12px_32px_rgba(30,58,95,0.08)] border-none">
+<div class="flex items-center gap-4">
+<h1 class="font-['Public_Sans'] text-sm font-bold uppercase tracking-wider text-[#022448] dark:text-blue-400">SSR System Administration</h1>
+<div class="h-4 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-2 px-3 py-1 bg-green-50 rounded-full border border-green-100">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+</span>
+<span class="text-[10px] font-bold text-green-700 tracking-tight">ALL SYSTEMS OPERATIONAL</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-primary" placeholder="SEARCH OPERATIONAL DATA..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#022448] hover:opacity-80 transition-opacity active:scale-95 duration-150" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-[#022448] hover:opacity-80 transition-opacity active:scale-95 duration-150" data-icon="account_circle">account_circle</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-72 p-8 bg-surface min-h-[calc(100vh-72px)] space-y-16">
+<!-- DASHBOARD SWITCHER GRID -->
+<section>
+<div class="flex items-end justify-between mb-8">
+<div>
+<span class="text-[10px] font-bold tracking-[0.2em] text-secondary uppercase block mb-1">Administrative Matrix</span>
+<h2 class="text-3xl font-extrabold text-[#022448]">Access Any Dashboard</h2>
+</div>
+<div class="text-right">
+<p class="text-sm text-on-surface-variant max-w-xs leading-tight">Switch perspectives to monitor departmental data streams and authorization layers.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Dashboard Tile Component (Repeated 9x) -->
+<script>
+                    const tiles = [
+                        { label: "Junior Engineer (JE)", icon: "edit_note", desc: "Field data entry, site survey uploads, and daily progress logs." },
+                        { label: "Assistant Engineer (AE)", icon: "engineering", desc: "Technical verification of site data and quality compliance reports." },
+                        { label: "Deputy Engineer (DE)", icon: "architecture", desc: "Zone-level oversight and project timeline approval cycles." },
+                        { label: "Executive Engineer (EE)", icon: "manage_accounts", desc: "City-wide budgetary control and major contractor management." },
+                        { label: "Assistant Commissioner (AC)", icon: "domain", desc: "Administrative coordination and public grievance response monitoring." },
+                        { label: "City Engineer (CE)", icon: "map", desc: "Master planning overview and strategic road network expansion." },
+                        { label: "Commissioner (IAS)", icon: "account_balance", desc: "Ultimate authority dashboard for policy-level executive decisions." },
+                        { label: "Accounts (AO)", icon: "account_balance_wallet", desc: "Payment disbursement, bill verification, and audit reconciliation." },
+                        { label: "Standing Committee (SC)", icon: "groups", desc: "Democratic oversight and multi-project approval gateway." }
+                    ];
+                </script>
+<!-- Tile 1 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'opsz' 32;">edit_note</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Junior Engineer (JE)</h3>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">Field data entry, site survey uploads, and daily progress logs.</p>
+<button class="w-full py-3 bg-surface-container text-primary font-bold text-xs uppercase tracking-widest rounded-lg group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Tile 2 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">engineering</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Assistant Engineer (AE)</h3>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">Technical verification of site data and quality compliance reports.</p>
+<button class="w-full py-3 bg-surface-container text-primary font-bold text-xs uppercase tracking-widest rounded-lg group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Tile 3 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Deputy Engineer (DE)</h3>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">Zone-level oversight and project timeline approval cycles.</p>
+<button class="w-full py-3 bg-surface-container text-primary font-bold text-xs uppercase tracking-widest rounded-lg group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Tile 4 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">manage_accounts</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Executive Engineer (EE)</h3>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">City-wide budgetary control and major contractor management.</p>
+<button class="w-full py-3 bg-surface-container text-primary font-bold text-xs uppercase tracking-widest rounded-lg group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Tile 5 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">domain</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Assistant Commissioner (AC)</h3>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">Administrative coordination and public grievance response monitoring.</p>
+<button class="w-full py-3 bg-surface-container text-primary font-bold text-xs uppercase tracking-widest rounded-lg group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Tile 6 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">map</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">City Engineer (CE)</h3>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">Master planning overview and strategic road network expansion.</p>
+<button class="w-full py-3 bg-surface-container text-primary font-bold text-xs uppercase tracking-widest rounded-lg group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Tile 7 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full border-2 border-primary/10 bg-primary/5">
+<div class="w-12 h-12 rounded-lg bg-primary flex items-center justify-center text-white mb-4">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div class="flex items-center gap-2 mb-2">
+<h3 class="text-lg font-bold text-primary">Commissioner (IAS)</h3>
+<span class="px-2 py-0.5 bg-secondary text-white text-[8px] font-black uppercase rounded-full">VIP Access</span>
+</div>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">Ultimate authority dashboard for policy-level executive decisions.</p>
+<button class="w-full py-3 bg-primary text-white font-bold text-xs uppercase tracking-widest rounded-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Tile 8 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Accounts (AO)</h3>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">Payment disbursement, bill verification, and audit reconciliation.</p>
+<button class="w-full py-3 bg-surface-container text-primary font-bold text-xs uppercase tracking-widest rounded-lg group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Tile 9 -->
+<div class="group p-6 rounded-xl bg-surface-container-lowest border border-transparent hover:border-secondary/20 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<h3 class="text-lg font-bold text-primary mb-2">Standing Committee (SC)</h3>
+<p class="text-sm text-on-surface-variant flex-grow leading-relaxed mb-6">Democratic oversight and multi-project approval gateway.</p>
+<button class="w-full py-3 bg-surface-container text-primary font-bold text-xs uppercase tracking-widest rounded-lg group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2">
+                        Open Dashboard <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- MIDDLE ROW: TWO COLUMNS -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+<!-- USER MANAGEMENT TABLE -->
+<section class="bg-surface-container-low rounded-xl p-8 overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h2 class="text-2xl font-extrabold text-[#022448]">Manage Users</h2>
+<p class="text-xs font-semibold text-secondary mt-1 tracking-tight">Role changes take effect immediately via RLS</p>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">person_add</span>
+                        Create User
+                    </button>
+</div>
+<div class="flex gap-4 mb-6">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full pl-10 bg-surface-container-lowest border-none rounded-lg text-xs py-3" placeholder="Search by name or ID..." type="text"/>
+</div>
+<select class="bg-surface-container-lowest border-none rounded-lg text-xs px-4 py-3 focus:ring-primary font-bold text-primary uppercase">
+<option>All Roles</option>
+<option>Engineers</option>
+<option>Admin</option>
+<option>Finance</option>
+</select>
+</div>
+<div class="overflow-x-auto no-scrollbar">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-outline-variant/30 text-[10px] uppercase font-bold text-on-surface-variant tracking-[0.15em]">
+<th class="pb-4">Full Name</th>
+<th class="pb-4">Role</th>
+<th class="pb-4">Zone</th>
+<th class="pb-4">Status</th>
+<th class="pb-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="text-sm font-['Public_Sans']">
+<tr class="group hover:bg-surface-container-lowest transition-colors">
+<td class="py-4 font-bold text-primary">
+                                    Arjun Kulkarni
+                                    <span class="block text-[10px] font-medium text-slate-400">akulkarni@smc.gov.in</span>
+</td>
+<td class="py-4">
+<span class="px-2 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded">Assistant Engineer</span>
+</td>
+<td class="py-4 text-on-surface-variant font-medium">Zone 4 (North)</td>
+<td class="py-4">
+<span class="flex items-center gap-1.5 text-xs font-semibold text-green-600">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Active
+                                    </span>
+</td>
+<td class="py-4 text-right">
+<button class="text-primary hover:text-secondary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-lowest transition-colors">
+<td class="py-4 font-bold text-primary">
+                                    Meena Deshpande
+                                    <span class="block text-[10px] font-medium text-slate-400">mdesh@smc.gov.in</span>
+</td>
+<td class="py-4">
+<span class="px-2 py-1 bg-secondary/10 text-secondary text-[10px] font-bold rounded">Deputy Engineer</span>
+</td>
+<td class="py-4 text-on-surface-variant font-medium">Zone 1 (Central)</td>
+<td class="py-4">
+<span class="flex items-center gap-1.5 text-xs font-semibold text-green-600">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Active
+                                    </span>
+</td>
+<td class="py-4 text-right">
+<button class="text-primary hover:text-secondary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-lowest transition-colors">
+<td class="py-4 font-bold text-primary">
+                                    Rahul Shinde
+                                    <span class="block text-[10px] font-medium text-slate-400">rshinde@smc.gov.in</span>
+</td>
+<td class="py-4">
+<span class="px-2 py-1 bg-slate-200 text-slate-600 text-[10px] font-bold rounded">Accounts Officer</span>
+</td>
+<td class="py-4 text-on-surface-variant font-medium">HQ (Accounts)</td>
+<td class="py-4">
+<span class="flex items-center gap-1.5 text-xs font-semibold text-slate-400">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> On Leave
+                                    </span>
+</td>
+<td class="py-4 text-right">
+<button class="text-primary hover:text-secondary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- SYSTEM AUDIT LOG -->
+<section class="bg-primary text-white rounded-xl p-8 shadow-2xl shadow-primary/30 h-full">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h2 class="text-2xl font-extrabold">Recent System Events</h2>
+<p class="text-xs text-on-primary-container font-bold tracking-widest uppercase mt-1">Live Telemetry Stream</p>
+</div>
+<div class="p-2 bg-white/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary-container">history</span>
+</div>
+</div>
+<div class="space-y-6 relative before:absolute before:left-4 before:top-2 before:bottom-2 before:w-px before:bg-white/10">
+<!-- Event 1 -->
+<div class="relative pl-10">
+<div class="absolute left-3 top-2 w-2 h-2 rounded-full bg-secondary ring-4 ring-primary"></div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-black uppercase text-secondary-container tracking-wider">role_change</span>
+<span class="text-[10px] text-white/40">14:22:10 UTC</span>
+</div>
+<p class="text-sm font-medium leading-relaxed">
+<span class="text-primary-fixed font-bold">Admin-992</span> modified permissions for <span class="text-secondary-fixed">User ID: 8821</span> (JE → AE Transition).
+                        </p>
+</div>
+<!-- Event 2 -->
+<div class="relative pl-10">
+<div class="absolute left-3 top-2 w-2 h-2 rounded-full bg-blue-400 ring-4 ring-primary"></div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-black uppercase text-blue-300 tracking-wider">rate_card_update</span>
+<span class="text-[10px] text-white/40">13:05:44 UTC</span>
+</div>
+<p class="text-sm font-medium leading-relaxed">
+                            Bitumen pricing index updated globally. New multiplier applied to 14 active contracts.
+                        </p>
+</div>
+<!-- Event 3 -->
+<div class="relative pl-10">
+<div class="absolute left-3 top-2 w-2 h-2 rounded-full bg-red-400 ring-4 ring-primary"></div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-black uppercase text-red-300 tracking-wider">blacklist_flag</span>
+<span class="text-[10px] text-white/40">11:12:01 UTC</span>
+</div>
+<p class="text-sm font-medium leading-relaxed">
+<span class="text-red-200 font-bold">CRITICAL:</span> Contractor "Apex Infrastructure" flagged for non-conformance by AI validation.
+                        </p>
+</div>
+<!-- Event 4 -->
+<div class="relative pl-10">
+<div class="absolute left-3 top-2 w-2 h-2 rounded-full bg-blue-400 ring-4 ring-primary"></div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-black uppercase text-blue-300 tracking-wider">profile_update</span>
+<span class="text-[10px] text-white/40">09:45:12 UTC</span>
+</div>
+<p class="text-sm font-medium leading-relaxed">
+                            Contact credentials updated for CE (City Engineer) office. 2FA re-verification complete.
+                        </p>
+</div>
+</div>
+<button class="w-full mt-8 py-3 border border-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-colors">
+                    View Full Audit Database
+                </button>
+</section>
+</div>
+<!-- BOTTOM: SYSTEM CONFIG PANEL -->
+<section class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-1.5 h-8 bg-secondary rounded-full"></div>
+<h2 class="text-2xl font-extrabold text-[#022448]">System Config Panel</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+<!-- Config Card 1 -->
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">SSIM THRESHOLD</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-extrabold text-primary display-font">0.75</span>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded">OPTIMIZED</span>
+</div>
+<div class="mt-4 w-full bg-primary-fixed h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 75%"></div>
+</div>
+<p class="mt-2 text-[10px] text-on-surface-variant leading-tight">Image similarity baseline for road quality AI validation.</p>
+</div>
+<!-- Config Card 2 -->
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">GEOFENCE RADIUS</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-extrabold text-primary display-font">20m</span>
+<span class="text-xs font-bold text-on-surface-variant">CIRCULAR</span>
+</div>
+<div class="mt-4 flex gap-1">
+<div class="h-1 flex-1 bg-secondary rounded-full"></div>
+<div class="h-1 flex-1 bg-secondary rounded-full"></div>
+<div class="h-1 flex-1 bg-slate-200 rounded-full"></div>
+<div class="h-1 flex-1 bg-slate-200 rounded-full"></div>
+</div>
+<p class="mt-2 text-[10px] text-on-surface-variant leading-tight">Verification range for JE mobile location check-ins.</p>
+</div>
+<!-- Config Card 3 -->
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">AI SERVICE CLUSTER</p>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full border-4 border-green-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-green-600" style="font-variation-settings: 'FILL' 1;">neurology</span>
+</div>
+<div>
+<p class="text-lg font-black text-green-600 leading-none">Healthy</p>
+<p class="text-[10px] font-medium text-slate-400 mt-1">LATENCY: 124ms</p>
+</div>
+</div>
+<p class="mt-5 text-[10px] text-on-surface-variant leading-tight">Automatic road defect detection &amp; classification API.</p>
+</div>
+<!-- Config Card 4 -->
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">FISCAL LOCK STATUS</p>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full border-4 border-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<div>
+<p class="text-lg font-black text-primary leading-none">FY 23-24</p>
+<p class="text-[10px] font-medium text-slate-400 mt-1">RATE CARD LOCKED</p>
+</div>
+</div>
+<p class="mt-5 text-[10px] text-on-surface-variant leading-tight">Prevents modification of historical financial records.</p>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t border-outline-variant/30 flex flex-wrap gap-8">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] font-black uppercase text-primary tracking-widest">Realtime Tables: CONTRACTS_SUBSCRIPTION</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] font-black uppercase text-primary tracking-widest">Realtime Tables: SITES_LIVE_FEED</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] font-black uppercase text-primary tracking-widest">Realtime Tables: AUDIT_PIPELINE</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] font-black uppercase text-primary tracking-widest">Realtime Tables: AUTH_SESSIONS</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Contextual Floating Action - Managed via Design System Rules -->
+<!-- FAB Suppressed for Super Admin High-Level Oversight Page -->
+</body></html>

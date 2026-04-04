@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>रोड NIRMAN — Zone 4 Administrative Oversight Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&amp;family=Public+Sans:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#1E3A5F",
+                        "on-primary": "#ffffff",
+                        "secondary": "#fd761a",
+                        "background": "#faf9fc",
+                        "surface": "#faf9fc",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f4f3f7",
+                        "surface-container": "#eeedf1",
+                        "surface-container-high": "#e9e7eb",
+                        "surface-container-highest": "#e3e2e6",
+                        "outline": "#74777f",
+                        "outline-variant": "#c4c6cf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Public Sans"],
+                        "label": ["Public Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Public Sans', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-slate-900 min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="bg-slate-100 font-headline text-sm font-medium tracking-wide h-screen w-64 fixed left-0 top-0 flex flex-col py-6 px-4 z-50 border-r border-slate-200">
+<div class="mb-10 px-2">
+<div class="text-xl font-black text-primary">Zone 4</div>
+<div class="text-[10px] text-slate-500 uppercase tracking-widest mt-1 font-bold">Operational Authority</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold bg-white rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+            Zone Overview
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+            SLA Breaches
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+            Ticket Lifecycle
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="engineering">engineering</span>
+            Officer Performance
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+            Budget Tracking
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+            Rule 6 Compliance
+        </a>
+</nav>
+<div class="mt-auto border-t border-slate-200 pt-6 space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+            Settings
+        </a>
+<div class="mt-6 flex items-center gap-3 px-2 py-3 bg-white/50 rounded-xl border border-slate-200/50">
+<div class="w-10 h-10 rounded-full bg-primary overflow-hidden">
+<img alt="Assistant Commissioner Portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuCTaSE5Ra_rtMaoIl37RV_npBY3DgupondbJHOlyMRpTaB_Ml8E5LZhxazQeueu33FIiJ2O4p_Ef6jMFDfcUUQag19gsk7oo1zQ3ntEldhrIGGyMPOOeFlwplPcIu6CYc6S4CbKo1dZ-q_zb-xiHfwUsU8l5-ClJtIhW67ZHINHqpHrQTcS7jTyjYKoheg0x3blIxEtkwBH7h1JigVRRp1Fx4h2w_0hdFM8uxD6Oqnp0MS1xyi16iszZrY2ih8-Gbyy5se15VVFc"/>
+</div>
+<div class="overflow-hidden">
+<div class="font-bold text-xs truncate">Asst. Commissioner</div>
+<div class="text-[10px] text-slate-500">ID: MC-Z4-992</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 min-h-screen bg-surface flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-white font-headline text-sm font-semibold sticky top-0 flex justify-between items-center w-full px-8 py-4 z-40 border-b border-slate-200">
+<div class="flex items-center gap-4">
+<span class="text-xl font-black text-primary tracking-tight">रोड NIRMAN</span>
+<span class="h-6 w-[1px] bg-slate-300"></span>
+<span class="text-slate-500">Administrative Oversight Console</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-slate-600 hover:bg-slate-100 px-3 py-2 rounded-lg cursor-pointer transition-all border border-transparent hover:border-slate-200">
+<span class="material-symbols-outlined text-[20px]" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs">FY 2024-25</span>
+</div>
+<button class="bg-primary text-white px-5 py-2.5 rounded-lg flex items-center gap-2 shadow-sm hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+<span class="text-xs uppercase font-bold tracking-wider">Export Grievance Report</span>
+</button>
+<div class="relative cursor-pointer w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100">
+<span class="material-symbols-outlined text-slate-600" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</div>
+</div>
+</header>
+<section class="p-8 space-y-8 flex-1">
+<!-- TOP ROW: KPI CARDS -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+<!-- Zone Open -->
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Zone Open</span>
+<span class="material-symbols-outlined text-primary" data-icon="folder_open">folder_open</span>
+</div>
+<div class="text-4xl font-extrabold text-primary mb-1">31</div>
+<div class="text-[10px] text-slate-400 font-bold uppercase">Active Grievances</div>
+</div>
+<!-- SLA Breached -->
+<div class="bg-white p-6 rounded-xl border border-error/20 shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-2 opacity-5">
+<div class="w-12 h-12 bg-error rounded-full animate-pulse"></div>
+</div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-[10px] font-bold text-error uppercase tracking-widest font-black">SLA Breached</span>
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+<div class="text-4xl font-extrabold text-error mb-1">4</div>
+<div class="text-[10px] text-error/60 font-bold uppercase">Critical Attention Required</div>
+</div>
+<!-- Resolved Today -->
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Resolved Today</span>
+<span class="material-symbols-outlined text-emerald-600" data-icon="check_circle">check_circle</span>
+</div>
+<div class="text-4xl font-extrabold text-slate-900 mb-1">8</div>
+<div class="text-[10px] text-emerald-600/60 font-bold uppercase">Closed since 08:00 AM</div>
+</div>
+<!-- Citizen Confirmation Rate -->
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Citizen Conf. Rate</span>
+<span class="material-symbols-outlined text-indigo-600" data-icon="sms">sms</span>
+</div>
+<div class="text-4xl font-extrabold text-slate-900 mb-1">88.4%</div>
+<div class="text-[10px] text-slate-400 font-bold uppercase">Rule 6 Verification Data</div>
+</div>
+<!-- Budget Consumed -->
+<div class="bg-primary p-6 rounded-xl shadow-md text-white border border-primary">
+<div class="flex justify-between items-start mb-4">
+<span class="text-[10px] font-bold text-white/60 uppercase tracking-widest">Budget Consumed</span>
+<span class="material-symbols-outlined text-white/60" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div class="text-2xl font-bold mb-3">₹14.2L <span class="text-sm font-normal text-white/40">/ ₹50L</span></div>
+<div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[28.4%]"></div>
+</div>
+<div class="mt-2 text-[10px] text-right text-white/40 uppercase font-bold">28% Annual Allocation</div>
+</div>
+</div>
+<!-- MIDDLE ROW -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Lifecycle Table View -->
+<div class="lg:col-span-8 space-y-6">
+<div class="bg-white border border-slate-200 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
+<div class="flex gap-2 p-1 bg-slate-100 rounded-lg">
+<button class="px-4 py-1.5 rounded-md text-[11px] font-bold bg-white text-primary shadow-sm border border-slate-200/50">ALL</button>
+<button class="px-4 py-1.5 rounded-md text-[11px] font-bold text-slate-500 hover:bg-white/50">SLA BREACHED</button>
+<button class="px-4 py-1.5 rounded-md text-[11px] font-bold text-slate-500 hover:bg-white/50">OPEN</button>
+<button class="px-4 py-1.5 rounded-md text-[11px] font-bold text-slate-500 hover:bg-white/50">ESCALATED</button>
+</div>
+<div class="flex items-center gap-4">
+<select class="bg-transparent border-none text-[11px] font-bold text-slate-600 focus:ring-0 cursor-pointer">
+<option>PRABHAG: ALL</option>
+<option>Prabhag 12</option>
+<option>Prabhag 15</option>
+</select>
+<span class="h-4 w-[1px] bg-slate-300"></span>
+<div class="flex items-center gap-2 text-slate-400 cursor-pointer hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+<span class="text-[11px] font-bold uppercase">Advanced Filters</span>
+</div>
+</div>
+</div>
+<div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+<table class="w-full text-left text-xs">
+<thead class="bg-slate-50 text-[10px] uppercase tracking-widest text-slate-500 font-black border-b border-slate-200">
+<tr>
+<th class="px-6 py-4">Ref</th>
+<th class="px-6 py-4">Road / Location / Prabhag</th>
+<th class="px-6 py-4">JE</th>
+<th class="px-6 py-4">AE/DE</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4">Days Open</th>
+<th class="px-6 py-4">SLA Status</th>
+<th class="px-6 py-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Breached Row -->
+<tr class="bg-error/[0.03] hover:bg-error/[0.05] transition-colors">
+<td class="px-6 py-5 font-black text-primary text-[10px]">SSR-Z4-P12-2025-0089</td>
+<td class="px-6 py-5">
+<div class="font-bold text-slate-900">Bhavani Peth Main Rd</div>
+<div class="text-[10px] text-slate-500 font-medium">Pothole • Prabhag 12</div>
+</td>
+<td class="px-6 py-5 font-semibold text-slate-700">R. Deshmukh</td>
+<td class="px-6 py-5 font-semibold text-slate-700">S. Kulkarni</td>
+<td class="px-6 py-5">
+<span class="px-2 py-0.5 rounded-full border border-orange-200 bg-orange-50 text-orange-700 text-[9px] font-black uppercase">Fixing</span>
+</td>
+<td class="px-6 py-5 text-slate-600 font-bold">5 Days</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5 text-error font-black text-[10px]">
+<span class="material-symbols-outlined text-[14px]" data-icon="priority_high">priority_high</span>
+                                        48h OVERDUE
+                                    </div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="bg-slate-900 text-white px-3 py-1.5 rounded-md text-[10px] font-bold hover:bg-black transition-colors">REVIEW</button>
+</td>
+</tr>
+<!-- Regular Row -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-5 font-black text-primary text-[10px]">SSR-Z4-P15-2025-0104</td>
+<td class="px-6 py-5">
+<div class="font-bold text-slate-900">Station Road Crossing</div>
+<div class="text-[10px] text-slate-500 font-medium">Resurfacing • Prabhag 15</div>
+</td>
+<td class="px-6 py-5 font-semibold text-slate-700">S. Kulkarni</td>
+<td class="px-6 py-5 font-semibold text-slate-700">M. Shinde</td>
+<td class="px-6 py-5">
+<span class="px-2 py-0.5 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-[9px] font-black uppercase">Quality Check</span>
+</td>
+<td class="px-6 py-5 text-slate-600 font-bold">2 Days</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5 text-emerald-600 font-black text-[10px]">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span>
+                                        IN-SLA (12h)
+                                    </div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md text-[10px] font-bold hover:bg-slate-50 transition-colors">DETAILS</button>
+</td>
+</tr>
+<!-- Escalated Row -->
+<tr class="bg-amber-50/20 hover:bg-amber-50/40 transition-colors">
+<td class="px-6 py-5 font-black text-primary text-[10px]">SSR-Z4-P12-2025-0072</td>
+<td class="px-6 py-5">
+<div class="font-bold text-slate-900">Solapur-Pune Hwy Exit</div>
+<div class="text-[10px] text-slate-500 font-medium">Median Repair • Prabhag 12</div>
+</td>
+<td class="px-6 py-5 font-semibold text-slate-700">M. Shinde</td>
+<td class="px-6 py-5 font-semibold text-slate-700">S. Kulkarni</td>
+<td class="px-6 py-5">
+<span class="px-2 py-0.5 rounded-full border border-error bg-error/10 text-error text-[9px] font-black uppercase">Escalated</span>
+</td>
+<td class="px-6 py-5 text-slate-600 font-bold">12 Days</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5 text-error font-black text-[10px]">
+<span class="material-symbols-outlined text-[14px]" data-icon="history">history</span>
+                                        5d OVERDUE
+                                    </div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="bg-error text-white px-3 py-1.5 rounded-md text-[10px] font-bold hover:bg-red-700 transition-colors">INTERVENE</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Side Panels -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Officer Performance -->
+<div class="space-y-4">
+<h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Officer Performance Scorecards</h3>
+<div class="space-y-2">
+<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-primary font-black text-xs">JE</div>
+<div class="flex-1">
+<div class="font-bold text-xs text-slate-900">Rahul Deshmukh</div>
+<div class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">12 Tickets Assigned</div>
+</div>
+<div class="text-right">
+<div class="text-base font-black text-secondary">82%</div>
+<div class="text-[8px] uppercase font-black text-slate-400">OPI SCORE</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-700 font-black text-xs">AE</div>
+<div class="flex-1">
+<div class="font-bold text-xs text-slate-900">Sunita Kulkarni</div>
+<div class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">28 Tickets Supervised</div>
+</div>
+<div class="text-right">
+<div class="text-base font-black text-emerald-600">94%</div>
+<div class="text-[8px] uppercase font-black text-slate-400">OPI SCORE</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-500 font-black text-xs">DE</div>
+<div class="flex-1">
+<div class="font-bold text-xs text-slate-900">Mahesh Shinde</div>
+<div class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">45 Tickets Audited</div>
+</div>
+<div class="text-right">
+<div class="text-base font-black text-error">67%</div>
+<div class="text-[8px] uppercase font-black text-slate-400">OPI SCORE</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Citizen Satisfaction -->
+<div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+<h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-5">Citizen Satisfaction Panel</h3>
+<div class="flex justify-between items-end mb-6">
+<div>
+<div class="flex items-center gap-1.5 mb-1">
+<span class="text-3xl font-black text-slate-900">3.8</span>
+<span class="material-symbols-outlined text-secondary text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Avg Citizen Rating</div>
+</div>
+<div class="text-right">
+<div class="text-xl font-black text-primary">88.4%</div>
+<div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">SMS Confirmation Rate</div>
+</div>
+</div>
+<div class="flex gap-1 h-8 items-end mb-4 px-1">
+<div class="flex-1 bg-secondary rounded-sm h-[40%]"></div>
+<div class="flex-1 bg-secondary rounded-sm h-[60%]"></div>
+<div class="flex-1 bg-secondary rounded-sm h-[80%]"></div>
+<div class="flex-1 bg-primary rounded-sm h-[95%]"></div>
+<div class="flex-1 bg-slate-200 rounded-sm h-[70%]"></div>
+</div>
+<div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-500 text-sm" data-icon="trending_up">trending_up</span>
+<span class="text-[10px] font-black text-slate-700">Positive Sentiment Trend</span>
+</div>
+<div class="text-[10px] font-black text-emerald-600">↑ 4.2% (7D)</div>
+</div>
+</div>
+<!-- Monitoring: Recent Escalations -->
+<div class="space-y-4">
+<h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Grievance Escalation Log</h3>
+<div class="relative pl-5 space-y-5 before:content-[''] before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[1px] before:bg-slate-200">
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-white border-2 border-error z-10"></div>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-black text-slate-900">SSR-Z4-P12-0072</span>
+<span class="text-[9px] font-bold text-slate-400">10:45 AM</span>
+</div>
+<div class="text-[11px] text-slate-700 font-bold mt-1">Rule 1 Violation: SLA Breach</div>
+<div class="text-[9px] text-error font-black uppercase tracking-tighter mt-0.5">Automated Escalation to DE</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-white border-2 border-orange-500 z-10"></div>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-black text-slate-900">SSR-Z4-P12-0089</span>
+<span class="text-[9px] font-bold text-slate-400">YESTERDAY</span>
+</div>
+<div class="text-[11px] text-slate-700 font-bold mt-1">Quality Inspection Rejected</div>
+<div class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter mt-0.5">Field Audit Failed at Bhavani Peth</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Bar -->
+<footer class="bg-white border-t border-slate-200 px-8 py-5 flex items-center justify-between sticky bottom-0">
+<div class="flex gap-10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="fact_check">fact_check</span>
+</div>
+<div>
+<div class="text-[9px] uppercase font-black text-slate-400 leading-none">Verified Resol.</div>
+<div class="text-xs font-black text-primary">428 Grievances</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="speed">speed</span>
+</div>
+<div>
+<div class="text-[9px] uppercase font-black text-slate-400 leading-none">Avg. Response</div>
+<div class="text-xs font-black text-slate-800">4.2 Days</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<div class="text-[9px] uppercase font-black text-slate-400 leading-none">Audit Pass Rate</div>
+<div class="text-xs font-black text-slate-800">92% Compliance</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Last Synced: 2 mins ago</span>
+<button class="bg-primary text-white px-6 py-2.5 rounded-lg font-black text-[10px] uppercase tracking-wider flex items-center gap-2 hover:bg-slate-800 transition-all border border-primary">
+<span class="material-symbols-outlined text-sm" data-icon="cloud_download">cloud_download</span>
+                Export Full SSR Zone Report
+            </button>
+</div>
+</footer>
+</main>
+</body></html>

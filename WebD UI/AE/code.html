@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>रोड NIRMAN — Assistant Engineer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Public+Sans:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e3e2e6",
+                        "surface-container-high": "#e9e7eb",
+                        "on-secondary-fixed-variant": "#783200",
+                        "surface-container-highest": "#e3e2e6",
+                        "surface-container": "#eeedf1",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#9d4300",
+                        "on-tertiary-container": "#78a1ff",
+                        "tertiary-container": "#003581",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2f3033",
+                        "on-primary-container": "#8aa4cf",
+                        "tertiary-fixed-dim": "#b0c6ff",
+                        "surface-tint": "#455f87",
+                        "background": "#faf9fc",
+                        "surface-container-low": "#f4f3f7",
+                        "on-secondary-container": "#5c2400",
+                        "on-tertiary-fixed": "#001945",
+                        "surface": "#faf9fc",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "on-tertiary-fixed-variant": "#00429c",
+                        "inverse-on-surface": "#f1f0f4",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf9fc",
+                        "primary-fixed-dim": "#adc8f5",
+                        "outline": "#74777f",
+                        "inverse-primary": "#adc8f5",
+                        "primary-container": "#1e3a5f",
+                        "on-surface": "#1a1c1e",
+                        "on-secondary-fixed": "#341100",
+                        "tertiary-fixed": "#d9e2ff",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#fd761a",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary": "#002156",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-dim": "#dad9dd",
+                        "on-background": "#1a1c1e",
+                        "secondary-fixed-dim": "#ffb690",
+                        "secondary-fixed": "#ffdbca",
+                        "primary": "#022448",
+                        "on-surface-variant": "#43474e",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#001c3b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Public Sans"],
+                        "label": ["Public Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scrolling-touch { -webkit-overflow-scrolling: touch; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SIDEBAR NAVIGATION -->
+<aside class="h-screen w-72 fixed left-0 top-0 bg-slate-200 flex flex-col py-8 px-6 font-headline font-semibold tracking-tight">
+<div class="mb-10">
+<h1 class="text-2xl font-black text-slate-900 mb-1">रोड NIRMAN</h1>
+<div class="flex items-center gap-3 py-2 px-3 bg-white/50 rounded-xl">
+<img alt="AE Profile Avatar" class="w-10 h-10 rounded-full border border-primary/10 object-cover" data-alt="professional portrait of a middle-aged indian man in formal attire, clean sharp lighting, corporate backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLRRmKLK_FR4LOpPrAGVGnWwBIIB4ZJaIsK8Hzb3OqndfrIw0kVBkhEY7U5Cvh2BkokTbPu-gTG2etldpkMbQABA-255GFYbgprr6aubhuX73zQbyP_JxSwttosv_S6Sg2xofxlc1Y9xFzF-PhRQIC5m8MXwb47Jnw5HlpFYJfSG6OvgbfEyVZXbL6UlUh4XzYZC3dwFyyA0U6CDEwByTLvXZ17Zmepf-YrB7nrE5WcWAezSNZnngRDdZ90Nd3vnmizdaRMp9P9gU"/>
+<div class="overflow-hidden">
+<p class="text-xs uppercase tracking-widest text-slate-500 font-bold">Zone 4 Command</p>
+<p class="text-sm font-bold text-slate-900 truncate">Assistant Engineer — Zone 4</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-slate-900 font-bold border-r-4 border-orange-600 bg-white/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-slate-500 font-medium hover:text-slate-700 hover:bg-slate-300/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="engineering">engineering</span>
+<span>JE Workloads</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-slate-500 font-medium hover:text-slate-700 hover:bg-slate-300/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+<span>Escalations</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-slate-500 font-medium hover:text-slate-700 hover:bg-slate-300/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span>Zone Map</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-slate-500 font-medium hover:text-slate-700 hover:bg-slate-300/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span>Reports</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-300/50">
+<button class="flex items-center gap-4 py-3 px-4 w-full text-slate-500 font-medium hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</button>
+</div>
+</aside>
+<!-- TOP APP BAR -->
+<header class="flex justify-between items-center w-[calc(100%-18rem)] ml-72 h-20 px-8 bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
+<div class="flex flex-col">
+<h2 class="font-headline font-extrabold text-xl text-slate-900 uppercase tracking-tight">Zone 4 — AE Overview</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 bg-surface-container rounded-full px-4 py-1.5 border border-outline-variant/30">
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Filter Prabhag:</span>
+<div class="flex gap-2">
+<button class="text-xs font-bold text-orange-600">All</button>
+<button class="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">P11</button>
+<button class="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">P12</button>
+<button class="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">P13</button>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-orange-600 transition-colors" data-icon="filter_list">filter_list</span>
+<div class="relative">
+<span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-orange-600 transition-colors" data-icon="notifications">notifications</span>
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-error rounded-full border-2 border-white"></span>
+</div>
+<span class="material-symbols-outlined text-slate-900 cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT -->
+<main class="ml-72 p-8 min-h-[calc(100vh-80px)] bg-surface-container-low flex gap-8">
+<!-- LEFT: JE WORKLOAD COMPARISON (25%) -->
+<section class="w-1/4 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-slate-900">JE Workload Comparison</h3>
+<span class="material-symbols-outlined text-slate-400" data-icon="sort">sort</span>
+</div>
+<div class="space-y-4">
+<!-- JE Card: Overloaded -->
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-error shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<img alt="Suresh Kumar Avatar" class="w-10 h-10 rounded-lg object-cover" data-alt="middle aged engineer man with glasses, professional portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Kcx3UkmySMdMnWeCZwgFZ7yQJ97rbpVDe0GsOZPURKL8TV5uUMul74D6HCedURIftDCfFjFJe7fnWtwGId6AdlYoPSBA-_Dtf3TdAXCnrpDUU4uh0MhvWWiTdgWotdrgaBoymPv98TMC_O-F86e-774tJiNNMDWvNPYG5Wz10XMOw_xCzvBLWaMI9vRaFR0APzHmvxi-FeUFR_u2tuF0CV0v9PgiN-oYVF10BbStOt2JVoQVF0rzxenOybGqfNKv7OV1YRw2i9c"/>
+<div>
+<p class="font-bold text-slate-900">Suresh Kumar</p>
+<p class="text-[10px] uppercase text-error font-extrabold tracking-widest">OVERLOADED - Rule 1 Risk</p>
+</div>
+<div class="ml-auto bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-black">62% OPI</div>
+</div>
+<div class="flex justify-between text-xs font-bold text-slate-500 mb-2">
+<span>8 Open / 2 Fixing</span>
+<span>Load: 92%</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<!-- JE Card: Stable -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<img alt="Meera Rao Avatar" class="w-10 h-10 rounded-lg object-cover" data-alt="confident professional woman engineer portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPNfqG3Tm8w-e8NhogYSMitjH7VDN1yfhtftVbLNaDVGhdOSGliAtcr7yfxXcRxYVfQN9AM06XCo-hhQey8zCoIMDacdJAV-y4gVWIpul427nGShWqLasylnCPuxfZbNLYAlgAsqm5wJ_HT7juf7kv6EgXLi3YNDX6UQjHael2Aobc3Bf40029FPWO7uQzd7rAHeKqiwlEHaeaYJdB7j7RA8SZIuKznmBlXnHJpEXFu82Bd9G2njj7MpHlqLkPjIoPQOY9yZzWb48"/>
+<div>
+<p class="font-bold text-slate-900">Meera Rao</p>
+<p class="text-[10px] uppercase text-slate-400 font-bold tracking-widest">Zone P12 - North</p>
+</div>
+<div class="ml-auto bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-black">94% OPI</div>
+</div>
+<div class="flex justify-between text-xs font-bold text-slate-500 mb-2">
+<span>3 Open / 4 Fixing</span>
+<span>Load: 45%</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<!-- JE Card: Warning -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<img alt="Anil Deshmukh Avatar" class="w-10 h-10 rounded-lg object-cover" data-alt="professional portrait of young man in white shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA6DxFxI9qandk9GLr_MjFT5DNjEKaRn849RAOEtK40AOxC61TCXaZkVTC7GFGNx5x3ZqBKzxKm79_A1p5QTQeFKbleWRaK00pO0gwYcvtPA2rziae3oFak09edZ9VvVoDt6ay6SKFY1PNW7XXWUHpTMR2T0XXa0dweAFMdba9-KojCYH_X35CoGlg-P_HezWdMCU1H_Pp6as_7HwyxHD9D-N2honakZX1sFS9MYvJLMBHti2wx-Cf7HvDER7_k-fr4h-3AxF6uhQ"/>
+<div>
+<p class="font-bold text-slate-900">Anil Deshmukh</p>
+<p class="text-[10px] uppercase text-slate-400 font-bold tracking-widest">Zone P11 - Central</p>
+</div>
+<div class="ml-auto bg-orange-50 text-orange-600 px-2 py-1 rounded text-xs font-black">78% OPI</div>
+</div>
+<div class="flex justify-between text-xs font-bold text-slate-500 mb-2">
+<span>5 Open / 1 Fixing</span>
+<span>Load: 68%</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container rounded-full" style="width: 68%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- CENTER: ZONAL SUPERVISION QUEUE (50%) -->
+<section class="w-2/4 space-y-6">
+<!-- Alert Banner -->
+<div class="bg-error text-white p-4 rounded-xl flex items-center gap-4 shadow-lg shadow-error/10">
+<span class="material-symbols-outlined" data-icon="report" style="font-variation-settings: 'FILL' 1;">report</span>
+<p class="font-bold">Rule 1 Breach: 3 tickets open &gt; 4h without action</p>
+<button class="ml-auto text-xs font-black uppercase border border-white/30 px-3 py-1 rounded hover:bg-white hover:text-error transition-all">Review Breach</button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+<h3 class="font-headline font-bold text-slate-900">Supervision Queue</h3>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-error rounded-full animate-pulse"></span>
+<span class="text-xs font-bold text-slate-500">Live Updates</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-black tracking-widest">
+<tr>
+<th class="px-6 py-4">Ticket Ref</th>
+<th class="px-6 py-4">Road Name</th>
+<th class="px-6 py-4">JE Assigned</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50 text-sm">
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">SSR-Z4-P11-2025-0089</td>
+<td class="px-6 py-4 text-slate-600">Old Station Road</td>
+<td class="px-6 py-4 text-error font-bold">Suresh Kumar</td>
+<td class="px-6 py-4">
+<span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Received</span>
+</td>
+<td class="px-6 py-4 flex gap-2">
+<button class="p-1.5 hover:bg-primary-fixed rounded transition-colors text-primary" title="Reassign JE">
+<span class="material-symbols-outlined text-base" data-icon="swap_horiz">swap_horiz</span>
+</button>
+<button class="p-1.5 hover:bg-error-container rounded transition-colors text-error" title="Escalate to DE">
+<span class="material-symbols-outlined text-base" data-icon="vertical_align_top">vertical_align_top</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">SSR-Z4-P12-2025-0102</td>
+<td class="px-6 py-4 text-slate-600">Mahatma Gandhi Path</td>
+<td class="px-6 py-4 text-slate-600">Meera Rao</td>
+<td class="px-6 py-4">
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Fixing</span>
+</td>
+<td class="px-6 py-4 flex gap-2">
+<button class="p-1.5 hover:bg-primary-fixed rounded transition-colors text-primary" title="Reassign JE">
+<span class="material-symbols-outlined text-base" data-icon="swap_horiz">swap_horiz</span>
+</button>
+<button class="p-1.5 hover:bg-error-container rounded transition-colors text-error" title="Escalate to DE">
+<span class="material-symbols-outlined text-base" data-icon="vertical_align_top">vertical_align_top</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">SSR-Z4-P13-2025-0094</td>
+<td class="px-6 py-4 text-slate-600">Civil Lines Blvd</td>
+<td class="px-6 py-4 text-slate-600">Anil Deshmukh</td>
+<td class="px-6 py-4">
+<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Verified</span>
+</td>
+<td class="px-6 py-4 flex gap-2">
+<button class="p-1.5 hover:bg-primary-fixed rounded transition-colors text-primary" title="Reassign JE">
+<span class="material-symbols-outlined text-base" data-icon="swap_horiz">swap_horiz</span>
+</button>
+<button class="p-1.5 hover:bg-error-container rounded transition-colors text-error" title="Escalate to DE">
+<span class="material-symbols-outlined text-base" data-icon="vertical_align_top">vertical_align_top</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">SSR-Z4-P11-2025-0076</td>
+<td class="px-6 py-4 text-slate-600">Shastri Market Rd</td>
+<td class="px-6 py-4 text-slate-600">Suresh Kumar</td>
+<td class="px-6 py-4">
+<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Repair Assigned</span>
+</td>
+<td class="px-6 py-4 flex gap-2">
+<button class="p-1.5 hover:bg-primary-fixed rounded transition-colors text-primary" title="Reassign JE">
+<span class="material-symbols-outlined text-base" data-icon="swap_horiz">swap_horiz</span>
+</button>
+<button class="p-1.5 hover:bg-error-container rounded transition-colors text-error" title="Escalate to DE">
+<span class="material-symbols-outlined text-base" data-icon="vertical_align_top">vertical_align_top</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">SSR-Z4-P12-2025-0115</td>
+<td class="px-6 py-4 text-slate-600">Park Lane Extension</td>
+<td class="px-6 py-4 text-slate-600">Meera Rao</td>
+<td class="px-6 py-4">
+<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Quality Check</span>
+</td>
+<td class="px-6 py-4 flex gap-2">
+<button class="p-1.5 hover:bg-primary-fixed rounded transition-colors text-primary" title="Reassign JE">
+<span class="material-symbols-outlined text-base" data-icon="swap_horiz">swap_horiz</span>
+</button>
+<button class="p-1.5 hover:bg-error-container rounded transition-colors text-error" title="Escalate to DE">
+<span class="material-symbols-outlined text-base" data-icon="vertical_align_top">vertical_align_top</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-3 bg-slate-50 flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase">
+<span>Showing 5 of 24 Open Tickets</span>
+<button class="text-primary hover:underline">View All Tickets</button>
+</div>
+</div>
+</section>
+<!-- RIGHT: ZONE HEALTH ANALYTICS (25%) -->
+<section class="w-1/4 space-y-6">
+<h3 class="font-headline font-bold text-slate-900">Zone Health Analytics</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-primary text-white p-4 rounded-xl">
+<p class="text-[10px] uppercase font-bold text-white/60 mb-1">Open Tickets</p>
+<p class="text-3xl font-headline font-extrabold">24</p>
+</div>
+<div class="bg-error text-white p-4 rounded-xl">
+<p class="text-[10px] uppercase font-bold text-white/60 mb-1">Rule 1 Breach</p>
+<p class="text-3xl font-headline font-extrabold">03</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl col-span-2 shadow-sm border border-slate-100">
+<p class="text-[10px] uppercase font-bold text-slate-400 mb-1">Avg Resolution Time</p>
+<p class="text-3xl font-headline font-extrabold text-slate-900">38h <span class="text-xs font-bold text-error">(-4h target)</span></p>
+</div>
+</div>
+<!-- Resolution Trend Chart -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-slate-100">
+<p class="text-xs font-bold text-slate-900 mb-4">Weekly Resolution Trend</p>
+<div class="flex items-end justify-between h-24 gap-2">
+<div class="flex-1 bg-primary/20 rounded-t-sm" style="height: 40%"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm" style="height: 65%"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm" style="height: 50%"></div>
+<div class="flex-1 bg-primary rounded-t-sm" style="height: 85%"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm" style="height: 45%"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm" style="height: 70%"></div>
+<div class="flex-1 bg-secondary-container rounded-t-sm" style="height: 90%"></div>
+</div>
+<div class="flex justify-between mt-2 text-[8px] font-black text-slate-400 uppercase tracking-tighter">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- Active Escalations Feed -->
+<div class="space-y-3">
+<p class="text-xs font-bold text-slate-900 uppercase tracking-widest">Active Escalations</p>
+<div class="space-y-2">
+<div class="bg-error/5 p-3 rounded-lg border border-error/10 flex items-start gap-3">
+<span class="material-symbols-outlined text-error text-lg" data-icon="report_problem">report_problem</span>
+<div>
+<p class="text-[10px] font-black text-error uppercase">Rule 1: Immediate Action Required</p>
+<p class="text-xs font-bold text-slate-900">SSR-Z4-P11-2025-0089</p>
+<p class="text-[10px] text-slate-500">Unacknowledged for 4h 12m</p>
+</div>
+</div>
+<div class="bg-orange-50 p-3 rounded-lg border border-orange-100 flex items-start gap-3">
+<span class="material-symbols-outlined text-orange-600 text-lg" data-icon="schedule">schedule</span>
+<div>
+<p class="text-[10px] font-black text-orange-600 uppercase">Rule 2: Approaching Limit</p>
+<p class="text-xs font-bold text-slate-900">SSR-Z4-P13-2025-0105</p>
+<p class="text-[10px] text-slate-500">Fixing stage duration &gt; 24h</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="fixed bottom-0 right-0 w-[calc(100%-18rem)] h-10 bg-slate-100 border-t border-slate-200 flex justify-between items-center px-8 z-20">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<p class="font-label font-bold text-[10px] uppercase tracking-[0.05em] text-slate-500">System Ready • Last Synced 2m ago</p>
+</div>
+<div class="flex gap-6">
+<button class="font-label font-bold text-[10px] uppercase tracking-[0.05em] text-slate-500 hover:text-orange-600 hover:underline cursor-pointer transition-opacity">Export Data</button>
+<button class="font-label font-bold text-[10px] uppercase tracking-[0.05em] text-slate-500 hover:text-orange-600 hover:underline cursor-pointer transition-opacity">Sync Status</button>
+</div>
+</footer>
+</body></html>

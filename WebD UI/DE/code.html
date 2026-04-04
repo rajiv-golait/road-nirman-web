@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="hi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>रोड NIRMAN - Deputy Engineer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#ffdbca",
+                    "on-tertiary-fixed": "#001945",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#f4f3f7",
+                    "inverse-primary": "#adc8f5",
+                    "on-primary-fixed": "#001c3b",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#dad9dd",
+                    "on-surface": "#1a1c1e",
+                    "surface-bright": "#faf9fc",
+                    "surface-container-highest": "#e3e2e6",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f1f0f4",
+                    "inverse-surface": "#2f3033",
+                    "on-secondary-fixed": "#341100",
+                    "secondary-fixed": "#ffdbca",
+                    "on-surface-variant": "#43474e",
+                    "tertiary": "#002156",
+                    "surface-variant": "#e3e2e6",
+                    "primary-fixed-dim": "#adc8f5",
+                    "tertiary-fixed": "#d9e2ff",
+                    "on-tertiary-fixed-variant": "#00429c",
+                    "primary-fixed": "#d5e3ff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#2d486d",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#78a1ff",
+                    "on-secondary-container": "#5c2400",
+                    "tertiary-container": "#003581",
+                    "surface-container": "#eeedf1",
+                    "on-primary-container": "#8aa4cf",
+                    "secondary": "#F97316",
+                    "on-background": "#1a1c1e",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#b0c6ff",
+                    "outline": "#74777f",
+                    "primary": "#1E3A5F",
+                    "surface-tint": "#455f87",
+                    "secondary-fixed-dim": "#ffb690",
+                    "background": "#faf9fc",
+                    "surface-container-high": "#e9e7eb",
+                    "surface": "#faf9fc",
+                    "outline-variant": "#c4c6cf",
+                    "primary-container": "#1e3a5f",
+                    "on-secondary-fixed-variant": "#783200"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Public Sans"],
+                    "label": ["Public Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Public Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #1E3A5F 0%, #022448 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full py-6 bg-slate-100 dark:bg-slate-900 h-screen w-64 border-r-0 font-['Manrope'] font-semibold tracking-tight shrink-0">
+<div class="px-6 mb-8">
+<div class="text-2xl font-black text-[#1E3A5F] dark:text-white mb-1">रोड NIRMAN</div>
+<div class="flex items-center gap-3 mt-6 p-3 rounded-xl bg-white/50 dark:bg-white/5 border border-slate-200">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white overflow-hidden">
+<img alt="Deputy Engineer Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbxtuq8s6Jva4RBITUXO3Ukldksb1TcFgbikkNxeOQYyNuxEi9ngi8NBl2w3z7RA22JSnAZcKrYOgBW5mfHiiUPvKpWNt3vqVNTpI-P_xEZH2TLFcWsb6v4zA0sQxE_SvaAlEsaZ3Vx-Kx1EcARoFQCKxzfnjLHSuFY6j5UKP44NlQapRmwb8KzBRRERLlwx06nOensKCfoAfeo3P3YKmFbidj-AszXDHvIsmDyigkrlHOzij9MINE6ED1W4q0lbHexheMEhu1c6Q"/>
+</div>
+<div>
+<div class="text-sm font-bold text-primary leading-tight">Deputy Engineer</div>
+<div class="text-[10px] text-slate-500 uppercase tracking-wider">Zone 4 Technical</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#1E3A5F] dark:text-blue-400 border-r-4 border-[#1E3A5F] bg-white/50 dark:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Command Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span>Work Orders Status</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span>Chronic Hotspots</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Technical Queue</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span>Zone 4 / Prabhag Map</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span>Technical Reports</span>
+</a>
+</nav>
+</aside>
+<main class="flex-1 flex flex-col min-w-0 bg-surface">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-8 py-4 bg-[#faf9fc] border-b border-slate-200/50 font-['Manrope']">
+<div class="flex items-center gap-4">
+<h1 class="text-xl font-black text-[#1E3A5F] tracking-tight">Zone 4 — Technical Command</h1>
+<div class="h-6 w-[2px] bg-slate-200 mx-2"></div>
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full min-w-[320px]">
+<span class="material-symbols-outlined text-slate-400 mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-400" placeholder="Filter tickets by Prabhag, JE, or ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-600">
+<button class="hover:text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="filter_list">filter_list</span></button>
+<button class="hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="hover:text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="settings">settings</span></button>
+</div>
+<img alt="DE Profile" class="w-10 h-10 rounded-full border-2 border-primary/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACS9R7PizwfqyaSLxBUy7xbYtPwglZVJ27C5jpuq6Qj479YF0CaparWR0jg25-TTSrffy4HlL_MYWP7hwdPerudhg6nN0iP8Gw_P6hINW4XLgmM6C25a1cK4jp3gvkMw9i07xhFtcOkV-vSIZ9ZN_8E8CVAgjed0tTXhvwVLqAJ-2go-bmMPMjDBHH1KmCe_HXqmAm7i3v-mSF7-lfmdHUsn6hwtndcXA5iJOAvrTm_nkJF64fcQKeieAVD4dqDwP1PgjSnvx--l8"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8 pb-16">
+<!-- TOP ROW: KPI CARDS -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Red Theme KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-error flex flex-col justify-between h-32 shadow-sm transition-transform hover:scale-[1.02]">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant leading-tight">Rule 2 Breach:<br/>No Inspection (48h+)</span>
+<div class="flex items-end justify-between">
+<span class="text-4xl font-black text-error">7</span>
+<span class="material-symbols-outlined text-error opacity-20 text-5xl" data-icon="priority_high">priority_high</span>
+</div>
+</div>
+<!-- Orange Theme KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-secondary flex flex-col justify-between h-32 shadow-sm transition-transform hover:scale-[1.02]">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Overdue Verification</span>
+<div class="flex items-end justify-between">
+<span class="text-4xl font-black text-secondary">4</span>
+<span class="material-symbols-outlined text-secondary opacity-20 text-5xl" data-icon="task_alt">task_alt</span>
+</div>
+</div>
+<!-- Purple Theme KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-tertiary-container flex flex-col justify-between h-32 shadow-sm transition-transform hover:scale-[1.02]">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Chronic Locations</span>
+<div class="flex items-end justify-between">
+<span class="text-4xl font-black text-tertiary-container">3</span>
+<span class="material-symbols-outlined text-tertiary-container opacity-20 text-5xl" data-icon="location_on">location_on</span>
+</div>
+</div>
+<!-- Yellow Theme KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-amber-500 flex flex-col justify-between h-32 shadow-sm transition-transform hover:scale-[1.02]">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Slow Work Orders</span>
+<div class="flex items-end justify-between">
+<span class="text-4xl font-black text-amber-600">6</span>
+<span class="material-symbols-outlined text-amber-500 opacity-20 text-5xl" data-icon="speed">speed</span>
+</div>
+</div>
+</section>
+<!-- BOTTOM ROW: THREE COLUMNS -->
+<section class="grid grid-cols-1 lg:grid-cols-10 gap-8 items-start">
+<!-- LEFT COLUMN: Overdue Inspections (35%) -->
+<div class="lg:col-span-3.5 flex flex-col space-y-4">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-lg font-extrabold text-primary">Overdue Inspections (Rule 2)</h2>
+</div>
+<div class="bg-error/5 p-4 rounded-lg border border-error/20 flex gap-3 items-start">
+<span class="material-symbols-outlined text-error text-xl" data-icon="report_problem">report_problem</span>
+<p class="text-xs font-semibold text-on-error-container leading-tight">Rule 2: 7 tickets past 48h SLA. Technical review needed.</p>
+</div>
+<div class="space-y-3">
+<!-- Ticket Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-slate-100 hover:border-error/30 transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-mono font-bold text-slate-400">SSR-Z4-P12-2025-0101</span>
+<span class="bg-error text-white text-[10px] font-black px-2 py-0.5 rounded">52h Over</span>
+</div>
+<h3 class="font-bold text-on-surface text-sm mb-1 leading-snug">Vijapur Road - NH 52 Section</h3>
+<div class="flex flex-col gap-0.5 text-[11px] text-on-surface-variant mb-4">
+<div class="flex justify-between"><span>JE: Rajesh Deshmukh</span><span>Prabhag 12</span></div>
+<span class="text-error font-medium">Reported 52h ago — No site visit logged</span>
+</div>
+<button class="w-full py-2 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[11px] font-bold rounded-lg transition-colors border border-primary/20">Review Escalated Ticket</button>
+</div>
+<!-- Ticket Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-slate-100 hover:border-error/30 transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-mono font-bold text-slate-400">SSR-Z4-P03-2025-0144</span>
+<span class="bg-error text-white text-[10px] font-black px-2 py-0.5 rounded">49h Over</span>
+</div>
+<h3 class="font-bold text-on-surface text-sm mb-1 leading-snug">Old Employment Chowk</h3>
+<div class="flex flex-col gap-0.5 text-[11px] text-on-surface-variant mb-4">
+<div class="flex justify-between"><span>JE: Amol Shinde</span><span>Prabhag 03</span></div>
+<span class="text-error font-medium">Reported 49h ago — Awaiting inspection photos</span>
+</div>
+<button class="w-full py-2 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[11px] font-bold rounded-lg transition-colors border border-primary/20">Review Escalated Ticket</button>
+</div>
+</div>
+</div>
+<!-- CENTER COLUMN: Chronic Location Hotspots (35%) -->
+<div class="lg:col-span-3.5 flex flex-col space-y-4">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-lg font-extrabold text-primary">Chronic Hotspots</h2>
+<span class="text-on-surface-variant text-[10px] uppercase font-bold tracking-tighter">Last 90 Days</span>
+</div>
+<div class="space-y-4">
+<!-- Chronic Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-slate-100 p-3 flex gap-4">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-slate-200">
+<img alt="Road Map" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5ZEto_DmpA9nO16UMtq83ImEkRxkclOxCKxNIap53D8es8UA3xnpD31EXmQvcE_zx4cZ01FvmB9VhZ1nm67GeMwkk8fQY6jhJ3T8H0Uy3WJAqrMJL1iPFZmEgzY2sGCFEITfhl_1Xewd0EMHbPXEHyYKd18YnIarzPRoIRuB0exw9yaXRdVIaX4OtdbwsAhl4x7za0nOaJjK6Aw1A-e7zmIFO1Q5hl3XwmwSrNWgZtezAGGdgMd8MOOjB7P7yXNkFz0goCx-MM8Y"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-sm text-on-surface truncate">Asara Chowk Flyover</h3>
+<span class="bg-secondary/10 text-secondary text-[10px] font-black px-2 py-0.5 rounded shrink-0">5 Tickets</span>
+</div>
+<div class="text-[11px] text-on-surface-variant mb-2">Prabhag 15 • Recurring asphalt strip</div>
+<button class="text-secondary text-[10px] font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="flag">flag</span>
+                                    Flag for Defect Liability
+                                </button>
+</div>
+</div>
+<!-- Chronic Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-slate-100 p-3 flex gap-4">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-slate-200">
+<img alt="Road Map" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp1-iKkoVB7GEzASmnFRGEhDZlvaahZvKvKU0j2UMHGtRALr5R8zCeK-QMC1hw0U5gAoMcIRYz5Lu3iTwlYhv8pc5IjeQxaTo9ECkfFnFeb3j062EK4x1btUOyjogVF8CzQ9nl6fw7BRhNm7InodaGYGdBRuyM0GVGvJU7mdiAEH5mNnZC73Wb4CgXm_QdeKfpWr83AwBaXwZKWFRheO2C-vukaTvx4YYWpdsnOKx0Q9pqm1CgRBT7NTIMZYqJt8P5GhhcsD4lcDc"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-sm text-on-surface truncate">Hotgi Road Cross</h3>
+<span class="bg-secondary/10 text-secondary text-[10px] font-black px-2 py-0.5 rounded shrink-0">3 Tickets</span>
+</div>
+<div class="text-[11px] text-on-surface-variant mb-2">Prabhag 08 • Reformation after rain</div>
+<button class="text-secondary text-[10px] font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="flag">flag</span>
+                                    Flag for Defect Liability
+                                </button>
+</div>
+</div>
+<!-- Chronic Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-slate-100 p-3 flex gap-4">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-slate-200">
+<img alt="Road Map" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWJeyrNFIxBEyzsg6RjMJJkjAH5WnQgLq0zJFHjoC1kyTJheTebcirIenlj4BspUy3FcD5fG_snC_ZryayRYSZcNNSe2SqWKoJjYwKTYZ3KvbJgu4UJ1QPsVzx9ZBeNGZZqMOLwYOIltyM9ZpqzWvZN4yodgUbFrs5c1vwZb73Jhvdib1u9Y09EWFX7MRo3OvdMuPFQNUXUseGgoCIn0sISJCZRZkJ4Ldxtgjh5oDYZ7_H5lzeFJjEnrCtODj2ZtI6fwUJksSYMvM"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-sm text-on-surface truncate">Bhaiyya Chowk</h3>
+<span class="bg-secondary/10 text-secondary text-[10px] font-black px-2 py-0.5 rounded shrink-0">4 Tickets</span>
+</div>
+<div class="text-[11px] text-on-surface-variant mb-2">Prabhag 04 • Drainage/Waterlogging</div>
+<button class="text-secondary text-[10px] font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="flag">flag</span>
+                                    Flag for Defect Liability
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: JE Performance (30%) -->
+<div class="lg:col-span-3 flex flex-col space-y-4">
+<h2 class="text-lg font-extrabold text-primary mb-2">JE Performance Quality</h2>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+<table class="w-full text-left text-xs">
+<thead class="bg-surface-container-low text-on-surface-variant uppercase text-[10px] font-black tracking-widest border-b border-slate-200">
+<tr>
+<th class="px-4 py-3">JE Name</th>
+<th class="px-2 py-3">Assigned</th>
+<th class="px-2 py-3">SLA Breach</th>
+<th class="px-4 py-3">OPI</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="bg-error/5 hover:bg-error/10 transition-colors">
+<td class="px-4 py-3 font-bold">R. Deshmukh</td>
+<td class="px-2 py-3">12</td>
+<td class="px-2 py-3 text-error">25%</td>
+<td class="px-4 py-3"><span class="bg-error text-white px-2 py-0.5 rounded-full font-bold">68%</span></td>
+</tr>
+<tr class="bg-green-50/50 hover:bg-green-50 transition-colors">
+<td class="px-4 py-3 font-bold">V. Kulkarni</td>
+<td class="px-2 py-3">08</td>
+<td class="px-2 py-3 text-green-600">0%</td>
+<td class="px-4 py-3"><span class="bg-green-600 text-white px-2 py-0.5 rounded-full font-bold">94%</span></td>
+</tr>
+<tr class="bg-amber-50/50 hover:bg-amber-50 transition-colors">
+<td class="px-4 py-3 font-bold">A. Shinde</td>
+<td class="px-2 py-3">15</td>
+<td class="px-2 py-3 text-amber-600">12%</td>
+<td class="px-4 py-3"><span class="bg-amber-500 text-white px-2 py-0.5 rounded-full font-bold">78%</span></td>
+</tr>
+<tr class="bg-green-50/50 hover:bg-green-50 transition-colors">
+<td class="px-4 py-3 font-bold">S. Patil</td>
+<td class="px-2 py-3">10</td>
+<td class="px-2 py-3 text-green-600">2%</td>
+<td class="px-4 py-3"><span class="bg-green-600 text-white px-2 py-0.5 rounded-full font-bold">89%</span></td>
+</tr>
+<tr class="bg-error/5 hover:bg-error/10 transition-colors">
+<td class="px-4 py-3 font-bold">M. More</td>
+<td class="px-2 py-3">06</td>
+<td class="px-2 py-3 text-error">18%</td>
+<td class="px-4 py-3"><span class="bg-error text-white px-2 py-0.5 rounded-full font-bold">64%</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<button class="mt-4 w-full py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all rounded-xl font-bold flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                        Export Zone Technical Report
+                    </button>
+<button class="w-full py-3 bg-slate-200 text-slate-700 hover:bg-slate-300 transition-all rounded-xl font-bold flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+                        Open Technical Queue
+                    </button>
+</div>
+</section>
+</div>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-8 bg-[#1E3A5F] text-white h-10 shadow-[0_-4px_12px_rgba(30,58,95,0.12)]">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="settings_heart">settings_heart</span>
+<span class="font-['Public_Sans'] text-[10px] uppercase tracking-widest">System Health: Green</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-300">
+<span class="material-symbols-outlined text-[14px]" data-icon="engineering">engineering</span>
+<span class="font-['Public_Sans'] text-[10px] uppercase tracking-widest">Active Workers: 14</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-300">
+<span class="material-symbols-outlined text-[14px]" data-icon="emergency">emergency</span>
+<span class="font-['Public_Sans'] text-[10px] uppercase tracking-widest text-error">Escalations: 7</span>
+</div>
+</div>
+<div class="flex items-center gap-4 min-w-[300px]">
+<span class="text-[10px] font-bold text-slate-300 uppercase tracking-tight">Zone Completion Rate</span>
+<div class="flex-1 h-2 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 72%"></div>
+</div>
+<span class="text-[12px] font-black">72%</span>
+</div>
+</footer>
+</main>
+</body></html>

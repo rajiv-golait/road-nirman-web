@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>City Wide Engineering Oversight - रोड NIRMAN</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Public+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1E3A5F",
+                        "secondary": "#F97316",
+                        "on-background": "#1a1c1e",
+                        "surface-dim": "#dad9dd",
+                        "outline-variant": "#c4c6cf",
+                        "on-surface-variant": "#43474e",
+                        "on-surface": "#1a1c1e",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eeedf1",
+                        "surface-container-low": "#f4f3f7",
+                        "surface-container-highest": "#e3e2e6",
+                        "surface-bright": "#faf9fc",
+                        "background": "#faf9fc",
+                        "surface": "#faf9fc",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Public Sans"],
+                        "label": ["Public Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(24px); }
+        .tonal-lift { transition: transform 0.2s ease, background-color 0.2s ease; }
+        .tonal-lift:hover { background-color: #ffffff; transform: translateY(-2px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c4c6cf; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full py-6 bg-slate-100 dark:bg-slate-900 h-screen w-64 border-r-0 fixed left-0 top-0 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-primary dark:text-white font-bold tracking-tight text-xl font-headline">Solapur SMC</h1>
+<p class="text-[0.65rem] uppercase tracking-wider font-bold text-secondary">Executive Engineer — City Wide</p>
+</div>
+<nav class="flex-1 space-y-1 px-3">
+<!-- Active Tab: Overview -->
+<a class="flex items-center gap-3 px-3 py-3 text-primary dark:text-white font-bold border-r-4 border-secondary bg-white/50 dark:bg-white/10 scale-98 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[0.75rem] uppercase tracking-wider font-semibold">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-500 dark:text-slate-400 font-medium hover:text-primary dark:hover:text-white hover:bg-white/40 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">location_city</span>
+<span class="text-[0.75rem] uppercase tracking-wider font-semibold">All Zones</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-500 dark:text-slate-400 font-medium hover:text-primary dark:hover:text-white hover:bg-white/40 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">report_problem</span>
+<span class="text-[0.75rem] uppercase tracking-wider font-semibold">Chronic Locations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-500 dark:text-slate-400 font-medium hover:text-primary dark:hover:text-white hover:bg-white/40 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="text-[0.75rem] uppercase tracking-wider font-semibold">Defect Liability</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-500 dark:text-slate-400 font-medium hover:text-primary dark:hover:text-white hover:bg-white/40 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">construction</span>
+<span class="text-[0.75rem] uppercase tracking-wider font-semibold">Contractors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-500 dark:text-slate-400 font-medium hover:text-primary dark:hover:text-white hover:bg-white/40 dark:hover:bg-slate-700 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="text-[0.75rem] uppercase tracking-wider font-semibold">Reports</span>
+</a>
+</nav>
+<div class="mt-auto px-6 pt-6">
+<div class="flex items-center gap-3 p-3 bg-surface-container rounded-xl">
+<img alt="Executive Engineer Profile" class="w-10 h-10 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVbRXhKOzvRplwMlTU5mqxNUeML4g8V-bEvoevL2s1nfV-DoNj45WDROuhMdnVVxxN5rjPUN1HWJWAcHGDRHoNJK0BDsO8BKJmXXQEW6K_poJX_ruV_dTuIymvO-JJhgANPBl41Aaskn8vwOtCivT_Nck5GbK8RdydZSXUiXh7auwGiJicXNo8woQ_tBqCMY4k_N6xSjUwHTQHzR2QUzJT2iYFXduoxo1HC5u5FzAON5sWD7WTbJ7fBuGvt1KYdxmvfhLlLlXeTYA"/>
+<div>
+<p class="text-xs font-bold text-primary">R. Deshmukh</p>
+<p class="text-[10px] text-on-surface-variant font-medium">Executive Engineer</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 ml-64 overflow-y-auto h-screen bg-surface">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-8 h-16 sticky top-0 z-40 bg-white/70 backdrop-blur-md shadow-[0px_12px_32px_rgba(30,58,95,0.08)]">
+<div class="flex items-center gap-8">
+<div class="text-primary font-black text-xl font-headline">City Wide — Engineering Oversight</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-highest rounded-full border-none text-sm w-64 focus:ring-2 focus:ring-primary" placeholder="Search SSR Ticket..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">View Scope:</span>
+<select class="text-xs font-bold bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-secondary cursor-pointer">
+<option>All Zones</option>
+<option>Zone 1 (Central)</option>
+<option>Zone 2 (East)</option>
+<option>Zone 3</option>
+<option>Zone 4 (South)</option>
+<option>Zone 5</option>
+<option>Zone 6</option>
+<option>Zone 7 (Mid-West)</option>
+<option>Zone 8</option>
+</select>
+</div>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-slate-600 hover:text-secondary transition-all cursor-pointer active:scale-95">notifications</button>
+<button class="material-symbols-outlined text-slate-600 hover:text-secondary transition-all cursor-pointer active:scale-95">settings</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="text-right">
+<p class="text-xs font-bold text-primary">City Wide Oversight</p>
+<p class="text-[10px] text-secondary font-semibold">EXECUTIVE VIEW</p>
+</div>
+</div>
+</div>
+</header>
+<div class="p-8 space-y-8">
+<!-- TOP: Zone Comparison Table -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-headline-sm font-bold text-primary text-xl">Macro Performance Dashboard</h2>
+<p class="text-label-md text-on-surface-variant text-sm uppercase tracking-wider">Inter-Zone Engineering Metrics</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-lowest border border-outline-variant px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">audit</span> Audit Review
+                    </button>
+<button class="bg-surface-container-lowest border border-outline-variant px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">download</span> Export
+                    </button>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-primary text-white font-label uppercase text-[10px] tracking-widest">
+<tr>
+<th class="px-6 py-4 font-semibold">Zone (1-8)</th>
+<th class="px-6 py-4 font-semibold">Open Tickets</th>
+<th class="px-6 py-4 font-semibold">Escalated</th>
+<th class="px-6 py-4 font-semibold">No Work Order</th>
+<th class="px-6 py-4 font-semibold">Avg Resolution</th>
+<th class="px-6 py-4 font-semibold">SSIM Pass Rate</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 text-sm font-medium">
+<tr class="tonal-lift bg-error-container/20">
+<td class="px-6 py-4 font-bold text-primary">Zone 04 (South)</td>
+<td class="px-6 py-4">142</td>
+<td class="px-6 py-4 text-error font-bold">48</td>
+<td class="px-6 py-4">12</td>
+<td class="px-6 py-4">5.2 Days</td>
+<td class="px-6 py-4">64%</td>
+<td class="px-6 py-4"><span class="bg-error text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase">CRITICAL</span></td>
+</tr>
+<tr class="tonal-lift">
+<td class="px-6 py-4 font-bold text-primary">Zone 01 (Central)</td>
+<td class="px-6 py-4">89</td>
+<td class="px-6 py-4">14</td>
+<td class="px-6 py-4">02</td>
+<td class="px-6 py-4">2.8 Days</td>
+<td class="px-6 py-4">88%</td>
+<td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase">HEALTHY</span></td>
+</tr>
+<tr class="tonal-lift bg-orange-50">
+<td class="px-6 py-4 font-bold text-primary">Zone 07 (Mid-West)</td>
+<td class="px-6 py-4">112</td>
+<td class="px-6 py-4 text-error font-bold">31</td>
+<td class="px-6 py-4">08</td>
+<td class="px-6 py-4">4.1 Days</td>
+<td class="px-6 py-4">72%</td>
+<td class="px-6 py-4"><span class="bg-secondary text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase">MONITOR</span></td>
+</tr>
+<tr class="tonal-lift">
+<td class="px-6 py-4 font-bold text-primary">Zone 02 (East)</td>
+<td class="px-6 py-4">65</td>
+<td class="px-6 py-4">04</td>
+<td class="px-6 py-4">01</td>
+<td class="px-6 py-4">2.1 Days</td>
+<td class="px-6 py-4">94%</td>
+<td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase">HEALTHY</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- MIDDLE GRID -->
+<div class="grid grid-cols-10 gap-8">
+<!-- MIDDLE LEFT: Map -->
+<section class="col-span-10 lg:col-span-6 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-lg text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">map</span>
+                        Engineering Bottleneck &amp; Chronic Map
+                    </h3>
+<div class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-error"></span> High Density</div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span> Chronic Spot</div>
+</div>
+</div>
+<div class="relative h-[480px] bg-surface-container rounded-xl overflow-hidden shadow-inner group">
+<div class="absolute inset-0 grayscale contrast-125 opacity-40 mix-blend-multiply" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRyoYfWXgERxgFGXqmViUKNfv2BrSeGWeFZMdE_rkDwUU0v5AjfhtpiNjsfi7WZPpFbVuBsYmZVjx_SSi9Dnh8K8f37AHzgreUx4-qdOp7ZAL27mc3jbe3pK_EXcQFe3KVVJ9rC9tB7kLZZ8-ZSYY4nJFPJS63gbdZeUtE1qWcezyplWkJFz44pHiN76echDhLM8mBVnXPHYxMUxUcP8Um4TxysToR8i0-zPo411h2Q4H8wZ_72hYxUMWjttxK0kDFvvWaMQW5hm4'); background-size: cover;"></div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<!-- Density areas -->
+<div class="absolute top-1/4 left-1/3 w-40 h-40 bg-error/25 rounded-full blur-[60px]"></div>
+<div class="absolute bottom-1/4 right-1/4 w-60 h-60 bg-error/20 rounded-full blur-[80px]"></div>
+<!-- Chronic Points -->
+<div class="absolute top-[45%] left-[52%] flex flex-col items-center group pointer-events-auto cursor-help">
+<div class="w-4 h-4 bg-purple-600 rounded-full animate-ping absolute"></div>
+<div class="w-4 h-4 bg-purple-700 rounded-full relative border-2 border-white"></div>
+<div class="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-2 bg-primary text-white p-2 rounded-lg text-[10px] whitespace-nowrap z-10 shadow-xl">
+<p class="font-bold">Hotgi Road Junction</p>
+<p class="font-medium text-secondary">Chronic Failure Area</p>
+</div>
+</div>
+</div>
+<!-- Legend/Stats -->
+<div class="absolute top-6 right-6 p-4 glass-panel rounded-xl shadow-lg border border-white/20">
+<h4 class="text-[10px] font-bold uppercase tracking-wider text-primary mb-2">Engineering Context</h4>
+<div class="space-y-2">
+<div class="flex justify-between gap-4">
+<span class="text-[10px] font-medium">Chronic Spots Identified</span>
+<span class="text-xs font-bold text-primary">18</span>
+</div>
+<div class="flex justify-between gap-4">
+<span class="text-[10px] font-medium">Audit Compliance</span>
+<span class="text-xs font-bold text-secondary">82%</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- MIDDLE RIGHT: Execution Performance -->
+<section class="col-span-10 lg:col-span-4 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-lg text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">engineering</span>
+                        Execution Performance
+                    </h3>
+<button class="text-xs font-bold text-secondary hover:underline">Audit All</button>
+</div>
+<div class="bg-surface-container-low rounded-xl p-2 h-[480px] overflow-hidden flex flex-col">
+<div class="overflow-y-auto custom-scrollbar flex-1">
+<table class="w-full text-left text-[11px]">
+<thead class="sticky top-0 bg-surface-container-low z-10">
+<tr class="text-on-surface-variant font-label uppercase tracking-widest border-b border-outline-variant/30">
+<th class="p-3">Name</th>
+<th class="p-3">Type</th>
+<th class="p-3">Pass Rate</th>
+<th class="p-3">Quality</th>
+<th class="p-3">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Contractor -->
+<tr class="tonal-lift">
+<td class="p-3 font-bold text-primary">Skyline Infra</td>
+<td class="p-3 text-[9px] uppercase font-bold text-slate-500">Contractor</td>
+<td class="p-3">
+<div class="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 94%"></div>
+</div>
+<span class="font-bold">94%</span>
+</td>
+<td class="p-3 flex gap-0.5">
+<span class="material-symbols-outlined text-green-600 text-[12px] fill-current">star</span>
+<span class="material-symbols-outlined text-green-600 text-[12px] fill-current">star</span>
+<span class="material-symbols-outlined text-green-600 text-[12px] fill-current">star</span>
+</td>
+<td class="p-3"><button class="material-symbols-outlined text-primary hover:text-secondary transition-colors">visibility</button></td>
+</tr>
+<!-- Dept Work -->
+<tr class="tonal-lift bg-slate-50">
+<td class="p-3 font-bold text-primary">Mahesh G.</td>
+<td class="p-3 text-[9px] uppercase font-bold text-secondary">Dept. Work</td>
+<td class="p-3">
+<div class="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 81%"></div>
+</div>
+<span class="font-bold">81%</span>
+</td>
+<td class="p-3 flex gap-0.5">
+<span class="material-symbols-outlined text-on-surface-variant text-[12px] fill-current">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[12px] fill-current">star</span>
+</td>
+<td class="p-3"><button class="material-symbols-outlined text-primary hover:text-secondary transition-colors">visibility</button></td>
+</tr>
+<!-- Poor Performer -->
+<tr class="tonal-lift bg-error-container/10">
+<td class="p-3 font-bold text-primary">Om Sai Builders</td>
+<td class="p-3 text-[9px] uppercase font-bold text-slate-500">Contractor</td>
+<td class="p-3">
+<div class="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 42%"></div>
+</div>
+<span class="font-bold text-error">42%</span>
+</td>
+<td class="p-3"><span class="material-symbols-outlined text-error text-[12px] fill-current">error</span></td>
+<td class="p-3"><button class="material-symbols-outlined text-error hover:scale-110 transition-transform">priority_high</button></td>
+</tr>
+<tr class="tonal-lift bg-slate-50">
+<td class="p-3 font-bold text-primary">SMC Gang 12</td>
+<td class="p-3 text-[9px] uppercase font-bold text-secondary">Dept. Work</td>
+<td class="p-3">
+<div class="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 76%"></div>
+</div>
+<span class="font-bold">76%</span>
+</td>
+<td class="p-3 flex gap-0.5">
+<span class="material-symbols-outlined text-on-surface-variant text-[12px] fill-current">star</span>
+</td>
+<td class="p-3"><button class="material-symbols-outlined text-primary hover:text-secondary transition-colors">visibility</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+<!-- BOTTOM: Defect Liability Tracker -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-lg text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">security</span>
+                    Defect Liability Tracker (DLP)
+                </h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2 px-3 py-1 bg-orange-100 text-secondary rounded-lg text-xs font-bold">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span> 14 Near Expiry
+                    </div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/20 rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-surface-container-high border-b border-outline-variant">
+<tr>
+<th class="px-6 py-4 font-label uppercase text-[10px] tracking-wider font-bold">Ticket Ref</th>
+<th class="px-6 py-4 font-label uppercase text-[10px] tracking-wider font-bold">Road / Location</th>
+<th class="px-6 py-4 font-label uppercase text-[10px] tracking-wider font-bold">Contractor</th>
+<th class="px-6 py-4 font-label uppercase text-[10px] tracking-wider font-bold">Resolved Date</th>
+<th class="px-6 py-4 font-label uppercase text-[10px] tracking-wider font-bold">Warranty Expiry</th>
+<th class="px-6 py-4 font-label uppercase text-[10px] tracking-wider font-bold">New Complaint</th>
+<th class="px-6 py-4 font-label uppercase text-[10px] tracking-wider font-bold text-center">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="tonal-lift bg-orange-50/50">
+<td class="px-6 py-4 font-mono font-bold text-primary">SSR-DLP-8902</td>
+<td class="px-6 py-4">Bhavani Peth Main St.</td>
+<td class="px-6 py-4 font-medium">Skyline Infra</td>
+<td class="px-6 py-4 text-on-surface-variant">12 Oct 2023</td>
+<td class="px-6 py-4">
+<span class="text-on-surface font-semibold">12 Oct 2024</span>
+<p class="text-[9px] text-secondary font-bold uppercase">Expiring in 14 Days</p>
+</td>
+<td class="px-6 py-4"><span class="bg-error-container text-error px-2 py-0.5 rounded text-[10px] font-bold">ACTIVE CLAIM</span></td>
+<td class="px-6 py-4 text-center">
+<button class="bg-secondary text-white text-[10px] font-bold px-4 py-2 rounded-xl hover:shadow-lg transition-all active:scale-95">FLAG DEFECT</button>
+</td>
+</tr>
+<tr class="tonal-lift">
+<td class="px-6 py-4 font-mono font-bold text-primary">SSR-DLP-9114</td>
+<td class="px-6 py-4">Railway Station Flyover</td>
+<td class="px-6 py-4 font-medium">Eagle Paving</td>
+<td class="px-6 py-4 text-on-surface-variant">05 Jan 2024</td>
+<td class="px-6 py-4">05 Jan 2025</td>
+<td class="px-6 py-4"><span class="text-on-surface-variant text-[10px] font-medium italic">None</span></td>
+<td class="px-6 py-4 text-center">
+<button class="text-primary font-bold text-[10px] px-4 py-2 hover:bg-surface-container-high rounded-xl transition-colors">FLAG DEFECT</button>
+</td>
+</tr>
+<tr class="tonal-lift">
+<td class="px-6 py-4 font-mono font-bold text-primary">SSR-DLP-9442</td>
+<td class="px-6 py-4">Saiful Ring Road</td>
+<td class="px-6 py-4 font-medium">Mahesh G. (Dept)</td>
+<td class="px-6 py-4 text-on-surface-variant">18 Sep 2023</td>
+<td class="px-6 py-4">
+<span class="text-on-surface font-semibold">18 Sep 2024</span>
+<p class="text-[9px] text-on-surface-variant font-bold uppercase">Expired</p>
+</td>
+<td class="px-6 py-4"><span class="text-on-surface-variant text-[10px] font-medium italic">Lapsed</span></td>
+<td class="px-6 py-4 text-center">
+<button class="text-outline cursor-not-allowed font-bold text-[10px] px-4 py-2 border border-outline/20 rounded-xl">AUDIT CLOSED</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+<!-- Floating City Progress -->
+<div class="fixed bottom-8 right-8 flex items-center gap-4 bg-primary p-4 rounded-2xl shadow-2xl text-white">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-widest text-slate-300">City Project Progress</span>
+<div class="flex items-center gap-3">
+<span class="text-2xl font-black font-headline">78.4%</span>
+<div class="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 78.4%"></div>
+</div>
+</div>
+</div>
+<div class="h-10 w-[1px] bg-slate-700 mx-2"></div>
+<button class="flex flex-col items-center group">
+<span class="material-symbols-outlined text-secondary group-hover:scale-110 transition-transform">analytics</span>
+<span class="text-[8px] font-bold mt-1 uppercase">Reports</span>
+</button>
+</div>
+</main>
+</body></html>

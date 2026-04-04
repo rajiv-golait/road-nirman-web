@@ -1,0 +1,15 @@
+name: road_nirman_field
+description: Solapur Smart Roads field apps (Citizen / JE / Contractor) — syncs with Supabase.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  supabase_flutter: ^2.8.0
+
+flutter:
+  uses-material-design: true
