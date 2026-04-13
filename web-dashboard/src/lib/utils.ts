@@ -52,6 +52,30 @@ export function formatDate(date: string): string {
 }
 
 /**
+ * Format a date string for display with time
+ */
+export function formatDateTime(date: string): string {
+  return new Date(date).toLocaleString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+/**
+ * Format a percentage consistently for dashboard/report views
+ */
+export function formatPercent(
+  value: number | null | undefined,
+  maximumFractionDigits: number = 0
+): string {
+  if (value === null || value === undefined || Number.isNaN(value)) return '-';
+  return `${new Intl.NumberFormat('en-IN', { maximumFractionDigits }).format(value)}%`;
+}
+
+/**
  * Truncate a string (for SHA-256 hashes, etc.)
  */
 export function truncate(str: string, len: number = 8): string {
@@ -63,8 +87,10 @@ export function truncate(str: string, len: number = 8): string {
  * Calculate Haversine distance between two coordinates (in km)
  */
 export function haversineDistance(
-  lat1: number, lng1: number,
-  lat2: number, lng2: number
+  lat1: number,
+  lng1: number,
+  lat2: number,
+  lng2: number
 ): number {
   const R = 6371; // Earth's radius in km
   const dLat = ((lat2 - lat1) * Math.PI) / 180;

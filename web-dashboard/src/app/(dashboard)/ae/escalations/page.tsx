@@ -1,14 +1,35 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getZoneScopedContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { StatusPill, SeverityBadge } from '@/components/shared/DataDisplay';
 import { timeAgo } from '@/lib/utils';
+import { revalidatePath } from 'next/cache';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 
 export default async function AEEscalationsPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  async function escalateRule1Ticket(formData: FormData) {
+    'use server';
+    const ticketId = formData.get('ticketId');
+    if (typeof ticketId != 'string' || !ticketId) return;
+    const supabase = await createServerSupabaseClient();
+    const { data: existing } = await supabase
+      .from('tickets')
+      .select('escalation_count, status')
+      .eq('id', ticketId)
+      .single();
+    if (!existing || existing.status === 'escalated') return;
+    await supabase
+      .from('tickets')
+      .update({
+        status: 'escalated',
+        escalation_count: (existing.escalation_count ?? 0) + 1,
+      })
+      .eq('id', ticketId);
+    revalidatePath('/ae/escalations');
+  }
 
-  const { data: profile } = await supabase.from('profiles').select('zone_id').eq('id', user.id).single();
-  if (!profile?.zone_id) return null;
+  const ctx = await getZoneScopedContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase, profile } = ctx;
 
   const { data: rules } = await supabase
     .from('escalation_rules')
@@ -141,6 +162,15 @@ export default async function AEEscalationsPage() {
                   {ticket.severity_tier && <SeverityBadge tier={ticket.severity_tier} />}
                   <StatusPill status={ticket.status} />
                   <span className="text-[10px] text-slate-400">{timeAgo(ticket.created_at)}</span>
+                  <form action={escalateRule1Ticket}>
+                    <input type="hidden" name="ticketId" value={ticket.id} />
+                    <button
+                      type="submit"
+                      className="rounded-md bg-error px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/40"
+                    >
+                      Escalate
+                    </button>
+                  </form>
                 </div>
               </div>
             ))}

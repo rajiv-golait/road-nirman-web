@@ -1,22 +1,12 @@
 import { JEDashboardClient } from './JEDashboardClient';
-import { fetchZonesForMap } from '@/lib/maps/fetchMapZones';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getZoneScopedContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import type { Prabhag, Ticket, Zone } from '@/lib/types/database';
 
 export default async function JEDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('zone_id')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile?.zone_id) return null;
+  const ctx = await getZoneScopedContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase, profile, user } = ctx;
 
   const ticketFields = [
     'id',
@@ -37,14 +27,13 @@ export default async function JEDashboardPage() {
     'citizen_name',
   ].join(', ');
 
-  const [ticketsRes, mapZones, zoneRes, prabhagsRes, allZoneTicketsRes] = await Promise.all([
+  const [ticketsRes, zoneRes, prabhagsRes, allZoneTicketsRes] = await Promise.all([
     supabase
       .from('tickets')
       .select(ticketFields)
       .eq('zone_id', profile.zone_id)
       .not('status', 'in', '("resolved","rejected")')
       .order('created_at', { ascending: false }),
-    fetchZonesForMap(supabase, { scope: 'zone', zoneId: profile.zone_id }),
     supabase
       .from('zones')
       .select('id, name, name_marathi, key_areas, annual_road_budget, budget_consumed, centroid_lat, centroid_lng')
@@ -67,7 +56,6 @@ export default async function JEDashboardPage() {
     <JEDashboardClient
       tickets={(ticketsRes.data || []) as unknown as Ticket[]}
       zone={(zoneRes.data || null) as Zone | null}
-      mapZones={mapZones}
       prabhags={(prabhagsRes.data || []) as unknown as Prabhag[]}
       kpis={{
         openCount: allZoneTickets.filter((ticket) => ticket.status === 'open').length,

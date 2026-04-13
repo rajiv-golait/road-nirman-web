@@ -1,4 +1,5 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { AccountsDashboardClient } from './AccountsDashboardClient';
 import type { ContractorBill } from '@/lib/types/database';
 
@@ -35,11 +36,9 @@ function computeKpis(allBills: ContractorBill[], pendingBills: ContractorBill[])
 }
 
 export default async function AccountsDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase } = ctx;
 
   const [pendingRes, allRes, contractorsRes] = await Promise.all([
     supabase

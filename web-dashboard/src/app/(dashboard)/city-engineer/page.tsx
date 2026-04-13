@@ -1,13 +1,12 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { KpiCard, EmptyState } from '@/components/shared/DataDisplay';
 import { formatINR } from '@/lib/utils';
 
 export default async function CityEngineerDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase } = ctx;
 
   const { data: rateCards } = await supabase
     .from('rate_cards')

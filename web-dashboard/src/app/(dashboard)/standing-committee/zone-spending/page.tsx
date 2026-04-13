@@ -28,9 +28,9 @@ export default async function SCZoneSpendingPage() {
       exportLabel="Export CSV"
       columns={[
         { key: 'zone', label: 'Zone' },
-        { key: 'annual', label: 'Annual budget', align: 'right' },
-        { key: 'consumed', label: 'Consumed', align: 'right' },
-        { key: 'contractor_paid', label: 'Paid (bills)', align: 'right' },
+        { key: 'annual', label: 'Annual budget', align: 'right', format: 'currency' },
+        { key: 'consumed', label: 'Consumed', align: 'right', format: 'currency' },
+        { key: 'contractor_paid', label: 'Paid (bills)', align: 'right', format: 'currency' },
       ]}
       rows={rows}
     />

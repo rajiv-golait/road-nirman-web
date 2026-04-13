@@ -1,9 +1,10 @@
 import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { DataReportLayout } from '@/components/dashboard/DataReportLayout';
 
 export default async function DEChronicHotspotsPage() {
   const ctx = await getViewerContext();
-  if (!ctx) return null;
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
   const { supabase, profile } = ctx;
 
   let q = supabase

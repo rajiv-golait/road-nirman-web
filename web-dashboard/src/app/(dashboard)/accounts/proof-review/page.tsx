@@ -1,11 +1,12 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import type { Ticket } from '@/lib/types/database';
 import { ProofReviewClient } from './ProofReviewClient';
 
 export default async function ProofReviewPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase } = ctx;
 
   const { data: tickets } = await supabase
     .from('tickets')

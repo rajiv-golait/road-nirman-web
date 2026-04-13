@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import type { Profile, UserRole } from '@/lib/types/database';
 import { MOBILE_ONLY_ROLES, WEB_ROLES } from '@/lib/constants/roles';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getCachedDashboardSession } from '@/lib/dashboard/cachedSession';
 import { DashboardShellClient } from './DashboardShellClient';
 
 export default async function DashboardLayout({
@@ -9,18 +9,11 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const session = await getCachedDashboardSession();
 
-  if (!user) redirect('/login');
+  if (!session.user || !session.profile) redirect('/login');
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id, full_name, phone, email, role, zone_id, department_id, employee_id, designation, is_active, opi_score, opi_zone, opi_last_computed, created_at, updated_at')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile) redirect('/login');
+  const { supabase, profile } = session;
 
   const roleRaw = profile.role as string;
   if (!roleRaw) redirect('/not-authorized');

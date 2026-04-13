@@ -6,7 +6,6 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import type { GeoJSON as GeoJSONValue } from 'geojson';
 import type { Ticket, Zone } from '@/lib/types/database';
 import type mapboxgl from 'mapbox-gl';
 
@@ -20,6 +19,7 @@ import { cn } from '@/lib/utils';
 
 interface SafeMapboxMapProps {
   tickets?: Ticket[];
+  /** Kept for callers; zone polygon overlays are not rendered. */
   zones?: Zone[];
   chronicLocations?: Array<{ id: string; latitude: number; longitude: number; address_text?: string | null; complaint_count: number }>;
   darkMode?: boolean;
@@ -63,29 +63,13 @@ const STATUS_COLORS: Record<string, string> = {
 const DEFAULT_CENTER: [number, number] = [75.9064, 17.6799];
 const DEFAULT_ZOOM = 12;
 
-function parseBoundaryGeoJSON(raw: unknown): object | null {
-  if (raw == null) return null;
-  if (typeof raw === 'object' && raw !== null && 'type' in raw) {
-    return raw as object;
-  }
-  if (typeof raw === 'string') {
-    try {
-      const parsed: unknown = JSON.parse(raw);
-      return parsed && typeof parsed === 'object' ? (parsed as object) : null;
-    } catch {
-      return null;
-    }
-  }
-  return null;
-}
-
 // ============================================================
 // Component
 // ============================================================
 
 export function SafeMapboxMap({
   tickets = [],
-  zones = [],
+  zones: _zones = [],
   chronicLocations = [],
   darkMode = false,
   height = '400px',
@@ -94,6 +78,7 @@ export function SafeMapboxMap({
   showLegend = true,
   className,
 }: SafeMapboxMapProps) {
+  void _zones;
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
@@ -183,7 +168,6 @@ export function SafeMapboxMap({
             setIsLoading(false);
             renderMarkers(map, mapboxglModule.default, validTickets);
             renderChronicLocations(map, mapboxglModule.default);
-            renderZoneBoundaries(map);
           });
 
           map.on('error', (e) => {
@@ -387,52 +371,6 @@ export function SafeMapboxMap({
       markersRef.current.push(chronicMarker);
     });
   }, [chronicLocations]);
-
-  // Render zone boundaries
-  const renderZoneBoundaries = useCallback((map: mapboxgl.Map) => {
-    if (!zones?.length) return;
-
-    zones.forEach((zone) => {
-      const zoneWithBoundary = zone as Zone & { boundary_geojson?: unknown };
-      if (!zoneWithBoundary.boundary_geojson) return;
-
-      try {
-        const geojson = parseBoundaryGeoJSON(zoneWithBoundary.boundary_geojson);
-        if (!geojson) return;
-
-        const sourceId = `zone-${zone.id}`;
-        if (map.getSource(sourceId)) return;
-
-        map.addSource(sourceId, {
-          type: 'geojson',
-          data: geojson as GeoJSONValue,
-        });
-
-        map.addLayer({
-          id: `${sourceId}-fill`,
-          type: 'fill',
-          source: sourceId,
-          paint: {
-            'fill-color': '#1E3A5F',
-            'fill-opacity': darkMode ? 0.06 : 0.04,
-          },
-        });
-
-        map.addLayer({
-          id: `${sourceId}-line`,
-          type: 'line',
-          source: sourceId,
-          paint: {
-            'line-color': darkMode ? '#F97316' : '#1E3A5F',
-            'line-width': 1.5,
-            'line-opacity': 0.5,
-          },
-        });
-      } catch (err) {
-        console.warn(`[SafeMapboxMap] Failed to render zone ${zone.id} boundary:`, err);
-      }
-    });
-  }, [zones, darkMode]);
 
   // Update markers when tickets or chronic locations change (without full map re-init)
   useEffect(() => {

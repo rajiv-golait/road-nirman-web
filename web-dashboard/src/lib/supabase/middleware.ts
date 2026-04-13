@@ -4,9 +4,27 @@
 // ============================================================
 
 import { createServerClient } from '@supabase/ssr';
+import type { User } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { NextResponse, type NextRequest } from 'next/server';
 
-export async function updateSession(request: NextRequest) {
+export type SessionRefreshResult =
+  | {
+      kind: 'continue';
+      response: NextResponse;
+      supabase: SupabaseClient;
+      user: User | null;
+    }
+  | {
+      kind: 'redirect';
+      response: NextResponse;
+    };
+
+/**
+ * Single Supabase client + getUser per request (refreshes session cookies on `response`).
+ * Use with {@link checkRoleAccessWithUser} so middleware does not call getUser twice.
+ */
+export async function refreshSupabaseSession(request: NextRequest): Promise<SessionRefreshResult> {
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -20,9 +38,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
             request,
           });
@@ -34,13 +50,10 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // IMPORTANT: DO NOT REMOVE auth.getUser()
-  // This refreshes the session on every request
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // If no user and trying to access dashboard routes, redirect to login
   const path = request.nextUrl.pathname;
   const isAuthRoute = path.startsWith('/login');
   const isPublicRoute = path === '/' || path === '/not-authorized';
@@ -48,8 +61,20 @@ export async function updateSession(request: NextRequest) {
   if (!user && !isAuthRoute && !isPublicRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
-    return NextResponse.redirect(url);
+    return { kind: 'redirect', response: NextResponse.redirect(url) };
   }
 
-  return supabaseResponse;
+  return {
+    kind: 'continue',
+    response: supabaseResponse,
+    supabase,
+    user,
+  };
+}
+
+/** @deprecated Prefer refreshSupabaseSession + shared role check (avoids duplicate getUser). */
+export async function updateSession(request: NextRequest) {
+  const result = await refreshSupabaseSession(request);
+  if (result.kind === 'redirect') return result.response;
+  return result.response;
 }

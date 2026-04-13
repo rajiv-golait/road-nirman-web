@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   BarChart,
   Bar,
@@ -77,6 +77,29 @@ export function EEDashboardClient({
     refetchInterval: 30000,
   });
 
+  const escalateMutation = useMutation({
+    mutationFn: async (ticketId: string) => {
+      const { data: existing, error: loadError } = await supabase
+        .from('tickets')
+        .select('status, escalation_count')
+        .eq('id', ticketId)
+        .single();
+      if (loadError) throw new Error(loadError.message);
+      if (!existing || existing.status === 'escalated') return;
+      const { error } = await supabase
+        .from('tickets')
+        .update({
+          status: 'escalated',
+          escalation_count: (existing.escalation_count ?? 0) + 1,
+        })
+        .eq('id', ticketId);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['ee', 'technical-review-queue'] });
+    },
+  });
+
   const zoneChartData = zones.map((z) => {
     const zoneTickets = initialTickets.filter((t) => t.zone_id === z.id);
     const open = zoneTickets.filter((t) => !['resolved', 'rejected'].includes(t.status)).length;
@@ -96,6 +119,9 @@ export function EEDashboardClient({
   const totalEscalated = initialTickets.filter((t) => t.status === 'escalated').length;
   const totalBudget = zones.reduce((sum, z) => sum + (z.annual_road_budget || 0), 0) || 0;
   const totalConsumed = zones.reduce((sum, z) => sum + (z.budget_consumed || 0), 0) || 0;
+
+  /** Enough row height for long zone names (e.g. "Zone 1 — Fort Area") + paired bars */
+  const zoneWorkloadChartHeight = Math.max(320, zones.length * 52 + 56);
 
   return (
     <div className="space-y-6">
@@ -160,6 +186,16 @@ export function EEDashboardClient({
                     {ticket.job_order_ref || 'Not generated'}
                   </p>
                 </div>
+                  <div className="ml-4">
+                    <button
+                      type="button"
+                      disabled={ticket.status === 'escalated' || escalateMutation.isPending}
+                      onClick={() => escalateMutation.mutate(ticket.id)}
+                      className="rounded-md bg-error px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/40"
+                    >
+                      Escalate
+                    </button>
+                  </div>
               </div>
             ))}
           </div>
@@ -210,13 +246,26 @@ export function EEDashboardClient({
             <span className="material-symbols-outlined text-accent" style={{ fontSize: 18 }}>bar_chart</span>
             Zonal Workload Distribution
           </h2>
-          <div className="h-64">
+          <div className="w-full" style={{ height: zoneWorkloadChartHeight }}>
             {mounted ? (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={zoneChartData} layout="vertical" margin={{ left: 80, right: 20, top: 5, bottom: 5 }}>
+                <BarChart
+                  data={zoneChartData}
+                  layout="vertical"
+                  margin={{ left: 4, right: 12, top: 8, bottom: 8 }}
+                  barCategoryGap="18%"
+                  barGap={2}
+                >
                   <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
                   <XAxis type="number" hide />
-                  <YAxis type="category" dataKey="name" width={70} tick={{ fontSize: 11 }} />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    width={188}
+                    interval={0}
+                    tick={{ fontSize: 10, fill: '#475569' }}
+                    tickMargin={6}
+                  />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#fff', borderRadius: 8, border: '1px solid #e2e8f0' }}
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any

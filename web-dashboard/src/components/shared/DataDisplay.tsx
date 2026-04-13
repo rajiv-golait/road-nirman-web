@@ -177,19 +177,34 @@ export function KpiSkeleton() {
 interface ExportButtonProps {
   label?: string;
   onClick?: () => void;
+  href?: string;
   className?: string;
 }
 
-export function ExportButton({ label = 'Export CSV', onClick, className }: ExportButtonProps) {
+export function ExportButton({ label = 'Export CSV', onClick, href, className }: ExportButtonProps) {
+  const classes = cn(
+    'px-3.5 py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 text-[11px] font-bold rounded-lg',
+    'flex items-center gap-2 transition-all duration-200 active:scale-[0.97] border border-slate-200/80',
+    'hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35',
+    className
+  );
+
+  if (href) {
+    return (
+      <a href={href} download className={classes}>
+        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>
+          download
+        </span>
+        {label}
+      </a>
+    );
+  }
+
   return (
     <button
+      type="button"
       onClick={onClick}
-      className={cn(
-        'px-3.5 py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 text-[11px] font-bold rounded-lg',
-        'flex items-center gap-2 transition-all duration-200 active:scale-[0.97] border border-slate-200/80',
-        'hover:shadow-sm',
-        className
-      )}
+      className={classes}
     >
       <span className="material-symbols-outlined" style={{ fontSize: 14 }}>
         download

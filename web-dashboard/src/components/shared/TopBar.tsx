@@ -2,34 +2,48 @@
 
 import { cn } from '@/lib/utils';
 import { ROLE_CAPABILITIES } from '@/lib/constants/roles';
+import { LogoutButton } from '@/components/shared/LogoutButton';
 
 interface TopBarProps {
   title: string;
   subtitle?: string;
   roleSlug: string;
+  onMenuClick?: () => void;
   children?: React.ReactNode;
 }
 
-export function TopBar({ title, subtitle, roleSlug, children }: TopBarProps) {
+export function TopBar({ title, subtitle, roleSlug, onMenuClick, children }: TopBarProps) {
   const capabilities = ROLE_CAPABILITIES[roleSlug];
   const isDark = capabilities?.isDarkTheme;
 
   return (
     <header
       className={cn(
-        'w-full h-16 px-8 flex justify-between items-center border-b sticky top-0 z-10',
+        'w-full h-16 px-4 md:px-8 flex justify-between items-center border-b sticky top-0 z-10',
         isDark
           ? 'bg-warroom-surface/95 border-warroom-border backdrop-blur-md'
           : 'bg-white/95 border-slate-200/80 backdrop-blur-md'
       )}
     >
-      <div className="flex flex-col">
-        <h1 className={cn(
-          'font-headline font-extrabold text-lg tracking-tight',
-          isDark ? 'text-white' : 'text-primary'
-        )}>
-          {title}
-        </h1>
+      <div className="flex items-center gap-3">
+        <button 
+          type="button"
+          onClick={onMenuClick}
+          className={cn(
+            'md:hidden p-2 -ml-2 rounded-lg transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
+            isDark ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-500 hover:bg-slate-100'
+          )}
+          aria-label="Open menu"
+        >
+          <span className="material-symbols-outlined">menu</span>
+        </button>
+        <div className="flex flex-col">
+          <h1 className={cn(
+            'font-headline font-extrabold text-lg tracking-tight',
+            isDark ? 'text-white' : 'text-primary'
+          )}>
+            {title}
+          </h1>
         {subtitle && (
           <p className={cn(
             'text-[10px]',
@@ -38,6 +52,7 @@ export function TopBar({ title, subtitle, roleSlug, children }: TopBarProps) {
             {subtitle}
           </p>
         )}
+        </div>
       </div>
 
       <div className="flex items-center gap-3">
@@ -74,8 +89,11 @@ export function TopBar({ title, subtitle, roleSlug, children }: TopBarProps) {
         </div>
 
         {/* Notifications */}
-        <button className={cn(
+        <button
+          type="button"
+          className={cn(
           'relative w-9 h-9 rounded-lg flex items-center justify-center transition-all',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
           isDark
             ? 'text-slate-500 hover:text-white hover:bg-white/5'
             : 'text-slate-400 hover:text-primary hover:bg-primary-50'
@@ -86,6 +104,8 @@ export function TopBar({ title, subtitle, roleSlug, children }: TopBarProps) {
           {/* Notification dot */}
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-accent rounded-full border-2 border-white" />
         </button>
+
+        <LogoutButton variant="topbar" isDark={isDark} />
       </div>
     </header>
   );

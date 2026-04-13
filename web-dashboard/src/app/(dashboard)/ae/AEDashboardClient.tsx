@@ -170,6 +170,9 @@ export function AEDashboardClient({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {jes.map((je) => {
             const jeTickets = metricsTickets.filter((t) => t.assigned_je === je.id);
+            const activeJeTickets = jeTickets.filter(
+              (t) => t.status !== 'resolved' && t.status !== 'rejected'
+            );
             const receivedCountByJe = jeTickets.filter((t) => t.status === 'open').length;
             const verifiedCountByJe = jeTickets.filter((t) => t.status === 'verified').length;
             const fixingCount = jeTickets.filter((t) => t.status === 'in_progress').length;
@@ -199,7 +202,8 @@ export function AEDashboardClient({
                 <div className="grid grid-cols-4 gap-2 text-center">
                   <div className="bg-slate-50 rounded-lg py-2">
                     <p className="text-lg font-bold text-slate-800">{jeTickets.length}</p>
-                    <p className="text-[8px] text-slate-400 uppercase tracking-widest">Total</p>
+                    <p className="text-[8px] text-slate-400 uppercase tracking-widest">Assigned</p>
+                    <p className="text-[7px] text-slate-400 mt-0.5">{activeJeTickets.length} active</p>
                   </div>
                   <div className="bg-slate-50 rounded-lg py-2">
                     <p className="text-lg font-bold text-slate-700">{receivedCountByJe}</p>

@@ -1,19 +1,12 @@
 import { AEDashboardClient } from './AEDashboardClient';
 import type { Profile, Ticket } from '@/lib/types/database';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getZoneScopedContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 
 export default async function AEDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('zone_id')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile?.zone_id) return null;
+  const ctx = await getZoneScopedContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase, profile } = ctx;
 
   const { data: jes } = await supabase
     .from('profiles')

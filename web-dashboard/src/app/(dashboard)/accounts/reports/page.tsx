@@ -1,10 +1,11 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { DataReportLayout } from '@/components/dashboard/DataReportLayout';
 
 export default async function AccountsReportsPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase } = ctx;
 
   const { data: bills } = await supabase
     .from('contractor_bills')
@@ -34,9 +35,9 @@ export default async function AccountsReportsPage() {
         { key: 'fiscal_year', label: 'FY' },
         { key: 'zone_id', label: 'Zone' },
         { key: 'status', label: 'Status' },
-        { key: 'total_amount', label: 'Amount', align: 'right' },
-        { key: 'submitted_at', label: 'Submitted' },
-        { key: 'reviewed_at', label: 'Reviewed' },
+        { key: 'total_amount', label: 'Amount', align: 'right', format: 'currency' },
+        { key: 'submitted_at', label: 'Submitted', format: 'datetime' },
+        { key: 'reviewed_at', label: 'Reviewed', format: 'datetime' },
       ]}
       rows={rows}
     />

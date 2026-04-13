@@ -5,6 +5,8 @@
 
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
+import type { User } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import type { UserRole } from '@/lib/types/database';
 import { ROLE_ROUTES, WEB_ROLES, MOBILE_ONLY_ROLES } from '@/lib/constants/roles';
 
@@ -115,49 +117,22 @@ export interface RoleGuardResult {
   reason?: 'no_session' | 'mobile_only' | 'unauthorized' | 'invalid_role';
 }
 
-export async function checkRoleAccess(
-  request: NextRequest
+/**
+ * Role + route check using an existing Supabase client and user (one getUser per request in middleware).
+ */
+export async function checkRoleAccessWithUser(
+  supabase: SupabaseClient,
+  user: User,
+  path: string
 ): Promise<RoleGuardResult> {
-  const path = request.nextUrl.pathname;
-
-  // Skip static paths
   if (isStaticPath(path)) {
     return { allowed: true };
   }
 
-  // Allow public routes
   if (isPublicRoute(path)) {
     return { allowed: true };
   }
 
-  // Create Supabase client
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll() {
-          // No-op in middleware context
-        },
-      },
-    }
-  );
-
-  // Get authenticated user
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-
-  if (authError || !user) {
-    return {
-      allowed: false,
-      redirect: '/login',
-      reason: 'no_session',
-    };
-  }
-
-  // Fetch user profile to get role
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select('role, is_active')
@@ -221,6 +196,50 @@ export async function checkRoleAccess(
   }
 
   return { allowed: true };
+}
+
+export async function checkRoleAccess(
+  request: NextRequest
+): Promise<RoleGuardResult> {
+  const path = request.nextUrl.pathname;
+
+  if (isStaticPath(path)) {
+    return { allowed: true };
+  }
+
+  if (isPublicRoute(path)) {
+    return { allowed: true };
+  }
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll() {
+          // No-op in middleware context
+        },
+      },
+    }
+  );
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    return {
+      allowed: false,
+      redirect: '/login',
+      reason: 'no_session',
+    };
+  }
+
+  return checkRoleAccessWithUser(supabase, user, path);
 }
 
 // ============================================================

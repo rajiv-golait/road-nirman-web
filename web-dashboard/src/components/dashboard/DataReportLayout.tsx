@@ -1,9 +1,13 @@
 import { EmptyState } from '@/components/shared/DataDisplay';
+import { formatDate, formatDateTime, formatINR, formatPercent, truncate } from '@/lib/utils';
+import { isValidElement, type ReactNode } from 'react';
 
 export interface ReportColumn {
   key: string;
   label: string;
   align?: 'left' | 'right' | 'center';
+  format?: 'text' | 'currency' | 'date' | 'datetime' | 'percent' | 'truncate';
+  className?: string;
 }
 
 interface DataReportLayoutProps {
@@ -17,9 +21,26 @@ interface DataReportLayoutProps {
   exportLabel?: string;
 }
 
-function cellValue(row: Record<string, unknown>, key: string): string {
-  const value = row[key];
+function cellValue(row: Record<string, unknown>, column: ReportColumn): ReactNode {
+  const value = row[column.key];
   if (value === null || value === undefined) return '-';
+  if (isValidElement(value)) return value;
+
+  switch (column.format) {
+    case 'currency':
+      return typeof value === 'number' ? formatINR(value) : '-';
+    case 'date':
+      return typeof value === 'string' ? formatDate(value) : '-';
+    case 'datetime':
+      return typeof value === 'string' ? formatDateTime(value) : '-';
+    case 'percent':
+      return typeof value === 'number' ? formatPercent(value, value % 1 === 0 ? 0 : 1) : '-';
+    case 'truncate':
+      return typeof value === 'string' ? truncate(value, 16) : String(value);
+    default:
+      break;
+  }
+
   if (typeof value === 'boolean') return value ? 'Yes' : 'No';
   if (typeof value === 'object') return JSON.stringify(value);
   return String(value);
@@ -36,7 +57,7 @@ export function DataReportLayout({
 }: DataReportLayoutProps) {
   return (
     <div className="space-y-4">
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+      <header className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-xl font-headline font-black text-primary">{title}</h1>
           {subtitle && <p className="mt-1 max-w-3xl text-sm text-slate-500">{subtitle}</p>}
@@ -44,7 +65,7 @@ export function DataReportLayout({
         {exportHref && rows.length > 0 && (
           <a
             href={exportHref}
-            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-white hover:opacity-90"
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-white hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             download
           >
             <span className="material-symbols-outlined" style={{ fontSize: 16 }}>download</span>
@@ -81,15 +102,16 @@ export function DataReportLayout({
                   {columns.map((column) => (
                     <td
                       key={column.key}
-                      className={
+                      className={[
                         column.align === 'right'
                           ? 'font-mono text-right text-xs'
                           : column.align === 'center'
                             ? 'text-center text-xs'
-                            : 'text-xs'
-                      }
+                            : 'text-xs',
+                        column.className || '',
+                      ].join(' ')}
                     >
-                      {cellValue(row, column.key)}
+                      {cellValue(row, column)}
                     </td>
                   ))}
                 </tr>

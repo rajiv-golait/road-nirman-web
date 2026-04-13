@@ -217,7 +217,6 @@ export function CommissionerDashboardClient({
           </div>
           <MapboxMap
             tickets={tickets}
-            zones={zones}
             darkMode={true}
             height="320px"
             heatmapMode={true}

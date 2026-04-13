@@ -212,11 +212,13 @@ export function AccountsDashboardClient({ initialDashboard }: AccountsDashboardC
               <EmptyState icon="check_circle" message="No bills pending review" />
             ) : (
               pendingBills.map((bill) => (
-                <div
+                <button
                   key={bill.id}
                   onClick={() => setSelectedBill(bill)}
+                  type="button"
+                  aria-pressed={selectedBill?.id === bill.id}
                   className={cn(
-                    'cursor-pointer rounded-xl border bg-white p-4 transition-all',
+                    'w-full cursor-pointer rounded-xl border bg-white p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
                     selectedBill?.id === bill.id
                       ? 'border-primary shadow-md ring-4 ring-primary/5'
                       : 'border-slate-200 shadow-sm hover:border-slate-300'
@@ -239,7 +241,7 @@ export function AccountsDashboardClient({ initialDashboard }: AccountsDashboardC
                       <p className="text-base font-black text-primary">{formatINR(bill.total_amount)}</p>
                     </div>
                   </div>
-                </div>
+                </button>
               ))
             )}
           </div>

@@ -1,5 +1,6 @@
 import type { ContractorMetrics, Ticket, Zone } from '@/lib/types/database';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { EEDashboardClient } from './EEDashboardClient';
 import {
   fetchEETechnicalReviewQueue,
@@ -7,13 +8,17 @@ import {
 } from '@/lib/dashboard/eeTechnicalReview';
 
 export default async function EEDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase } = ctx;
 
-  const [{ data: zones }, { data: rawTickets }, { data: contractors }, initialQueue, initialWarrantyWatch] =
+  const [
+    { data: zones, error: zonesError },
+    { data: rawTickets, error: rawTicketsError },
+    { data: contractors, error: contractorsError },
+    initialQueue,
+    initialWarrantyWatch,
+  ] =
     await Promise.all([
       supabase
         .from('zones')
@@ -33,6 +38,10 @@ export default async function EEDashboardPage() {
         supabase as unknown as Parameters<typeof fetchWarrantyWatchTickets>[0]
       ),
     ]);
+
+  if (zonesError) throw new Error(zonesError.message);
+  if (rawTicketsError) throw new Error(rawTicketsError.message);
+  if (contractorsError) throw new Error(contractorsError.message);
 
   return (
     <EEDashboardClient

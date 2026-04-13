@@ -18,7 +18,7 @@ export type MapChronicLocation = {
 
 interface MapEmbedProps {
   tickets: Ticket[];
-  /** Zone polygons from `fetchZonesForMap` (Supabase RPC); canonical v1 boundary source. */
+  /** Optional; kept for API compatibility — polygons are not drawn on the map. */
   zones?: Zone[];
   chronicLocations?: MapChronicLocation[];
   darkMode?: boolean;

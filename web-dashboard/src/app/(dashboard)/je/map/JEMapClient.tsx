@@ -49,10 +49,10 @@ export function JEMapClient({ tickets, chronicLocations, zone }: JEMapClientProp
   });
 
   return (
-    <div className="flex flex-col h-[calc(100vh-120px)] gap-0 -mx-6 -mt-6">
+    <div className="flex h-[calc(100vh-120px)] flex-col gap-4 rounded-2xl bg-gradient-to-br from-slate-50 via-white to-slate-100/70 p-4 md:p-5">
       {/* Control Bar */}
-      <div className="flex items-center justify-between px-6 py-3 bg-white border-b border-slate-200 flex-shrink-0">
-        <div className="flex items-center gap-2">
+      <div className="flex shrink-0 items-center justify-between rounded-xl border border-slate-200 bg-white/95 px-4 py-3 shadow-sm backdrop-blur">
+        <div className="flex items-center gap-2.5">
           <span className="material-symbols-outlined text-primary" style={{ fontSize: 20 }}>map</span>
           <div>
             <p className="text-xs font-black text-primary">{zone?.name || 'Zone'} — Planning Map</p>
@@ -67,7 +67,7 @@ export function JEMapClient({ tickets, chronicLocations, zone }: JEMapClientProp
               key={s}
               onClick={() => setSeverityFilter(s)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5',
+                'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35',
                 severityFilter === s ? 'bg-primary text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               )}
             >
@@ -81,7 +81,7 @@ export function JEMapClient({ tickets, chronicLocations, zone }: JEMapClientProp
           <button
             onClick={() => setShowChronic(!showChronic)}
             className={cn(
-              'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5',
+              'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35',
               showChronic ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             )}
           >
@@ -92,12 +92,11 @@ export function JEMapClient({ tickets, chronicLocations, zone }: JEMapClientProp
       </div>
 
       {/* Map + Side Panel */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         {/* Map */}
         <div className="flex-1 relative">
           <MapboxMap
             tickets={filteredTickets}
-            zones={zone?.boundary_geojson ? [zone] : []}
             chronicLocations={showChronic ? chronicLocations : []}
             height="100%"
             onTicketClick={(t) => setSelectedTicket(t)}
@@ -125,7 +124,7 @@ export function JEMapClient({ tickets, chronicLocations, zone }: JEMapClientProp
           )}
 
           {/* Legend */}
-          <div className="absolute bottom-10 right-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-200 p-3">
+          <div className="absolute bottom-10 right-3 rounded-xl border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur-sm">
             <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Severity</p>
             {Object.entries(SEVERITY_DOT).map(([tier, color]) => (
               <div key={tier} className="flex items-center gap-2 mb-1">
@@ -137,7 +136,7 @@ export function JEMapClient({ tickets, chronicLocations, zone }: JEMapClientProp
         </div>
 
         {/* Side Panel — Ticket List */}
-        <div className="w-80 bg-white border-l border-slate-200 flex flex-col overflow-hidden flex-shrink-0">
+        <div className="hidden w-80 shrink-0 flex-col overflow-hidden border-l border-slate-200 bg-white xl:flex">
           <div className="px-4 py-3 border-b border-slate-100">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
               Ticket Queue — Click to highlight on map
@@ -148,11 +147,13 @@ export function JEMapClient({ tickets, chronicLocations, zone }: JEMapClientProp
               <div className="p-6 text-center text-slate-400 text-sm">No tickets match the selected filter</div>
             ) : (
               filteredTickets.map((ticket) => (
-                <div
+                <button
                   key={ticket.id}
                   onClick={() => setSelectedTicket(selectedTicket?.id === ticket.id ? null : ticket)}
+                  type="button"
+                  aria-pressed={selectedTicket?.id === ticket.id}
                   className={cn(
-                    'px-4 py-3 cursor-pointer transition-all',
+                    'w-full px-4 py-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
                     selectedTicket?.id === ticket.id
                       ? 'bg-primary/5 border-l-2 border-primary'
                       : 'hover:bg-slate-50 border-l-2 border-transparent'
@@ -181,7 +182,7 @@ export function JEMapClient({ tickets, chronicLocations, zone }: JEMapClientProp
                       </div>
                     </div>
                   )}
-                </div>
+                </button>
               ))
             )}
           </div>

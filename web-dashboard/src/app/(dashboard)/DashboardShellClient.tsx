@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { Sidebar } from '@/components/shared/Sidebar';
 import { TopBar } from '@/components/shared/TopBar';
 import { ROLE_NAV, ROLE_CAPABILITIES } from '@/lib/constants/roles';
@@ -42,6 +43,7 @@ interface DashboardShellClientProps {
 
 export function DashboardShellClient({ profile, zone, children }: DashboardShellClientProps) {
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const currentSlug = slugFromPath(pathname);
   const roleSlug = roleToSlug(profile.role);
 
@@ -52,7 +54,7 @@ export function DashboardShellClient({ profile, zone, children }: DashboardShell
 
   return (
     <div className={cn(
-      'flex min-h-screen overflow-hidden',
+      'flex h-screen overflow-hidden',
       capabilities?.isDarkTheme && 'war-room'
     )}>
       <Sidebar
@@ -60,18 +62,21 @@ export function DashboardShellClient({ profile, zone, children }: DashboardShell
         profile={profile}
         zone={zone}
         roleSlug={activeSlug}
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
       />
 
       <div className={cn(
-        'flex-1 flex flex-col overflow-y-auto',
+        'flex-1 min-w-0 flex flex-col overflow-y-auto overflow-x-hidden',
         capabilities?.isDarkTheme ? 'bg-warroom-bg' : 'bg-surface'
       )}>
         <TopBar
           title={capabilities?.dashboardTitle || 'Dashboard'}
           roleSlug={activeSlug}
+          onMenuClick={() => setIsMobileMenuOpen(true)}
         />
 
-        <main className="flex-1 p-6 lg:p-8">
+        <main className="min-w-0 flex-1 p-6 lg:p-8">
           {children}
         </main>
       </div>

@@ -1,4 +1,4 @@
 import type { MapZone } from '@/lib/maps/fetchMapZones';
 
-/** Zone row plus GeoJSON boundary from `fetchZonesForMap` → `get_zones_with_geojson` RPC. */
+/** Zone row for the JE map header/context (same shape as `MapZone`; boundary optional). */
 export type JEMapZone = MapZone;

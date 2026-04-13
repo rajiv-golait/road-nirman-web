@@ -1,22 +1,21 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { CommissionerDashboardClient } from './CommissionerDashboardClient';
 import { fetchZonesForMap } from '@/lib/maps/fetchMapZones';
 import { fetchCommissionerKpis } from '@/lib/dashboard/commissionerKpis';
 import type { Zone, ContractorMetrics } from '@/lib/types/database';
 
 export default async function CommissionerDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase } = ctx;
 
   const [
-    { data: rawTickets },
+    { data: rawTickets, error: rawTicketsError },
     mapZones,
-    { data: fallbackZones },
-    { data: metrics },
-    { data: recentEvents },
+    { data: fallbackZones, error: fallbackZonesError },
+    { data: metrics, error: metricsError },
+    { data: recentEvents, error: recentEventsError },
     initialKpis,
   ] = await Promise.all([
     supabase
@@ -41,6 +40,11 @@ export default async function CommissionerDashboardPage() {
       .limit(20),
     fetchCommissionerKpis(supabase as unknown as Parameters<typeof fetchCommissionerKpis>[0]),
   ]);
+
+  if (rawTicketsError) throw new Error(rawTicketsError.message);
+  if (fallbackZonesError) throw new Error(fallbackZonesError.message);
+  if (metricsError) throw new Error(metricsError.message);
+  if (recentEventsError) throw new Error(recentEventsError.message);
 
   const tickets = (rawTickets || []) as unknown as import('@/lib/types/database').Ticket[];
   const zones = mapZones.length > 0 ? mapZones : fallbackZones || [];

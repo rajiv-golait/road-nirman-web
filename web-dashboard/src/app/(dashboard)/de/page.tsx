@@ -1,26 +1,19 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getZoneScopedContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { AlertBanner, EmptyState, KpiCard, StatusPill } from '@/components/shared/DataDisplay';
 
 export default async function DEDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('zone_id')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile?.zone_id) return null;
+  const ctx = await getZoneScopedContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase, profile } = ctx;
 
   const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
   const fiveDaysAgo = new Date(Date.now() - 120 * 60 * 60 * 1000).toISOString();
   const [
-    { data: tickets },
-    { data: jes },
-    { data: chronicLocations },
-    { data: rule2Breaches },
+    { data: tickets, error: ticketsError },
+    { data: jes, error: jesError },
+    { data: chronicLocations, error: chronicLocationsError },
+    { data: rule2Breaches, error: rule2BreachesError },
     slowWorkOrdersResult,
   ] = await Promise.all([
     supabase
@@ -52,6 +45,12 @@ export default async function DEDashboardPage() {
       .eq('status', 'assigned')
       .lt('updated_at', fiveDaysAgo),
   ]);
+
+  if (ticketsError) throw new Error(ticketsError.message);
+  if (jesError) throw new Error(jesError.message);
+  if (chronicLocationsError) throw new Error(chronicLocationsError.message);
+  if (rule2BreachesError) throw new Error(rule2BreachesError.message);
+  if (slowWorkOrdersResult.error) throw new Error(slowWorkOrdersResult.error.message);
 
   const zoneTickets = tickets || [];
   const zoneJEs = jes || [];

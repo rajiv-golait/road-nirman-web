@@ -1,32 +1,32 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getZoneScopedContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { KpiCard, StatusPill, EmptyState } from '@/components/shared/DataDisplay';
 import { formatINR } from '@/lib/utils';
 
 export default async function ACDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getZoneScopedContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase, profile } = ctx;
 
-  const { data: profile } = await supabase.from('profiles').select('zone_id').eq('id', user.id).single();
-  if (!profile?.zone_id) return null;
-
-  const { data: zone } = await supabase
+  const { data: zone, error: zoneError } = await supabase
     .from('zones')
     .select('id, name, annual_road_budget, budget_consumed')
     .eq('id', profile.zone_id)
     .single();
-  const { data: tickets } = await supabase
+  const { data: tickets, error: ticketsError } = await supabase
     .from('tickets')
     .select('id, ticket_ref, road_name, address_text, status, sla_breach, created_at, citizen_confirmed')
     .eq('zone_id', profile.zone_id)
     .order('updated_at', { ascending: false });
-  const { data: officers } = await supabase
+  const { data: officers, error: officersError } = await supabase
     .from('profiles')
     .select('id, full_name, role, opi_score, opi_zone')
     .eq('zone_id', profile.zone_id)
     .in('role', ['je', 'ae', 'de']);
+
+  if (zoneError) throw new Error(zoneError.message);
+  if (ticketsError) throw new Error(ticketsError.message);
+  if (officersError) throw new Error(officersError.message);
 
   const openCount = tickets?.filter((t) => !['resolved', 'rejected'].includes(t.status)).length || 0;
   const slaBreach = tickets?.filter((t) => t.sla_breach).length || 0;

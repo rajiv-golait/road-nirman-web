@@ -1,8 +1,12 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { DataReportLayout } from '@/components/dashboard/DataReportLayout';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
 
 export default async function SCAuditReportsPage() {
-  const supabase = await createServerSupabaseClient();
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase } = ctx;
+
   const { data } = await supabase
     .from('contractor_bills')
     .select('bill_ref, zone_id, fiscal_year, total_amount, status, reviewed_at, approved_at')
@@ -10,28 +14,28 @@ export default async function SCAuditReportsPage() {
     .limit(400);
 
   const rows =
-    data?.map((b) => ({
-      bill_ref: b.bill_ref,
-      zone_id: b.zone_id,
-      fy: b.fiscal_year,
-      amount: b.total_amount,
-      status: b.status,
-      reviewed_at: b.reviewed_at,
-      approved_at: b.approved_at,
+    data?.map((bill) => ({
+      bill_ref: bill.bill_ref,
+      zone_id: bill.zone_id,
+      fy: bill.fiscal_year,
+      amount: bill.total_amount,
+      status: bill.status,
+      reviewed_at: bill.reviewed_at,
+      approved_at: bill.approved_at,
     })) || [];
 
   return (
     <DataReportLayout
       title="Audit reports"
-      subtitle="Bill register for committee review — no actions."
+      subtitle="Bill register for committee review - no actions."
       columns={[
         { key: 'bill_ref', label: 'Bill' },
         { key: 'zone_id', label: 'Zone' },
         { key: 'fy', label: 'FY' },
-        { key: 'amount', label: 'Amount', align: 'right' },
+        { key: 'amount', label: 'Amount', align: 'right', format: 'currency' },
         { key: 'status', label: 'Status' },
-        { key: 'reviewed_at', label: 'Reviewed' },
-        { key: 'approved_at', label: 'Approved' },
+        { key: 'reviewed_at', label: 'Reviewed', format: 'datetime' },
+        { key: 'approved_at', label: 'Approved', format: 'datetime' },
       ]}
       rows={rows}
     />

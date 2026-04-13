@@ -1,12 +1,10 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getZoneScopedContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 
 export default async function AEWorkloadsPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: profile } = await supabase.from('profiles').select('zone_id').eq('id', user.id).single();
-  if (!profile?.zone_id) return null;
+  const ctx = await getZoneScopedContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase, profile } = ctx;
 
   const { data: jes } = await supabase
     .from('profiles')
@@ -14,11 +12,12 @@ export default async function AEWorkloadsPage() {
     .eq('zone_id', profile.zone_id)
     .eq('role', 'je');
 
+  // Include resolved/rejected so JE totals match the AE Overview "JE Workload Distribution"
+  // (that view uses all zone tickets). Active pipeline counts still use status filters only.
   const { data: tickets } = await supabase
     .from('tickets')
     .select('id, status, assigned_je, sla_breach, severity_tier')
-    .eq('zone_id', profile.zone_id)
-    .not('status', 'in', '("resolved","rejected")');
+    .eq('zone_id', profile.zone_id);
 
   const all = tickets || [];
 
@@ -32,17 +31,24 @@ export default async function AEWorkloadsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-headline font-black text-primary">JE Workload Assessment</h1>
-        <p className="text-sm text-slate-500 mt-1">Individual Junior Engineer workload using backend-true lifecycle buckets</p>
+        <p className="text-sm text-slate-500 mt-1">
+          Per-JE counts match the overview: assigned includes resolved tickets; pipeline columns count by status; load bar uses{' '}
+          <strong>active</strong> tickets only.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {(jes || []).map((je) => {
           const jeTickets = all.filter((ticket) => ticket.assigned_je === je.id);
+          const activeTickets = jeTickets.filter(
+            (ticket) => ticket.status !== 'resolved' && ticket.status !== 'rejected'
+          );
           const receivedCount = jeTickets.filter((ticket) => ticket.status === 'open').length;
           const verifiedCount = jeTickets.filter((ticket) => ticket.status === 'verified').length;
           const fixingCount = jeTickets.filter((ticket) => ticket.status === 'in_progress').length;
+          const resolvedCount = jeTickets.filter((ticket) => ticket.status === 'resolved').length;
           const breachCount = jeTickets.filter((ticket) => ticket.sla_breach).length;
-          const criticalCount = jeTickets.filter((ticket) => ticket.severity_tier === 'CRITICAL').length;
+          const criticalCount = activeTickets.filter((ticket) => ticket.severity_tier === 'CRITICAL').length;
 
           return (
             <div key={je.id} className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-all">
@@ -63,10 +69,15 @@ export default async function AEWorkloadsPage() {
                 )}
               </div>
 
-              <div className="grid grid-cols-5 gap-2 mb-3">
-                <div className="bg-slate-50 rounded-lg p-2.5 text-center">
-                  <p className="text-[9px] text-slate-400 font-bold uppercase">Total</p>
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-3">
+                <div className="bg-slate-50 rounded-lg p-2.5 text-center col-span-1">
+                  <p className="text-[9px] text-slate-400 font-bold uppercase">Assigned</p>
                   <p className="text-lg font-black text-primary">{jeTickets.length}</p>
+                  <p className="text-[8px] text-slate-400 mt-0.5">{activeTickets.length} active</p>
+                </div>
+                <div className="bg-emerald-50 rounded-lg p-2.5 text-center">
+                  <p className="text-[9px] text-emerald-600 font-bold uppercase">Resolved</p>
+                  <p className="text-lg font-black text-emerald-700">{resolvedCount}</p>
                 </div>
                 <div className="bg-slate-50 rounded-lg p-2.5 text-center">
                   <p className="text-[9px] text-slate-400 font-bold uppercase">Received</p>
@@ -97,13 +108,14 @@ export default async function AEWorkloadsPage() {
                 <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all ${
-                      jeTickets.length > 15 ? 'bg-red-500' : jeTickets.length > 8 ? 'bg-amber-400' : 'bg-green-400'
+                      activeTickets.length > 15 ? 'bg-red-500' : activeTickets.length > 8 ? 'bg-amber-400' : 'bg-green-400'
                     }`}
-                    style={{ width: `${Math.min((jeTickets.length / 20) * 100, 100)}%` }}
+                    style={{ width: `${Math.min((activeTickets.length / 20) * 100, 100)}%` }}
                   />
                 </div>
                 <p className="text-[9px] text-slate-400 mt-1">
-                  Load: {jeTickets.length > 15 ? 'Overloaded' : jeTickets.length > 8 ? 'High' : 'Normal'}
+                  Active load:{' '}
+                  {activeTickets.length > 15 ? 'Overloaded' : activeTickets.length > 8 ? 'High' : 'Normal'}
                 </p>
               </div>
             </div>

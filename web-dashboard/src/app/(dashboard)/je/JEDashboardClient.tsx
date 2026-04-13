@@ -8,8 +8,6 @@ import { formatINR, timeAgo, haversineDistance } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import type { Ticket, Zone, Prabhag, TicketStatus } from '@/lib/types/database';
-import type { MapZone } from '@/lib/maps/fetchMapZones';
-
 // Dynamic import for Mapbox (client-only, no SSR)
 const MapboxMap = dynamic(
   () => import('@/components/map/MapboxMap').then((m) => m.MapboxMap),
@@ -19,7 +17,6 @@ const MapboxMap = dynamic(
 interface JEDashboardClientProps {
   tickets: Ticket[];
   zone: Zone | null;
-  mapZones: MapZone[];
   /** Reserved for prabhag filter UI; passed from server for future use. */
   prabhags: Prabhag[];
   kpis: {
@@ -37,7 +34,6 @@ const FILTER_STATUSES: TicketStatus[] = ['open', 'verified', 'assigned', 'in_pro
 export function JEDashboardClient({
   tickets: initialTickets,
   zone,
-  mapZones,
   prabhags,
   kpis,
 }: JEDashboardClientProps) {
@@ -175,7 +171,7 @@ export function JEDashboardClient({
             </div>
           </div>
 
-          <div className="space-y-3 max-h-[calc(100vh-320px)] overflow-y-auto pr-1">
+          <div className="space-y-3 pr-1">
             {filteredTickets.length === 0 ? (
               <EmptyState icon="inbox" message="No tickets match the current filter" />
             ) : (
@@ -274,7 +270,6 @@ export function JEDashboardClient({
             </div>
             <MapboxMap
               tickets={filteredTickets}
-              zones={mapZones.filter((z) => z.boundary_geojson)}
               height="280px"
               onTicketClick={(t) => setSelectedTicket(t)}
             />

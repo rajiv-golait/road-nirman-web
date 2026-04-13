@@ -1,20 +1,22 @@
 import { NextResponse } from 'next/server';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { rowsToCsv } from '@/lib/export/csv';
+import { requireExportProfile } from '../_shared';
 
 export async function GET() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireExportProfile(['super_admin', 'standing_committee']);
+  if (!auth.ok) return auth.response;
+  const { supabase } = auth;
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  const allowed = ['super_admin', 'standing_committee'];
-  if (!profile?.role || !allowed.includes(profile.role)) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
-
-  const { data: zones } = await supabase.from('zones').select('id, name, annual_road_budget, budget_consumed').order('id');
-  const { data: bills } = await supabase.from('contractor_bills').select('zone_id, status, total_amount').eq('status', 'paid');
+  const { data: zones, error: zonesError } = await supabase
+    .from('zones')
+    .select('id, name, annual_road_budget, budget_consumed')
+    .order('id');
+  const { data: bills, error: billsError } = await supabase
+    .from('contractor_bills')
+    .select('zone_id, status, total_amount')
+    .eq('status', 'paid');
+  if (zonesError) return NextResponse.json({ error: zonesError.message }, { status: 500 });
+  if (billsError) return NextResponse.json({ error: billsError.message }, { status: 500 });
 
   const rows =
     zones?.map((z) => {

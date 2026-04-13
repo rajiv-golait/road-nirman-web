@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { timeAgo } from '@/lib/utils';
 
 interface TimelineEvent {
@@ -48,6 +48,7 @@ export default function JEHistoryDetailClient({
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [activeTab, setActiveTab] = useState<'timeline' | 'photos'>('timeline');
   const [brokenPhotoIds, setBrokenPhotoIds] = useState<string[]>([]);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const beforePhotos = photos.filter((photo) => photo.photo_type === 'before');
   const afterPhotos = photos.filter((photo) => photo.photo_type === 'after');
@@ -56,6 +57,16 @@ export default function JEHistoryDetailClient({
   function markPhotoBroken(photoId: string) {
     setBrokenPhotoIds((prev) => (prev.includes(photoId) ? prev : [...prev, photoId]));
   }
+
+  useEffect(() => {
+    if (!selectedPhoto) return;
+    closeButtonRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedPhoto(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectedPhoto]);
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -228,12 +239,17 @@ export default function JEHistoryDetailClient({
       {selectedPhoto && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Ticket evidence image preview"
           onClick={() => setSelectedPhoto(null)}
         >
           <div className="relative w-full max-w-4xl">
             <button
+              ref={closeButtonRef}
+              type="button"
               onClick={() => setSelectedPhoto(null)}
-              className="absolute -top-10 right-0 flex items-center gap-1 text-sm text-white hover:text-slate-300"
+              className="absolute -top-10 right-0 flex items-center gap-1 text-sm text-white hover:text-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 18 }}>close</span>
               Close

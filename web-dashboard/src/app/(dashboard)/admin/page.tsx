@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ROLE_DISPLAY, ROLE_NAV } from '@/lib/constants/roles';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { KpiCard } from '@/components/shared/DataDisplay';
 
 const DASHBOARD_CARDS = [
@@ -28,17 +29,12 @@ const SLUG_TO_ROLE: Record<string, string> = {
 };
 
 export default async function AdminDashboardPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase, profile } = ctx;
 
   // Defense-in-depth: verify super_admin role server-side
-  const { data: adminProfile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
-  if (adminProfile?.role !== 'super_admin') return null;
+  if (profile?.role !== 'super_admin') return <DashboardGuard reason="forbidden" />;
 
   const { count: totalUsers } = await supabase.from('profiles').select('id', { count: 'exact', head: true });
   const { count: totalTickets } = await supabase.from('tickets').select('id', { count: 'exact', head: true });

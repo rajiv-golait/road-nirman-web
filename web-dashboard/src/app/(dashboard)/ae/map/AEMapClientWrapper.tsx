@@ -75,7 +75,6 @@ export function AEMapClientWrapper({ tickets, mapZones, jes }: AEMapClientWrappe
         <div className="flex-1">
           <MapboxMap
             tickets={filtered}
-            zones={mapZones.filter((z) => z.boundary_geojson)}
             height="100%"
             onTicketClick={setSelectedTicket}
           />

@@ -35,8 +35,8 @@ export default async function CEContractorsPage() {
         { key: 'blacklisted', label: 'Blacklisted' },
         { key: 'defect_flags', label: 'Flags', align: 'right' },
         { key: 'contract', label: 'Contract' },
-        { key: 'ssim', label: 'SSIM %', align: 'right' },
-        { key: 'reopen', label: 'Reopen %', align: 'right' },
+        { key: 'ssim', label: 'SSIM %', align: 'right', format: 'percent' },
+        { key: 'reopen', label: 'Reopen %', align: 'right', format: 'percent' },
       ]}
       rows={rows}
     />

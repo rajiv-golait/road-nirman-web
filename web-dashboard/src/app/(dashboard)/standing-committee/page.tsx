@@ -1,13 +1,12 @@
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getViewerContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { ExportButton, KpiCard } from '@/components/shared/DataDisplay';
 import { formatINR } from '@/lib/utils';
 
 export default async function StandingCommitteePage() {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  const ctx = await getViewerContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase } = ctx;
 
   const { data: bills } = await supabase
     .from('contractor_bills')
@@ -70,7 +69,7 @@ export default async function StandingCommitteePage() {
             <span className="material-symbols-outlined text-accent" style={{ fontSize: 20 }}>payments</span>
             Expenditure Summary by Zone
           </h2>
-          <ExportButton label="Export Report (CSV)" />
+          <ExportButton label="Export Report (CSV)" href="/api/export/standing-zone-spending" />
         </div>
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
           <table className="data-table">

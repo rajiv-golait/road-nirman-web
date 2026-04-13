@@ -1,50 +1,45 @@
 import { NextResponse } from 'next/server';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { rowsToCsv } from '@/lib/export/csv';
+import { requireExportProfile } from '../_shared';
 
-function toCsv(rows: Record<string, unknown>[], headers: string[]) {
-  const esc = (v: unknown) => {
-    const s = v === null || v === undefined ? '' : String(v);
-    if (/[",\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
-    return s;
-  };
-  const lines = [headers.join(',')];
-  for (const row of rows) {
-    lines.push(headers.map((h) => esc(row[h])).join(','));
-  }
-  return lines.join('\n');
-}
+type ZoneJoin = { name?: string | null } | null;
+type ContractorJoin = { company_name?: string | null } | null;
 
 export async function GET() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
-
-  const allowed = ['super_admin', 'commissioner', 'accounts', 'standing_committee'];
-  if (!profile?.role || !allowed.includes(profile.role)) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  const auth = await requireExportProfile([
+    'super_admin',
+    'commissioner',
+    'accounts',
+    'standing_committee',
+  ]);
+  if (!auth.ok) return auth.response;
+  const { supabase } = auth;
 
   const { data: bills, error } = await supabase
     .from('contractor_bills')
-    .select('bill_ref, contractor_id, zone_id, fiscal_year, total_amount, status, payment_ref, payment_date, submitted_at')
+    .select('bill_ref, contractor_id, zone_id, fiscal_year, total_amount, status, payment_ref, payment_date, submitted_at, zones(name), contractors(company_name)')
     .order('submitted_at', { ascending: false });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  const rows = (bills || []).map(b => ({
+    bill_ref: b.bill_ref,
+    contractor_name: ((b.contractors as ContractorJoin)?.company_name) || 'Unknown',
+    zone_name: ((b.zones as ZoneJoin)?.name) || b.zone_id,
+    fiscal_year: b.fiscal_year,
+    total_amount: b.total_amount,
+    status: b.status,
+    payment_ref: b.payment_ref,
+    payment_date: b.payment_date,
+    submitted_at: b.submitted_at,
+  }));
+
   const headers = [
     'bill_ref',
-    'contractor_id',
-    'zone_id',
+    'contractor_name',
+    'zone_name',
     'fiscal_year',
     'total_amount',
     'status',
@@ -53,7 +48,7 @@ export async function GET() {
     'submitted_at',
   ];
 
-  const csv = toCsv((bills || []) as Record<string, unknown>[], headers);
+  const csv = rowsToCsv(rows as Record<string, unknown>[], headers);
 
   return new NextResponse(csv, {
     status: 200,

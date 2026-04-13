@@ -1,24 +1,16 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { SeverityBadge, StatusPill } from '@/components/shared/DataDisplay';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { getZoneScopedContext } from '@/lib/dashboard/viewerContext';
+import { DashboardGuard } from '@/components/shared/DashboardGuard';
 import { timeAgo } from '@/lib/utils';
 import JEHistoryDetailClient from './JEHistoryDetailClient';
 
 export default async function JEHistoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('zone_id')
-    .eq('id', user.id)
-    .single();
-  if (!profile?.zone_id) return null;
+  const ctx = await getZoneScopedContext();
+  if (!ctx.ok) return <DashboardGuard reason={ctx.reason} />;
+  const { supabase, profile } = ctx;
 
   const { data: ticket } = await supabase
     .from('tickets')

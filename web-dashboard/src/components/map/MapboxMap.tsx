@@ -17,6 +17,7 @@ export interface MapChronicLocation {
 
 interface MapboxMapProps {
   tickets?: Ticket[];
+  /** Kept for callers; zone polygon overlays are not rendered. */
   zones?: Zone[];
   chronicLocations?: MapChronicLocation[];
   darkMode?: boolean;
@@ -35,25 +36,9 @@ const SEVERITY_COLORS: Record<string, string> = {
 
 const SOLAPUR_CENTER: [number, number] = [75.9064, 17.6799];
 
-function parseBoundaryGeoJSON(raw: unknown): object | null {
-  if (raw == null) return null;
-  if (typeof raw === 'object' && raw !== null && 'type' in raw) {
-    return raw as object;
-  }
-  if (typeof raw === 'string') {
-    try {
-      const parsed: unknown = JSON.parse(raw);
-      return parsed && typeof parsed === 'object' ? (parsed as object) : null;
-    } catch {
-      return null;
-    }
-  }
-  return null;
-}
-
 export function MapboxMap({
   tickets = [],
-  zones = [],
+  zones: _zones = [],
   chronicLocations = [],
   darkMode = false,
   height = '400px',
@@ -61,6 +46,7 @@ export function MapboxMap({
   heatmapMode = false,
   heatmapWeightFn,
 }: MapboxMapProps) {
+  void _zones;
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
@@ -178,39 +164,6 @@ export function MapboxMap({
         });
       }
 
-      zones.forEach((zone: Zone) => {
-        const zoneWithBoundary = zone as Zone & { boundary_geojson?: unknown };
-        const geojson = parseBoundaryGeoJSON(zoneWithBoundary.boundary_geojson);
-        if (!geojson) return;
-
-        const sourceId = `zone-${zone.id}`;
-        map.addSource(sourceId, {
-          type: 'geojson',
-          data: geojson as GeoJSONValue,
-        });
-
-        map.addLayer({
-          id: `${sourceId}-fill`,
-          type: 'fill',
-          source: sourceId,
-          paint: {
-            'fill-color': '#1E3A5F',
-            'fill-opacity': darkMode ? 0.06 : 0.04,
-          },
-        });
-
-        map.addLayer({
-          id: `${sourceId}-line`,
-          type: 'line',
-          source: sourceId,
-          paint: {
-            'line-color': darkMode ? '#F97316' : '#1E3A5F',
-            'line-width': 1.5,
-            'line-opacity': 0.5,
-          },
-        });
-      });
-
       tickets.forEach((ticket) => {
         if (!ticket.latitude || !ticket.longitude) return;
 
@@ -218,9 +171,9 @@ export function MapboxMap({
 
         const el = document.createElement('div');
         el.style.cssText = `
-          width: 12px; height: 12px; border-radius: 50%;
+          width: 13px; height: 13px; border-radius: 50%;
           background: ${color}; border: 2px solid white;
-          box-shadow: 0 0 0 2px ${color}40;
+          box-shadow: 0 0 0 3px ${color}30, 0 2px 6px rgba(15, 23, 42, 0.25);
           cursor: pointer; transition: transform 0.15s;
         `;
         el.addEventListener('mouseenter', () => {
@@ -281,7 +234,7 @@ export function MapboxMap({
         markersRef.current.push(marker);
       });
     },
-    [tickets, zones, chronicLocations, darkMode, onTicketClick, heatmapMode, heatmapWeightFn]
+    [tickets, chronicLocations, onTicketClick, heatmapMode, heatmapWeightFn]
   );
 
   useEffect(() => {
@@ -341,8 +294,15 @@ export function MapboxMap({
   }, [mapReady, syncMapLayers]);
 
   return (
-    <div style={{ position: 'relative', height, borderRadius: '12px', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', height, borderRadius: '14px', overflow: 'hidden' }}>
       <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(15,23,42,0.04) 0%, rgba(15,23,42,0.00) 28%, rgba(15,23,42,0.06) 100%)',
+        }}
+      />
 
       <div
         className={`absolute bottom-3 left-3 rounded-lg px-3 py-2 flex gap-3 text-[10px] font-bold
