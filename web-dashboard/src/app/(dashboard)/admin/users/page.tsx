@@ -11,7 +11,7 @@ export default async function AdminUsersPage() {
   return (
     <DataReportLayout
       title="User management"
-      subtitle="All profiles visible to super admin. Use Role assignment to change roles and zones."
+      subtitle="All profiles visible to super admin. To add a new user, open Admin → Role assignment and use Create user (email invite)."
       columns={[
         { key: 'full_name', label: 'Name' },
         { key: 'phone', label: 'Phone' },
